@@ -1,0 +1,177 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  permissions String[]
+  users       User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String
+  name      String?
+  roleId    String?
+  role      Role?     @relation(fields: [roleId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Guest {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  phone     String?
+  bookings  Booking[]
+  reviews   Review[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Amenity {
+  id         String         @id @default(uuid())
+  name       String         @unique
+  icon       String?
+  categories RoomCategory[]
+  createdAt  DateTime       @default(now())
+}
+
+model Image {
+  id         String        @id @default(uuid())
+  url        String
+  categoryId String
+  category   RoomCategory  @relation(fields: [categoryId], references: [id])
+  createdAt  DateTime      @default(now())
+}
+
+model RoomCategory {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  slug        String?   @unique
+  description String?
+  size        String?
+  bedType     String?
+  occupancy   Int?
+  basePrice   Float
+  rooms       Room[]
+  amenities   Amenity[]
+  images      Image[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Room {
+  id          String       @id @default(uuid())
+  number      String       @unique
+  categoryId  String
+  category    RoomCategory @relation(fields: [categoryId], references: [id])
+  status      RoomStatus   @default(AVAILABLE)
+  price       Float
+  description String?
+  bookings    Booking[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+enum RoomStatus {
+  AVAILABLE
+  OCCUPIED
+  MAINTENANCE
+  CLEANING
+}
+
+model Promotion {
+  id            String    @id @default(uuid())
+  code          String    @unique
+  discountValue Float
+  isPercentage  Boolean   @default(true)
+  validUntil    DateTime?
+  usageLimit    Int?
+  usageCount    Int       @default(0)
+  createdAt     DateTime  @default(now())
+}
+
+model Booking {
+  id            String        @id @default(uuid())
+  guestId       String
+  guest         Guest         @relation(fields: [guestId], references: [id])
+  checkIn       DateTime
+  checkOut      DateTime
+  totalAmount   Float
+  status        BookingStatus @default(PENDING_PAYMENT)
+  roomId        String
+  room          Room          @relation(fields: [roomId], references: [id])
+  paymentMethod String?       // e.g. "QR", "CREDIT_CARD"
+  paymentRefId  String?       // Reference ID provided by the user for QR payment or Stripe PaymentIntent ID
+  paymentAmount Float?        // Amount paid as reservation fee
+  transactions  Transaction[]
+  review        Review?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+enum BookingStatus {
+  PENDING_PAYMENT
+  PENDING
+  CONFIRMED
+  CHECKED_IN
+  CHECKED_OUT
+  CANCELLED
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  guestId     String
+  guest       Guest    @relation(fields: [guestId], references: [id])
+  bookingId   String   @unique
+  booking     Booking  @relation(fields: [bookingId], references: [id])
+  rating      Int      // 1 to 5
+  comment     String?
+  isApproved  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+model Transaction {
+  id          String          @id @default(uuid())
+  amount      Float
+  type        TransactionType
+  description String
+  gateway     String?         // e.g. "eSewa", "Khalti", "Stripe", "Cash"
+  date        DateTime        @default(now())
+  bookingId   String?
+  booking     Booking?        @relation(fields: [bookingId], references: [id])
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+model AnalyticsEvent {
+  id        String    @id @default(uuid())
+  name      String
+  category  String
+  value     Float
+  date      DateTime  @default(now())
+  createdAt DateTime  @default(now())
+}
+
+model Setting {
+  id        String    @id @default(uuid())
+  key       String    @unique
+  value     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
