@@ -14,6 +14,9 @@ export interface TypographyOverrides {
   categorySize?: string;
   statSize?: string;
   metaSize?: string;
+  categoryTitleSize?: string;
+  itemNameSize?: string;
+  itemDescSize?: string;
 }
 
 export interface DiningVenue {
@@ -49,6 +52,7 @@ export interface MenuItem {
 export interface MenuCategory {
   id: string;
   title: string;
+  image?: string;
   items: MenuItem[];
 }
 
