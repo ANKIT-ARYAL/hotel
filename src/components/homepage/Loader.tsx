@@ -1,12 +1,15 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { HomepageSettings } from './types';
-import Image from 'next/image';
+import React, { useEffect, useState } from "react";
+
+import Image from "next/image";
+
+import { AnimatePresence, motion } from "framer-motion";
+
+import type { HomepageSettings } from "./types";
 
 interface LoaderProps {
-  settings: HomepageSettings['loader'];
+  settings: HomepageSettings["loader"];
 }
 
 export function Loader({ settings }: LoaderProps) {
@@ -35,11 +38,11 @@ export function Loader({ settings }: LoaderProps) {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
           >
-            {settings.iconUrl && (
-              <img src={settings.iconUrl} alt="Loading" className="h-16 w-auto invert" />
-            )}
+            {settings.iconUrl && <img src={settings.iconUrl} alt="Loading" className="h-16 w-auto invert" />}
             {!settings.iconUrl && (
-              <div className="w-16 h-16 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+              <div className="font-nove text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-widest animate-pulse">
+                HOTEL LUXURY
+              </div>
             )}
           </motion.div>
         </motion.div>

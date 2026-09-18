@@ -1,12 +1,13 @@
-import { PrismaClient } from '@prisma/client'
-import { AmenitiesClientView } from './amenities-client'
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+import { AmenitiesClientView } from "./amenities-client";
+
+const prisma = new PrismaClient();
 
 export default async function AmenitiesPage() {
   const amenities = await prisma.amenity.findMany({
-    orderBy: { createdAt: 'desc' }
-  })
-  
-  return <AmenitiesClientView initialAmenities={amenities} />
+    orderBy: { createdAt: "desc" },
+  });
+
+  return <AmenitiesClientView initialAmenities={amenities} />;
 }

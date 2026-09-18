@@ -78,6 +78,8 @@ model Room {
   status      RoomStatus   @default(AVAILABLE)
   price       Float
   description String?
+  image       String?
+  videoUrl    String?
   bookings    Booking[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
@@ -116,6 +118,7 @@ model Booking {
   paymentAmount Float?        // Amount paid as reservation fee
   transactions  Transaction[]
   review        Review?
+  isRead        Boolean       @default(false)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }
@@ -134,7 +137,7 @@ model Review {
   guestId     String
   guest       Guest    @relation(fields: [guestId], references: [id])
   bookingId   String   @unique
-  booking     Booking  @relation(fields: [bookingId], references: [id])
+  booking     Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
   rating      Int      // 1 to 5
   comment     String?
   isApproved  Boolean  @default(false)
@@ -149,7 +152,15 @@ model Transaction {
   gateway     String?         // e.g. "eSewa", "Khalti", "Stripe", "Cash"
   date        DateTime        @default(now())
   bookingId   String?
-  booking     Booking?        @relation(fields: [bookingId], references: [id])
+  booking     Booking?        @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  
+  // Manual transaction fields
+  guestName   String?
+  contact     String?
+  refCode     String?
+  duration    Int?
+  bookingDate DateTime?
+
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
 }
@@ -174,4 +185,15 @@ model Setting {
   value     String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
 }

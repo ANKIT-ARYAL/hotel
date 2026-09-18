@@ -1,22 +1,20 @@
-import React from 'react';
-import prisma from '@/lib/db';
-import { notFound } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
-import { BookingForm } from '@/components/rooms/BookingForm';
-import { RoomGallery } from '@/components/rooms/RoomGallery';
-import { Navbar } from '@/components/homepage/Navbar';
-import { getHomepageSettings } from '@/app/actions/homepage-settings';
-import { getRoomsPageSettings } from '@/app/actions/rooms-page-settings';
-import { getPaymentSettings } from '@/app/actions/payment-settings';
+import React from "react";
 
-export default async function RoomDetailsPage({ 
-  params 
-}: { 
-  params: Promise<{ slug: string; roomNumber: string }> 
-}) {
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+
+import { getHomepageSettings } from "@/app/actions/homepage-settings";
+import { getPaymentSettings } from "@/app/actions/payment-settings";
+import { getRoomsPageSettings } from "@/app/actions/rooms-page-settings";
+import { Navbar } from "@/components/homepage/Navbar";
+import { BookingForm } from "@/components/rooms/BookingForm";
+import { RoomGallery } from "@/components/rooms/RoomGallery";
+import prisma from "@/lib/db";
+
+export default async function RoomDetailsPage({ params }: { params: Promise<{ slug: string; roomNumber: string }> }) {
   const { slug, roomNumber } = await params;
-  
+
   const room = await prisma.room.findFirst({
     where: {
       number: roomNumber,
@@ -28,10 +26,10 @@ export default async function RoomDetailsPage({
       category: {
         include: {
           images: true,
-          amenities: true
-        }
-      }
-    }
+          amenities: true,
+        },
+      },
+    },
   });
 
   if (!room) {
@@ -41,52 +39,58 @@ export default async function RoomDetailsPage({
   const settings = await getHomepageSettings();
   const roomsSettings = await getRoomsPageSettings();
   const paymentSettings = await getPaymentSettings();
-  
+
   const roomNumberHash = parseInt(room.number) || 1;
   const galleryImages = [
-    { id: 'img-1', url: `/uploads/unique-room-${(roomNumberHash % 5) + 1}.jpg` },
-    { id: 'img-2', url: `/uploads/unique-room-${((roomNumberHash + 1) % 5) + 1}.jpg` },
-    { id: 'img-3', url: `/uploads/unique-room-${((roomNumberHash + 2) % 5) + 1}.jpg` }
+    { id: "img-1", url: `/uploads/unique-room-${(roomNumberHash % 5) + 1}.jpg` },
+    { id: "img-2", url: `/uploads/unique-room-${((roomNumberHash + 1) % 5) + 1}.jpg` },
+    { id: "img-3", url: `/uploads/unique-room-${((roomNumberHash + 2) % 5) + 1}.jpg` },
   ];
 
   // Fetch 3 other categories for "Explore More"
   const featuredCategories = await prisma.roomCategory.findMany({
     where: {
       NOT: {
-        id: room.categoryId
-      }
+        id: room.categoryId,
+      },
     },
     take: 3,
     include: {
-      images: true
-    }
+      images: true,
+    },
   });
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="relative bg-zinc-900 pb-20 pt-32 px-6 lg:px-24 overflow-hidden">
+      <div className="relative h-[80vh] min-h-[600px] max-h-[1000px] 2xl:max-h-[1200px] flex flex-col justify-end bg-zinc-900 overflow-hidden pb-12 px-6 lg:px-24">
         <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0 opacity-40">
-          <source src={roomsSettings.detailsHero?.videoUrl || "/uploads/1789301378477-596276179.mp4"} type="video/mp4" />
+          <source
+            src={roomsSettings.detailsHero?.videoUrl || "/uploads/1789301378477-596276179.mp4"}
+            type="video/mp4"
+          />
         </video>
-        <div className="relative z-20">
-          <Navbar />
-        </div>
+        <div className="absolute top-0 left-0 right-0 z-50 h-24 bg-gradient-to-b from-black/50 to-transparent" />
         <div className="relative z-20 mt-12 flex flex-col gap-4">
-          <Link href={`/rooms-and-suites/${slug}`} className="text-zinc-400 hover:text-white transition-colors uppercase tracking-widest text-xs font-medium flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeLinejoin="miter" strokeWidth="1.5" d="M19 12H5M12 19l-7-7 7-7"></path></svg>
-            Back to {room.category.name}
+          <Link
+            href={`/rooms-and-suites/${slug}`}
+            className="text-zinc-400 hover:text-white transition-colors uppercase tracking-widest text-xs font-medium flex items-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth="1.5" d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            BACK TO CATEGORY
           </Link>
-          <h1 className="font-nove text-4xl md:text-6xl text-white">
+          <h1
+            className="text-white"
+            style={{ fontFamily: "var(--theme-heading-font)", fontSize: "var(--theme-heading-size)" }}
+          >
             Room {room.number}
           </h1>
-          <p className="text-zinc-400 font-light text-lg">
-            {room.category.name} Collection
-          </p>
+          <p className="text-zinc-300 font-light max-w-2xl text-lg">{room.description}</p>
         </div>
       </div>
 
       <main className="flex-1 w-full px-6 md:px-12 lg:px-24 py-8 md:py-16 flex flex-col gap-8">
-        
         {/* Stats Grid - Top */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           <div className="lg:col-span-7">
@@ -109,15 +113,15 @@ export default async function RoomDetailsPage({
 
         {/* Content & Form Split */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-          
           {/* Left Content */}
           <div className="flex flex-col gap-8 lg:col-span-7">
             <RoomGallery images={galleryImages} altPrefix={`Room ${room.number}`} />
-            
+
             <div className="mt-4">
-              <h2 className="font-nove text-3xl tracking-wide text-zinc-900 mb-6">About this Room</h2>
+              <h2 className="text-4xl tracking-wide text-zinc-900 mb-6">About this Room</h2>
               <p className="text-zinc-600 font-light leading-relaxed text-lg">
-                {room.description || `Experience the pinnacle of comfort in Room ${room.number}. Specifically designed as part of our ${room.category.name} collection, this unit offers spectacular styling and a restful environment for your stay.`}
+                {room.description ||
+                  `Experience the pinnacle of comfort in Room ${room.number}. Specifically designed as part of our ${room.category.name} collection, this unit offers spectacular styling and a restful environment for your stay.`}
               </p>
             </div>
           </div>
@@ -125,83 +129,106 @@ export default async function RoomDetailsPage({
           {/* Right Content - Booking Form */}
           <div className="lg:col-span-5 relative">
             <div className="sticky top-32">
-              <BookingForm roomId={room.id} roomNumber={room.number} price={room.price} paymentSettings={paymentSettings} />
+              <BookingForm
+                roomId={room.id}
+                roomNumber={room.number}
+                price={room.price}
+                paymentSettings={paymentSettings}
+              />
             </div>
           </div>
         </div>
-
       </main>
 
       {/* Package Inclusions Section */}
       <section className="bg-zinc-50 py-24 px-6 md:px-12 lg:px-24 border-t border-zinc-100">
         <div className="flex flex-col gap-12">
           <div>
-            <h2 className="font-nove text-3xl md:text-4xl tracking-wide text-zinc-900 mb-4">Package Inclusions</h2>
+            <h2 className="text-4xl tracking-wide text-zinc-900 mb-4">Package Inclusions</h2>
             <p className="text-zinc-500 font-light text-lg max-w-2xl">
-              Everything you need for an unforgettable stay. Your reservation in the {room.category.name} includes the following complimentary amenities and services.
+              Everything you need for an unforgettable stay. Your reservation in the {room.category.name} includes the
+              following complimentary amenities and services.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {room.category.amenities && room.category.amenities.length > 0 ? (
-              room.category.amenities.map((amenity, idx) => {
-                let imgUrl = `/uploads/unique-room-${(idx % 5) + 1}.jpg`;
-                const name = amenity.name.toLowerCase();
-                
-                if (name.includes('parking') || name.includes('valet')) {
-                  imgUrl = '/uploads/exterior.jpg';
-                } else if (name.includes('wifi') || name.includes('internet')) {
-                  imgUrl = '/uploads/room-2.jpg';
-                } else if (name.includes('pool') || name.includes('swim')) {
-                  imgUrl = '/uploads/room-3.jpg';
-                } else if (name.includes('breakfast') || name.includes('dining')) {
-                  imgUrl = '/uploads/unique-room-2.jpg';
-                } else if (name.includes('ac') || name.includes('climate') || name.includes('air')) {
-                  imgUrl = '/uploads/room-1.jpg';
-                } else if (name.includes('gym') || name.includes('fitness')) {
-                  imgUrl = '/uploads/unique-room-4.jpg';
-                }
+            {room.category.amenities && room.category.amenities.length > 0
+              ? room.category.amenities.map((amenity, idx) => {
+                  let imgUrl = `/uploads/unique-room-${(idx % 5) + 1}.jpg`;
+                  const name = amenity.name.toLowerCase();
 
-                return (
-                  <div key={amenity.id || idx} className="flex flex-col gap-4 group">
+                  if (name.includes("parking") || name.includes("valet")) {
+                    imgUrl = "/uploads/exterior.jpg";
+                  } else if (name.includes("wifi") || name.includes("internet")) {
+                    imgUrl = "/uploads/room-2.jpg";
+                  } else if (name.includes("pool") || name.includes("swim")) {
+                    imgUrl = "/uploads/room-3.jpg";
+                  } else if (name.includes("breakfast") || name.includes("dining")) {
+                    imgUrl = "/uploads/unique-room-2.jpg";
+                  } else if (name.includes("ac") || name.includes("climate") || name.includes("air")) {
+                    imgUrl = "/uploads/room-1.jpg";
+                  } else if (name.includes("gym") || name.includes("fitness")) {
+                    imgUrl = "/uploads/unique-room-4.jpg";
+                  }
+
+                  return (
+                    <div key={amenity.id || idx} className="flex flex-col gap-4 group">
+                      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-zinc-200">
+                        <Image
+                          src={imgUrl}
+                          alt={amenity.name}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-zinc-900 uppercase tracking-widest text-xs mb-1">
+                          {amenity.name}
+                        </h4>
+                        <p className="text-sm font-light text-zinc-500 line-clamp-2">
+                          Included complimentary with your stay.
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })
+              : [
+                  {
+                    name: "High-Speed Wi-Fi",
+                    img: "/uploads/room-2.jpg",
+                    desc: "Stay connected with complimentary high-speed internet access.",
+                  },
+                  {
+                    name: "Valet Parking",
+                    img: "/uploads/exterior.jpg",
+                    desc: "Secure valet parking included for one vehicle per room.",
+                  },
+                  {
+                    name: "Daily Breakfast",
+                    img: "/uploads/unique-room-2.jpg",
+                    desc: "Enjoy a complimentary gourmet breakfast buffet every morning.",
+                  },
+                  {
+                    name: "Climate Control",
+                    img: "/uploads/room-1.jpg",
+                    desc: "Personalized AC and climate control for your ultimate comfort.",
+                  },
+                ].map((item, idx) => (
+                  <div key={idx} className="flex flex-col gap-4 group">
                     <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-zinc-200">
-                      <Image 
-                        src={imgUrl}
-                        alt={amenity.name}
+                      <Image
+                        src={item.img}
+                        alt={item.name}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     </div>
                     <div>
-                      <h4 className="font-medium text-zinc-900 uppercase tracking-widest text-xs mb-1">{amenity.name}</h4>
-                      <p className="text-sm font-light text-zinc-500 line-clamp-2">Included complimentary with your stay.</p>
+                      <h4 className="font-medium text-zinc-900 uppercase tracking-widest text-xs mb-1">{item.name}</h4>
+                      <p className="text-sm font-light text-zinc-500 line-clamp-2">{item.desc}</p>
                     </div>
                   </div>
-                );
-              })
-            ) : (
-              [
-                { name: 'High-Speed Wi-Fi', img: '/uploads/room-2.jpg', desc: 'Stay connected with complimentary high-speed internet access.' },
-                { name: 'Valet Parking', img: '/uploads/exterior.jpg', desc: 'Secure valet parking included for one vehicle per room.' },
-                { name: 'Daily Breakfast', img: '/uploads/unique-room-2.jpg', desc: 'Enjoy a complimentary gourmet breakfast buffet every morning.' },
-                { name: 'Climate Control', img: '/uploads/room-1.jpg', desc: 'Personalized AC and climate control for your ultimate comfort.' }
-              ].map((item, idx) => (
-                <div key={idx} className="flex flex-col gap-4 group">
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-zinc-200">
-                    <Image 
-                      src={item.img}
-                      alt={item.name}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-zinc-900 uppercase tracking-widest text-xs mb-1">{item.name}</h4>
-                    <p className="text-sm font-light text-zinc-500 line-clamp-2">{item.desc}</p>
-                  </div>
-                </div>
-              ))
-            )}
+                ))}
           </div>
         </div>
       </section>
@@ -212,29 +239,38 @@ export default async function RoomDetailsPage({
           <div className="flex flex-col gap-12">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div>
-                <h2 className="font-nove text-3xl md:text-4xl tracking-wide text-zinc-900 mb-4">Explore More Accommodations</h2>
+                <h2 className="text-4xl tracking-wide text-zinc-900 mb-4">Explore More Accommodations</h2>
                 <p className="text-zinc-500 font-light text-lg">
                   Discover our other beautifully appointed rooms and suites.
                 </p>
               </div>
-              <Link href="/rooms-and-suites" className="text-xs uppercase tracking-widest font-medium border-b border-zinc-900 pb-1 hover:text-zinc-500 hover:border-zinc-500 transition-colors">
+              <Link
+                href="/rooms-and-suites"
+                className="text-xs uppercase tracking-widest font-medium border-b border-zinc-900 pb-1 hover:text-zinc-500 hover:border-zinc-500 transition-colors"
+              >
                 View All
               </Link>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {featuredCategories.map((category) => (
-                <Link key={category.id} href={`/rooms-and-suites/${category.slug}`} className="group flex flex-col gap-4">
+                <Link
+                  key={category.id}
+                  href={`/rooms-and-suites/${category.slug}`}
+                  className="group flex flex-col gap-4"
+                >
                   <div className="aspect-[4/3] relative overflow-hidden bg-zinc-100">
-                    <Image 
-                      src={category.images.length > 0 ? category.images[0].url : '/uploads/room-1.jpg'} 
-                      alt={category.name} 
-                      fill 
+                    <Image
+                      src={category.images.length > 0 ? category.images[0].url : "/uploads/room-1.jpg"}
+                      alt={category.name}
+                      fill
                       className="object-cover transition-transform duration-1000 group-hover:scale-105"
                     />
                   </div>
                   <div>
-                    <h3 className="font-nove text-xl text-zinc-900 mb-1 group-hover:text-zinc-600 transition-colors">{category.name}</h3>
+                    <h3 className="text-2xl text-zinc-900 mb-1 group-hover:text-zinc-600 transition-colors">
+                      {category.name}
+                    </h3>
                     <p className="text-zinc-500 font-light text-sm line-clamp-2">{category.description}</p>
                   </div>
                 </Link>

@@ -1,20 +1,16 @@
 "use client";
 
 import { useState } from "react";
+
 import { useRouter } from "next/navigation";
+
+import { Building } from "lucide-react";
 import { signIn } from "next-auth/react";
+
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Building } from "lucide-react";
 
 export function LoginForm() {
   const router = useRouter();
@@ -56,9 +52,7 @@ export function LoginForm() {
             <Building className="w-8 h-8 text-primary" />
           </div>
         </div>
-        <CardTitle className="text-2xl font-bold tracking-tight text-gray-900">
-          Executive Portal
-        </CardTitle>
+        <CardTitle className="text-2xl font-bold tracking-tight text-gray-900">Executive Portal</CardTitle>
         <CardDescription className="text-gray-500">
           Enter your credentials to access the hotel management system
         </CardDescription>
@@ -66,9 +60,7 @@ export function LoginForm() {
       <form onSubmit={handleSubmit}>
         <CardContent className="space-y-4">
           {error && (
-            <div className="p-3 text-lg text-red-500 bg-red-50/50 rounded-lg border border-red-100">
-              {error}
-            </div>
+            <div className="p-3 text-lg text-red-500 bg-red-50/50 rounded-lg border border-red-100">{error}</div>
           )}
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>

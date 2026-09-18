@@ -1,8 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState } from "react";
+
+import Image from "next/image";
+
+import { AnimatePresence, motion } from "framer-motion";
 
 interface RoomGalleryProps {
   images: { id: string; url: string }[];
@@ -15,11 +17,11 @@ export function RoomGallery({ images, altPrefix }: RoomGalleryProps) {
   // Auto-rotate every 4 seconds
   useEffect(() => {
     if (images.length <= 1) return;
-    
+
     const interval = setInterval(() => {
       setActiveIndex((current) => (current + 1) % images.length);
     }, 4000);
-    
+
     return () => clearInterval(interval);
   }, [images.length]);
 
@@ -39,14 +41,9 @@ export function RoomGallery({ images, altPrefix }: RoomGalleryProps) {
           <button
             key={img.id}
             onClick={() => setActiveIndex(idx)}
-            className={`relative aspect-[4/3] md:w-full w-24 shrink-0 rounded-sm overflow-hidden border-2 transition-all duration-300 ${activeIndex === idx ? 'border-zinc-900 shadow-md scale-[1.02]' : 'border-transparent opacity-60 hover:opacity-100'}`}
+            className={`relative aspect-[4/3] md:w-full w-24 shrink-0 rounded-sm overflow-hidden border-2 transition-all duration-300 ${activeIndex === idx ? "border-zinc-900 shadow-md scale-[1.02]" : "border-transparent opacity-60 hover:opacity-100"}`}
           >
-            <Image 
-              src={img.url} 
-              alt={`${altPrefix} thumbnail ${idx + 1}`}
-              fill
-              className="object-cover"
-            />
+            <Image src={img.url} alt={`${altPrefix} thumbnail ${idx + 1}`} fill className="object-cover" />
           </button>
         ))}
       </div>
@@ -62,7 +59,7 @@ export function RoomGallery({ images, altPrefix }: RoomGalleryProps) {
             transition={{ duration: 0.5 }}
             className="absolute inset-0"
           >
-            <Image 
+            <Image
               src={images[activeIndex].url}
               alt={`${altPrefix} view ${activeIndex + 1}`}
               fill

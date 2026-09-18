@@ -1,9 +1,9 @@
-'use server';
+"use server";
 
-import prisma from '@/lib/db';
-import { DiningPageSettings, defaultDiningPageSettings } from '@/components/dining/types';
+import { type DiningPageSettings, defaultDiningPageSettings } from "@/components/dining/types";
+import prisma from "@/lib/db";
 
-const SETTINGS_KEY = 'DINING_PAGE_SETTINGS';
+const SETTINGS_KEY = "DINING_PAGE_SETTINGS";
 
 export async function getDiningPageSettings(): Promise<DiningPageSettings> {
   const setting = await prisma.setting.findUnique({
@@ -28,9 +28,11 @@ export async function getDiningPageSettings(): Promise<DiningPageSettings> {
       menus: { ...defaultDiningPageSettings.menus, ...parsed.menus },
       events: { ...defaultDiningPageSettings.events, ...parsed.events },
       bar: { ...defaultDiningPageSettings.bar, ...parsed.bar },
+      liveMusic: { ...defaultDiningPageSettings.liveMusic, ...parsed.liveMusic },
+      privateDining: { ...defaultDiningPageSettings.privateDining, ...parsed.privateDining },
     };
   } catch (error) {
-    console.error('Failed to parse dining page settings:', error);
+    console.error("Failed to parse dining page settings:", error);
     return defaultDiningPageSettings;
   }
 }

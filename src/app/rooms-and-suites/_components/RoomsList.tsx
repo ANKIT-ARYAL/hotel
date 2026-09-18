@@ -1,11 +1,14 @@
-'use client';
+"use client";
 
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import Link from 'next/link';
-import Image from 'next/image';
-import type { RoomCategory, Image as PrismaImage, Amenity } from '@prisma/client';
-import { RoomsPageSettings, defaultRoomsPageSettings } from '@/components/rooms/types';
+import React, { useRef } from "react";
+
+import Image from "next/image";
+import Link from "next/link";
+
+import type { Amenity, Image as PrismaImage, RoomCategory } from "@prisma/client";
+import { motion, useScroll, useTransform } from "framer-motion";
+
+import { defaultRoomsPageSettings, type RoomsPageSettings } from "@/components/rooms/types";
 
 type RoomCategoryWithRelations = RoomCategory & {
   images: PrismaImage[];
@@ -21,10 +24,10 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
-    offset: ['start start', 'end start']
+    offset: ["start start", "end start"],
   });
-  
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
 
   return (
@@ -39,18 +42,19 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
             </video>
           </motion.div>
           <div className="relative z-20 flex flex-col items-center justify-center h-full text-white px-4 text-center">
-            <motion.h1 
+            <motion.h1
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1, ease: 'easeOut' }}
-              className="text-5xl md:text-7xl font-nove tracking-tight mb-6"
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="tracking-tight mb-6"
+              style={{ fontSize: "var(--theme-heading-size)" }}
             >
               {settings.hero.title}
             </motion.h1>
-            <motion.div 
+            <motion.div
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1, delay: 0.2, ease: 'easeOut' }}
+              transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
               className="text-lg md:text-xl font-light tracking-wide max-w-2xl text-zinc-200"
               dangerouslySetInnerHTML={{ __html: settings.hero.subtitle }}
             />
@@ -61,15 +65,15 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
       {/* Intro Section */}
       {settings.listSection?.isVisible && (
         <section className="py-24 px-6 md:px-12 lg:px-24 text-center max-w-4xl mx-auto">
-          <motion.h2 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-serif mb-6"
           >
             {settings.listSection.title}
-          </motion.h2>
-          <motion.div 
+          </motion.h1>
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -84,14 +88,15 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
       <section className="pb-32 px-6 md:px-12 lg:px-24 space-y-32">
         {categories.map((cat, index) => {
           const isReversed = index % 2 !== 0;
-          const coverImage = cat.images && cat.images.length > 0 
-            ? cat.images[0].url 
-            : null;
-          
+          const coverImage = cat.images && cat.images.length > 0 ? cat.images[0].url : null;
+
           return (
-            <div key={cat.id} className={`flex flex-col ${isReversed ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-12 lg:gap-24 items-center group`}>
+            <div
+              key={cat.id}
+              className={`flex flex-col ${isReversed ? "lg:flex-row-reverse" : "lg:flex-row"} gap-12 lg:gap-24 items-center group`}
+            >
               {/* Image */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: isReversed ? 50 : -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
@@ -100,10 +105,10 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
               >
                 <Link href={`/rooms-and-suites/${cat.slug || cat.id}`} className="block w-full h-full">
                   {coverImage ? (
-                    <Image 
-                      src={coverImage} 
-                      alt={cat.name} 
-                      fill 
+                    <Image
+                      src={coverImage}
+                      alt={cat.name}
+                      fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
@@ -115,16 +120,14 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
               </motion.div>
 
               {/* Text */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
                 className="w-full lg:w-1/2 space-y-6"
               >
-                <h2 className="font-nove text-3xl md:text-4xl text-zinc-900 tracking-wide">
-                  {cat.name}
-                </h2>
+                <h2 className="text-4xl text-zinc-900 tracking-wide">{cat.name}</h2>
                 <div className="flex flex-wrap items-center gap-6 text-sm text-zinc-500 uppercase tracking-widest font-medium border-b border-zinc-200 pb-4">
                   {cat.size && <span>{cat.size}</span>}
                   {cat.occupancy && <span>Up to {cat.occupancy} Guests</span>}
@@ -134,12 +137,14 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
                   {cat.description || "A beautiful room offering comfort and luxury."}
                 </p>
                 <div className="pt-4">
-                  <Link 
+                  <Link
                     href={`/rooms-and-suites/${cat.slug || cat.id}`}
                     className="inline-flex items-center text-sm font-medium tracking-widest uppercase text-zinc-900 hover:text-zinc-500 transition-colors"
                   >
-                    Explore Rooms 
-                    <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="square" strokeLinejoin="miter" strokeWidth="1.5" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                    Explore Rooms
+                    <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth="1.5" d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
                   </Link>
                 </div>
               </motion.div>

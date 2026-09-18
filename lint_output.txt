@@ -1,0 +1,563 @@
+
+> hotel-website@0.1.0 lint /Users/ankitaryal/dashboards/hotel-website
+> eslint
+
+
+/Users/ankitaryal/dashboards/hotel-website/add-toasts.js
+  1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:22  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Users/ankitaryal/dashboards/hotel-website/extract_rooms_editor.js
+   1:12  error    A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  21:12  warning  'e' is defined but never used            @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/extract_rooms_page.js
+   1:12  error    A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  17:12  warning  'e' is defined but never used            @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/fix-toasts.js
+  1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:22  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Users/ankitaryal/dashboards/hotel-website/fix_typography.js
+  1:12  error    A `require()` style import is forbidden                                @typescript-eslint/no-require-imports
+  2:14  error    A `require()` style import is forbidden                                @typescript-eslint/no-require-imports
+  8:5   warning  Expected an assignment or function call and instead saw an expression  @typescript-eslint/no-unused-expressions
+
+/Users/ankitaryal/dashboards/hotel-website/inject_admin_style.js
+  1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Users/ankitaryal/dashboards/hotel-website/prisma.config.ts
+  1:1  error  Include a description after the "@ts-expect-error" directive to explain why the @ts-expect-error is necessary. The description must be 3 characters or longer  @typescript-eslint/ban-ts-comment
+
+/Users/ankitaryal/dashboards/hotel-website/prisma/seed-images.ts
+  20:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/ankitaryal/dashboards/hotel-website/prisma/seed.ts
+  1:24  warning  'RoomStatus' is defined but never used       @typescript-eslint/no-unused-vars
+  1:36  warning  'BookingStatus' is defined but never used    @typescript-eslint/no-unused-vars
+  1:51  warning  'TransactionType' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/restore_admin.js
+  1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Users/ankitaryal/dashboards/hotel-website/scratch/seed_dining_images.ts
+  33:14  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/scripts/generate_routes.js
+  1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/actions/search.ts
+  35:22  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/_components/sidebar.tsx
+  10:3  warning  'Building2' is defined but never used   @typescript-eslint/no-unused-vars
+  15:3  warning  'CreditCard' is defined but never used  @typescript-eslint/no-unused-vars
+  16:3  warning  'BarChart3' is defined but never used   @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/_components/topbar.tsx
+   1:16  warning  'Search' is defined but never used        @typescript-eslint/no-unused-vars
+   2:10  warning  'Input' is defined but never used         @typescript-eslint/no-unused-vars
+  58:41  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/amenities/amenities-client.tsx
+  39:79  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  47:27  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/bookings/bookings-client.tsx
+  12:16  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  36:17  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  55:14  warning  'e' is defined but never used             @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/categories/categories-client.tsx
+   11:63   warning  'ImageIcon' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   13:96   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   13:117  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   16:58   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   25:27   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   31:48   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   32:35   error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  156:27   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  241:23   warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/dashboard/dashboard-client.tsx
+   3:10  warning  'toast' is defined but never used                @typescript-eslint/no-unused-vars
+   5:52  warning  'CardDescription' is defined but never used      @typescript-eslint/no-unused-vars
+   8:3   warning  'TrendingUp' is defined but never used           @typescript-eslint/no-unused-vars
+   8:15  warning  'Download' is defined but never used             @typescript-eslint/no-unused-vars
+   8:25  warning  'Settings' is defined but never used             @typescript-eslint/no-unused-vars
+  12:10  warning  'ChartContainer' is defined but never used       @typescript-eslint/no-unused-vars
+  12:26  warning  'ChartTooltip' is defined but never used         @typescript-eslint/no-unused-vars
+  12:40  warning  'ChartTooltipContent' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/guests/guests-client.tsx
+    2:10  warning  'toast' is defined but never used              @typescript-eslint/no-unused-vars
+    7:10  warning  'Input' is defined but never used              @typescript-eslint/no-unused-vars
+   11:26  warning  'Plus' is defined but never used               @typescript-eslint/no-unused-vars
+   11:32  warning  'Edit' is defined but never used               @typescript-eslint/no-unused-vars
+   13:70  error    Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+   16:54  error    Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+   19:10  warning  'name' is assigned a value but never used      @typescript-eslint/no-unused-vars
+   19:16  warning  'setName' is assigned a value but never used   @typescript-eslint/no-unused-vars
+   20:10  warning  'email' is assigned a value but never used     @typescript-eslint/no-unused-vars
+   20:17  warning  'setEmail' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   21:10  warning  'phone' is assigned a value but never used     @typescript-eslint/no-unused-vars
+   21:17  warning  'setPhone' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   23:30  error    Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+  161:53  error    Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/messages/MessagesTable.tsx
+  5:31  warning  'Check' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/pages/about/AboutEditor.tsx
+   10:16  warning  'CardHeader' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+   10:28  warning  'CardTitle' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   10:39  warning  'CardDescription' is defined but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+  166:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  197:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  206:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  267:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/pages/contact/ContactEditor.tsx
+   47:9   warning  'updateRootField' is assigned a value but never used                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   67:14  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  150:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/pages/dining/DiningEditor.tsx
+    7:29  warning  'CardHeader' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+    7:41  warning  'CardTitle' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+    7:52  warning  'CardDescription' is defined but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+   10:68  warning  'Eye' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+   10:73  warning  'EyeOff' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   83:14  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  198:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  198:23  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/pages/dining/GalleryManager.tsx
+    5:16  warning  'CardContent' is defined but never used                                                                                                                                                                                                                                                  @typescript-eslint/no-unused-vars
+    8:47  warning  'GripVertical' is defined but never used                                                                                                                                                                                                                                                 @typescript-eslint/no-unused-vars
+   43:16  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  107:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/pages/dining/MenuManager.tsx
+   46:10  warning  'showTypography' is assigned a value but never used                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   46:26  warning  'setShowTypography' is assigned a value but never used                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+   63:14  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  285:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  285:19  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+  309:46  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  309:59  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  330:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  330:25  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+  355:27  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  355:27  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+  428:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  428:29  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+  496:35  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  496:35  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+  548:35  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  548:35  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/pages/dining/VenueManager.tsx
+    9:59  warning  'Eye' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+    9:64  warning  'EyeOff' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   43:14  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  152:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  152:19  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+  176:42  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  176:52  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  205:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  205:25  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+  228:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  228:23  warning  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images                                                                                                                                                                                jsx-a11y/alt-text
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/pages/experiences/ExperiencesEditor.tsx
+   10:16  warning  'CardHeader' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+   10:28  warning  'CardTitle' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   10:39  warning  'CardDescription' is defined but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+   12:16  warning  'Eye' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+   12:21  warning  'EyeOff' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+  158:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/pages/faq/FaqEditor.tsx
+  165:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/pages/gallery/GalleryEditor.tsx
+   11:29  warning  'Heading' is defined but never used                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+   11:38  warning  'Grid' is defined but never used                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+  111:19  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  142:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/pages/homepage/FooterSettingsEditor.tsx
+   9:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  19:87  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/pages/homepage/HomepageEditor.tsx
+    8:29  warning  'CardDescription' is defined but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+    8:46  warning  'CardHeader' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+    8:58  warning  'CardTitle' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+    8:69  warning  'CardFooter' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+   12:10  warning  'Eye' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+   12:15  warning  'EyeOff' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   77:14  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  223:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/pages/rooms/RoomsEditor.tsx
+   53:14  warning  'error' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   58:69  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   63:23  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   73:39  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   90:14  warning  'e' is defined but never used                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  217:43  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  311:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/pages/spa/SpaEditor.tsx
+   10:16  warning  'CardHeader' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+   10:28  warning  'CardTitle' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   10:39  warning  'CardDescription' is defined but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+   11:16  warning  'Eye' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  160:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  237:27  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/promotions/promotions-client.tsx
+  13:82  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  16:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  24:27  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  44:20  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/reviews/reviews-client.tsx
+    2:10  warning  'toast' is defined but never used                                @typescript-eslint/no-unused-vars
+    6:10  warning  'Button' is defined but never used                               @typescript-eslint/no-unused-vars
+   11:73  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  102:23  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  102:70  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/roles/roles-client.tsx
+  13:67  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  16:50  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  33:27  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/rooms/rooms-client.tsx
+   13:79  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   13:98  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   16:50  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   27:30  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  191:27  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  299:27  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/settings/navbar/NavbarEditor.tsx
+   10:30  warning  'ChevronDown' is defined but never used                          @typescript-eslint/no-unused-vars
+   10:43  warning  'ChevronRight' is defined but never used                         @typescript-eslint/no-unused-vars
+   38:63  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+   77:85  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  109:51  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/settings/settings-client.tsx
+  38:3  warning  'initialSettings' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/(dashboard)/users/users-client.tsx
+  13:74  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  13:88  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  16:50  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  24:27  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:20  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  53:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  62:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/admin/login/_components/login-form.tsx
+  44:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/amenities/[id]/route.ts
+  21:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  38:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  53:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/amenities/route.ts
+   6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  10:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+  20:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/analytics/[id]/route.ts
+  21:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  38:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  53:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/analytics/route.ts
+   6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  10:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+  20:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/booking/[id]/route.ts
+  21:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  38:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  53:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/booking/route.ts
+   6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  10:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+  20:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/bookings/[id]/route.ts
+  17:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/bookings/route.ts
+   87:43  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  102:12  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/categories/[id]/route.ts
+  21:12  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  40:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  89:12  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/categories/route.ts
+   6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  10:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/create-payment-intent/route.ts
+  14:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  36:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/finance/[id]/route.ts
+  21:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  38:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/finance/route.ts
+   6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  10:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/guests/[id]/route.ts
+  21:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  38:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  53:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/guests/route.ts
+   6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  10:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+  20:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/images/[id]/route.ts
+  21:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  38:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  53:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/images/route.ts
+   6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  10:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+  20:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/promotions/[id]/route.ts
+  21:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  38:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  53:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/promotions/route.ts
+   6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  10:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+  20:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/reviews/[id]/route.ts
+  21:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  38:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  53:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/reviews/route.ts
+   6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  10:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+  20:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/roles/[id]/route.ts
+  21:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  38:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  53:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/roles/route.ts
+   6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  10:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+  20:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/rooms/[id]/route.ts
+  21:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  38:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  53:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/rooms/route.ts
+   6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  10:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+  20:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/settings/[id]/route.ts
+  21:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  38:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  53:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/settings/route.ts
+   6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  10:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+  20:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/users/[id]/route.ts
+  21:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  38:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+  53:12  warning  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/api/users/route.ts
+   6:27  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+  10:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+  20:12  warning  'error' is defined but never used    @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/booking/page.tsx
+   5:10  warning  'Check' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  66:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/contact/page.tsx
+  20:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/faq/page.tsx
+  13:9   warning  'hpSettings' is assigned a value but never used                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  22:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/not-found.tsx
+  16:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/privacy/page.tsx
+  12:9  warning  'hpSettings' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/rooms-and-suites/[slug]/[roomNumber]/page.tsx
+   8:10  warning  'Navbar' is defined but never used             @typescript-eslint/no-unused-vars
+  41:9   warning  'settings' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/rooms-and-suites/[slug]/page.tsx
+  27:9  warning  'settings' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  28:9  warning  'roomsSettings' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/rooms-and-suites/_components/RoomDetails.tsx
+  7:50  warning  'LucideIcon' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/search/SearchResults.tsx
+   5:10  warning  'Check' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  66:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/search/page.tsx
+    5:10  warning  'ArrowRight' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+  181:23  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/app/terms/page.tsx
+   4:10  warning  'Loader' is defined but never used               @typescript-eslint/no-unused-vars
+  12:9   warning  'hpSettings' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/components/about/AboutHero.tsx
+  20:9  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/components/about/OurStory.tsx
+  46:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  55:13  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/components/about/TeamSection.tsx
+  44:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/components/booking/BookingForm.tsx
+  60:25  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+/Users/ankitaryal/dashboards/hotel-website/src/components/booking/BookingForm.tsx:60:25
+  58 |   });
+  59 |
+> 60 |   const paymentMethod = watch('paymentMethod');
+     |                         ^^^^^ React Hook Form's `useForm()` API returns a `watch()` function which cannot be memoized safely.
+  61 |
+  62 |   const onSubmit = async (data: BookingFormData) => {
+  63 |     setIsSubmitting(true);  react-hooks/incompatible-library
+  78:14  warning  'err' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/components/contact/ContactForm.tsx
+  47:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/components/homepage/BookingCtaSection.tsx
+  27:9  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/components/homepage/CulinarySection.tsx
+  25:9  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/components/homepage/FeaturedRooms.tsx
+    7:10  warning  'Button' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+  117:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  198:17  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/components/homepage/Loader.tsx
+   6:8   warning  'Image' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+  39:15  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/components/homepage/SpaWellnessSection.tsx
+  25:9  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/ankitaryal/dashboards/hotel-website/src/components/rooms/BookingForm.tsx
+  46:19  warning  Compilation Skipped: Use of incompatible library
+
+This API returns functions which cannot be memoized without leading to stale UI. To prevent this, by default React Compiler will skip memoizing this component/hook. However, you may see issues if values from this API are passed to other components/hooks that are memoized.
+
+/Users/ankitaryal/dashboards/hotel-website/src/components/rooms/BookingForm.tsx:46:19
+  44 |   });
+  45 |
+> 46 |   const checkIn = watch('checkIn');
+     |                   ^^^^^ React Hook Form's `useForm()` API returns a `watch()` function which cannot be memoized safely.
+  47 |   const checkOut = watch('checkOut');
+  48 |
+  49 |   let days = 0;  react-hooks/incompatible-library
+  97:14  warning  'error' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/components/spa/SpaFacilitiesSection.tsx
+  5:18  warning  'useScroll' is defined but never used     @typescript-eslint/no-unused-vars
+  5:29  warning  'useTransform' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/src/lib/auth.ts
+  52:30  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/ankitaryal/dashboards/hotel-website/src/types/next-auth.d.ts
+   1:8   warning  'NextAuth' is defined but never used  @typescript-eslint/no-unused-vars
+  17:10  warning  'JWT' is defined but never used       @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/temp_HomepageEditor.tsx
+    7:69  warning  'CardFooter' is defined but never used                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+   32:32  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   33:41  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   43:30  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  114:30  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  179:30  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  227:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  251:30  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  299:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  323:30  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  371:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  388:30  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  448:53  error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                          react/no-unescaped-entities
+  547:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  564:30  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+  617:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  634:30  warning  'err' is defined but never used                                                                                                                                                                                                                                                          @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/transform_editors.js
+   1:12  error    A `require()` style import is forbidden            @typescript-eslint/no-require-imports
+   3:10  warning  'transformEditor' is defined but never used        @typescript-eslint/no-unused-vars
+  24:9   warning  'beforeReturn' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  25:7   warning  'jsx' is assigned a value but never used           @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/transform_homepage.js
+  1:12  error    A `require()` style import is forbidden          @typescript-eslint/no-require-imports
+  9:7   warning  'newImports' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/ankitaryal/dashboards/hotel-website/update_globals.js
+  1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Users/ankitaryal/dashboards/hotel-website/update_homepage_editor.js
+  1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+/Users/ankitaryal/dashboards/hotel-website/update_types.js
+  1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+✖ 329 problems (81 errors, 248 warnings)
+
+ ELIFECYCLE  Command failed with exit code 1.

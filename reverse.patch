@@ -1,0 +1,202 @@
+--- a/src/app/admin/(dashboard)/settings/settings-client.tsx
++++ b/src/app/admin/(dashboard)/settings/settings-client.tsx
+@@ -107,11 +107,11 @@
+   }
+ 
+   return (
+-    <div className="w-full space-y-8 pb-12">
++    <div className="max-w-7xl mx-auto space-y-8 pb-12">
+       <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-gray-200 pb-4">
+         <div>
+-          <h1 className="tracking-tight text-gray-900">System Settings</h1>
+-          <p className="text-gray-500 mt-1 text-justify tracking-tight">Manage global environment variables and website theme.</p>
++          <h1 className="text-3xl font-bold tracking-tight text-gray-900">System Settings</h1>
++          <p className="text-base text-gray-500 mt-1">Manage global environment variables and website theme.</p>
+         </div>
+       </div>
+ 
+@@ -118,4 +118,4 @@
+-        <h2 className="tracking-tight">Website Aesthetics</h2>
++        <h2 className="text-2xl font-semibold tracking-tight">Website Aesthetics</h2>
+         
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <Card className="shadow-sm">
+@@ -123,44 +123,31 @@
+               <CardDescription>Global font family used for headings</CardDescription>
+             </CardHeader>
+             <CardContent className="space-y-4">
+-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+-                <div className="space-y-2">
+-                  <label className="text-sm font-medium">Font Family</label>
+-                  <Select 
+-                    value={hpSettings.theme.headingFontFamily}
+-                    onValueChange={(val) => updateThemeField('headingFontFamily', val)}
+-                  >
+-                    <SelectTrigger className="w-full">
+-                      <SelectValue placeholder="Select a heading font" />
+-                    </SelectTrigger>
+-                    <SelectContent>
+-                      {HEADING_FONTS.map(font => (
+-                        <SelectItem key={font.value} value={font.value} className={font.value}>
+-                          <div className="flex flex-col space-y-1 py-1">
+-                            <span className="font-sans text-xs text-muted-foreground uppercase tracking-wider">{font.label}</span>
+-                            <span className="text-lg">{font.preview}</span>
+-                          </div>
+-                        </SelectItem>
+-                      ))}
+-                    </SelectContent>
+-                  </Select>
+-                </div>
+-                
+-                <div className="space-y-2">
+-                  <label className="text-sm font-medium">Base Size Multiplier</label>
+-                  <Input 
+-                    value={hpSettings.theme.headingFontSize || ''}
+-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateThemeField('headingFontSize', e.target.value)}
+-                    placeholder="e.g. 1em or 1.2em"
+-                  />
+-                  <p className="text-muted-foreground text-justify tracking-tight">Standard is 1em (scales h1-h6).</p>
+-                </div>
+-              </div>
+-
++              <div className="space-y-2">
++                <Select 
++                  value={hpSettings.theme.headingFontFamily}
++                  onValueChange={(val) => updateThemeField('headingFontFamily', val)}
++                >
++                  <SelectTrigger className="w-full">
++                    <SelectValue placeholder="Select a heading font" />
++                  </SelectTrigger>
++                  <SelectContent>
++                    {HEADING_FONTS.map(font => (
++                      <SelectItem key={font.value} value={font.value} className={font.value}>
++                        <div className="flex flex-col space-y-1 py-1">
++                          <span className="font-sans text-xs text-muted-foreground uppercase tracking-wider">{font.label}</span>
++                          <span className="text-lg">{font.preview}</span>
++                        </div>
++                      </SelectItem>
++                    ))}
++                  </SelectContent>
++                </Select>
++              </div>
++              
+               {/* Live Preview Box */}
+               <div className={`mt-4 p-6 bg-zinc-50 border rounded-md text-center ${hpSettings.theme.headingFontFamily}`}>
+-                <h3 className="mb-2">Heading Preview</h3>
+-                <h4 className="">Subtitle Preview</h4>
++                <h3 className="text-3xl mb-2">Heading Preview</h3>
++                <h4 className="text-xl">Subtitle Preview</h4>
+               </div>
+             </CardContent>
+           </Card>
+@@ -160,43 +160,30 @@
+               <CardDescription>Global font family used for body text</CardDescription>
+             </CardHeader>
+             <CardContent className="space-y-4">
+-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+-                <div className="space-y-2">
+-                  <label className="text-sm font-medium">Font Family</label>
+-                  <Select 
+-                    value={hpSettings.theme.fontFamily}
+-                    onValueChange={(val) => updateThemeField('fontFamily', val)}
+-                  >
+-                    <SelectTrigger className="w-full">
+-                      <SelectValue placeholder="Select a body font" />
+-                    </SelectTrigger>
+-                    <SelectContent>
+-                      {BODY_FONTS.map(font => (
+-                        <SelectItem key={font.value} value={font.value} className={font.value}>
+-                          <div className="flex flex-col space-y-1 py-1">
+-                            <span className="font-sans text-xs text-muted-foreground uppercase tracking-wider">{font.label}</span>
+-                            <span className="text-base">{font.preview}</span>
+-                          </div>
+-                        </SelectItem>
+-                      ))}
+-                    </SelectContent>
+-                  </Select>
+-                </div>
+-                
+-                <div className="space-y-2">
+-                  <label className="text-sm font-medium">Body Font Size</label>
+-                  <Input 
+-                    value={hpSettings.theme.bodyFontSize || ''}
+-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateThemeField('bodyFontSize', e.target.value)}
+-                    placeholder="e.g. 16px or 1rem"
+-                  />
+-                  <p className="text-muted-foreground text-justify tracking-tight">Applies to all paragraphs.</p>
+-                </div>
+-              </div>
+-
++              <div className="space-y-2">
++                <Select 
++                  value={hpSettings.theme.fontFamily}
++                  onValueChange={(val) => updateThemeField('fontFamily', val)}
++                >
++                  <SelectTrigger className="w-full">
++                    <SelectValue placeholder="Select a body font" />
++                  </SelectTrigger>
++                  <SelectContent>
++                    {BODY_FONTS.map(font => (
++                      <SelectItem key={font.value} value={font.value} className={font.value}>
++                        <div className="flex flex-col space-y-1 py-1">
++                          <span className="font-sans text-xs text-muted-foreground uppercase tracking-wider">{font.label}</span>
++                          <span className="text-base">{font.preview}</span>
++                        </div>
++                      </SelectItem>
++                    ))}
++                  </SelectContent>
++                </Select>
++              </div>
++              
+               {/* Live Preview Box */}
+               <div className={`mt-4 p-6 bg-zinc-50 border rounded-md ${hpSettings.theme.fontFamily}`}>
+-                <p className="leading-relaxed text-justify tracking-tight">
++                <p className="text-base leading-relaxed">
+                   This is a live preview of the body text. It demonstrates how standard paragraphs and descriptions will appear across the website. The quick brown fox jumps over the lazy dog.
+                 </p>
+               </div>
+@@ -199,7 +199,7 @@
+       </div>
+ 
+       <div className="space-y-6 pt-12 border-t border-gray-200">
+-        <h2 className="tracking-tight">Payment Configuration</h2>
++        <h2 className="text-2xl font-semibold tracking-tight">Payment Configuration</h2>
+         
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <Card className="shadow-sm">
+@@ -211,7 +211,7 @@
+               <div className="flex items-center justify-between">
+                 <div className="space-y-0.5">
+                   <label className="text-sm font-medium">Enable Payment Options</label>
+-                  <p className="text-gray-500 text-justify tracking-tight">Require guests to pay a reservation fee</p>
++                  <p className="text-sm text-gray-500">Require guests to pay a reservation fee</p>
+                 </div>
+                 <input 
+                   type="checkbox" 
+@@ -232,7 +232,7 @@
+                     onChange={(e) => updatePaymentField('reservationFeePercentage', parseInt(e.target.value) || 20)}
+                     className="flex h-10 w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950"
+                   />
+-                  <p className="text-gray-500 text-justify tracking-tight">Percentage of the total booking cost required upfront.</p>
++                  <p className="text-xs text-gray-500">Percentage of the total booking cost required upfront.</p>
+                 </div>
+               )}
+             </CardContent>
+@@ -249,7 +249,7 @@
+                 <div className="flex items-center justify-between">
+                   <div className="space-y-0.5">
+                     <label className="text-sm font-medium">Enable QR Code Payment</label>
+-                    <p className="text-gray-500 text-justify tracking-tight">Allow manual payment via QR scan</p>
++                    <p className="text-sm text-gray-500">Allow manual payment via QR scan</p>
+                   </div>
+                   <input 
+                     type="checkbox" 
+@@ -304,7 +304,7 @@
+                 <div className="flex items-center justify-between pt-4 border-t border-zinc-100">
+                   <div className="space-y-0.5">
+                     <label className="text-sm font-medium">Enable Credit Card (Stripe)</label>
+-                    <p className="text-gray-500 text-justify tracking-tight">Process cards securely via Stripe</p>
++                    <p className="text-sm text-gray-500">Process cards securely via Stripe</p>
+                   </div>
+                   <input 
+                     type="checkbox" 

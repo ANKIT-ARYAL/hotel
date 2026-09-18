@@ -1,8 +1,10 @@
-'use client'
+"use client";
 
-import * as React from "react"
-import { Search } from "lucide-react"
-import { useRouter } from "next/navigation"
+import * as React from "react";
+
+import { useRouter } from "next/navigation";
+
+import { Search } from "lucide-react";
 
 import {
   CommandDialog,
@@ -11,28 +13,28 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 
 export function AdminSearch() {
-  const [open, setOpen] = React.useState(false)
-  const router = useRouter()
+  const [open, setOpen] = React.useState(false);
+  const router = useRouter();
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault()
-        setOpen((open) => !open)
+        e.preventDefault();
+        setOpen((open) => !open);
       }
-    }
+    };
 
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
-  }, [])
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
 
   const runCommand = React.useCallback((command: () => void) => {
-    setOpen(false)
-    command()
-  }, [])
+    setOpen(false);
+    command();
+  }, []);
 
   return (
     <>
@@ -51,29 +53,19 @@ export function AdminSearch() {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Quick Links">
-            <CommandItem onSelect={() => runCommand(() => router.push('/admin/dashboard'))}>
-              Dashboard
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => router.push('/admin/bookings'))}>
-              Bookings
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => router.push('/admin/rooms'))}>
-              Rooms
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => router.push('/admin/guests'))}>
-              Guests
-            </CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/dashboard"))}>Dashboard</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/bookings"))}>Bookings</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/rooms"))}>Rooms</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/guests"))}>Guests</CommandItem>
           </CommandGroup>
           <CommandGroup heading="Settings">
-            <CommandItem onSelect={() => runCommand(() => router.push('/admin/settings'))}>
-              System Settings
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => router.push('/admin/pages/homepage'))}>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/settings"))}>System Settings</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/pages/homepage"))}>
               Homepage Editor
             </CommandItem>
           </CommandGroup>
         </CommandList>
       </CommandDialog>
     </>
-  )
+  );
 }

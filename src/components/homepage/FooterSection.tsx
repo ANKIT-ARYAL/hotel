@@ -1,35 +1,140 @@
-import React from 'react';
-import { HomepageSettings } from './types';
-import { MapPin, Phone, Mail } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import React from "react";
+
+import Link from "next/link";
+
+import { Link as LinkIcon, Mail, MapPin, Phone } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+import type { HomepageSettings } from "./types";
 
 interface FooterSectionProps {
-  settings: HomepageSettings['footer'];
+  settings: HomepageSettings["footer"];
 }
+
+const getSocialIcon = (platform: string) => {
+  switch (platform.toLowerCase()) {
+    case "facebook":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-zinc-400"
+        >
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+        </svg>
+      );
+    case "twitter":
+    case "x":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-zinc-400"
+        >
+          <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
+          <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
+        </svg>
+      );
+    case "instagram":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-zinc-400"
+        >
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+          <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+        </svg>
+      );
+    case "linkedin":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-zinc-400"
+        >
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+          <rect width="4" height="12" x="2" y="9" />
+          <circle cx="4" cy="4" r="2" />
+        </svg>
+      );
+    case "youtube":
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-zinc-400"
+        >
+          <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z" />
+          <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
+        </svg>
+      );
+    default:
+      return <LinkIcon className="w-5 h-5 text-zinc-400" />;
+  }
+};
 
 export function FooterSection({ settings }: FooterSectionProps) {
   return (
-    <footer className=" py-16 px-6 border-t border-zinc-900">
-      <div className="px-6 md:px-12 lg:px-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-        
+    <footer className="relative py-16 pb-28 border-t border-zinc-900">
+      <div className="px-6 md:px-12 lg:px-24 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12">
         {/* Brand & Socials */}
         <div className="space-y-6">
           <h3 className="text-2xl font-bold text-white text-zinc-950 tracking-tight">HOTEL LUXURY</h3>
           <p className="text-zinc-500 text-sm">
-            Experience the pinnacle of hospitality. Where every stay is a story worth telling.
+            {settings.brandDescription ||
+              "Experience the pinnacle of hospitality. Where every stay is a story worth telling."}
           </p>
           <div className="flex space-x-4">
-            <a href="#" className="w-10 h-10 rounded-full text-zinc-900 flex items-center justify-center hover:bg-zinc-800 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-400"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            </a>
-            <a href="#" className="w-10 h-10 rounded-full text-zinc-900 flex items-center justify-center hover:bg-zinc-800 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-400"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-            </a>
-            <a href="#" className="w-10 h-10 rounded-full text-zinc-900 flex items-center justify-center hover:bg-zinc-800 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-400"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-            </a>
+            {(settings.socialLinks || [])
+              .filter((link) => link.isVisible)
+              .map((link) => (
+                <Link
+                  key={link.id}
+                  href={link.url}
+                  className="w-10 h-10 rounded-full text-zinc-900 flex items-center justify-center hover:bg-zinc-800 transition-colors"
+                >
+                  {getSocialIcon(link.platform)}
+                </Link>
+              ))}
           </div>
         </div>
 
@@ -37,14 +142,33 @@ export function FooterSection({ settings }: FooterSectionProps) {
         <div>
           <h4 className="text-lg font-semibold text-white mb-6 text-zinc-950 ">Explore</h4>
           <ul className="space-y-3">
-            <li><Link href="#" className="text-zinc-500 hover:text-white transition-colors">Rooms & Suites</Link></li>
-            <li><Link href="#" className="text-zinc-500 hover:text-white transition-colors">Dining</Link></li>
-            <li><Link href="#" className="text-zinc-500 hover:text-white transition-colors">Spa & Wellness</Link></li>
-            <li><Link href="#" className="text-zinc-500 hover:text-white transition-colors">Offers</Link></li>
-            <li><Link href="#" className="text-zinc-500 hover:text-white transition-colors">Gallery</Link></li>
+            {(settings.exploreLinks || [])
+              .filter((link) => link.isVisible)
+              .map((link) => (
+                <li key={link.id}>
+                  <Link href={link.href} className="text-zinc-500 hover:text-black transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
           </ul>
         </div>
 
+        {/* Quick Links */}
+        <div>
+          <h4 className="text-lg font-semibold text-white mb-6 text-zinc-950 ">Quick Links</h4>
+          <ul className="space-y-3">
+            {(settings.quickLinks || [])
+              .filter((link) => link.isVisible)
+              .map((link) => (
+                <li key={link.id}>
+                  <Link href={link.href} className="text-zinc-500 hover:text-black transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </div>
         {/* Contact Info */}
         <div>
           <h4 className="text-lg font-semibold text-white mb-6 text-zinc-950 ">Contact</h4>
@@ -67,14 +191,12 @@ export function FooterSection({ settings }: FooterSectionProps) {
         {/* Newsletter */}
         <div>
           <h4 className="text-lg font-semibold text-white mb-6 text-zinc-950 ">Newsletter</h4>
-          <p className="text-zinc-500 text-sm mb-4">
-            Subscribe to receive special offers and updates.
-          </p>
+          <p className="text-zinc-500 text-sm mb-4">Subscribe to receive special offers and updates.</p>
           <div className="flex space-x-2">
-            <Input 
-              type="email" 
-              placeholder="Your email" 
-              className=" p-3 border-zinc-500 text-white text-zinc-950 bg-white focus-visible:ring-zinc-600" 
+            <Input
+              type="email"
+              placeholder="Your email"
+              className=" p-3 border-zinc-500 text-white text-zinc-950 bg-white focus-visible:ring-zinc-600"
             />
             <Button variant="outline" className="bg-zinc-800 border-zinc-700 hover:bg-zinc-700 text-white">
               Subscribe
@@ -82,13 +204,8 @@ export function FooterSection({ settings }: FooterSectionProps) {
           </div>
         </div>
       </div>
-
-      <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-zinc-900 text-center flex flex-col md:flex-row items-center justify-between">
-        <p className="text-zinc-600 text-sm">{settings.copyright}</p>
-        <div className="flex space-x-4 mt-4 md:mt-0">
-          <Link href="#" className="text-zinc-600 text-sm hover:text-zinc-400">Privacy Policy</Link>
-          <Link href="#" className="text-zinc-600 text-sm hover:text-zinc-400">Terms of Service</Link>
-        </div>
+      <div className="absolute right-6 md:right-12 lg:right-24 bottom-6">
+        <p className="text-zinc-400 text-xs sm:text-sm">{settings.copyright}</p>
       </div>
     </footer>
   );

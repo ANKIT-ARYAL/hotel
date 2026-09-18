@@ -1,7 +1,9 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/db';
-import { z } from 'zod';
-import { sendBookingConfirmationEmail } from '@/lib/email';
+import { NextResponse } from "next/server";
+
+import { z } from "zod";
+
+import prisma from "@/lib/db";
+import { sendBookingConfirmationEmail } from "@/lib/email";
 
 const createBookingSchema = z.object({
   name: z.string(),
@@ -23,7 +25,7 @@ export async function POST(req: Request) {
 
     // Upsert Guest
     let guest = await prisma.guest.findUnique({
-      where: { email: body.email }
+      where: { email: body.email },
     });
 
     if (!guest) {
@@ -32,12 +34,12 @@ export async function POST(req: Request) {
           name: body.name,
           email: body.email,
           phone: body.phone,
-        }
+        },
       });
     } else if (body.phone && guest.phone !== body.phone) {
       guest = await prisma.guest.update({
         where: { id: guest.id },
-        data: { phone: body.phone }
+        data: { phone: body.phone },
       });
     }
 
@@ -52,11 +54,11 @@ export async function POST(req: Request) {
         paymentMethod: body.paymentMethod,
         paymentRefId: body.paymentRefId,
         paymentAmount: body.paymentAmount,
-        status: 'PENDING',
+        status: "PENDING",
       },
       include: {
         room: true,
-      }
+      },
     });
 
     // Send confirmation email asynchronously
@@ -74,14 +76,14 @@ export async function POST(req: Request) {
     if (error instanceof z.ZodError) {
       return new NextResponse(JSON.stringify(error.issues), { status: 422 });
     }
-    return new NextResponse('Internal Error', { status: 500 });
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }
 
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const status = searchParams.get('status');
+    const status = searchParams.get("status");
 
     const bookings = await prisma.booking.findMany({
       where: status ? { status: status as any } : undefined,
@@ -89,17 +91,17 @@ export async function GET(req: Request) {
         guest: true,
         room: {
           include: {
-            category: true
-          }
-        }
+            category: true,
+          },
+        },
       },
       orderBy: {
-        createdAt: 'desc'
-      }
+        createdAt: "desc",
+      },
     });
 
     return NextResponse.json(bookings);
   } catch (error) {
-    return new NextResponse('Internal Error', { status: 500 });
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }

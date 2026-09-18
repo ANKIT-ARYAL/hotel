@@ -1,12 +1,14 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { HomepageSettings } from './types';
-import { Star } from 'lucide-react';
+import React from "react";
+
+import { motion } from "framer-motion";
+import { Star } from "lucide-react";
+
+import type { HomepageSettings } from "./types";
 
 interface TestimonialsSectionProps {
-  settings: HomepageSettings['testimonials'];
+  settings: HomepageSettings["testimonials"];
 }
 
 export function TestimonialsSection({ settings }: TestimonialsSectionProps) {
@@ -22,9 +24,12 @@ export function TestimonialsSection({ settings }: TestimonialsSectionProps) {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-argine font-normal text-white mb-6">
+          <h1
+            className="text-white leading-[1] tracking-tighter mb-8 pr-4"
+            style={{ fontSize: "var(--theme-heading-size)" }}
+          >
             {settings.title}
-          </h2>
+          </h1>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -39,17 +44,17 @@ export function TestimonialsSection({ settings }: TestimonialsSectionProps) {
             >
               <div className="flex gap-1 mb-6 text-[#D4AF37]">
                 {[...Array(5)].map((_, i) => (
-                  <Star 
-                    key={i} 
-                    className={`w-5 h-5 ${i < item.rating ? 'fill-current' : 'opacity-30'}`} 
-                  />
+                  <Star key={i} className={`w-5 h-5 ${i < item.rating ? "fill-current" : "opacity-30"}`} />
                 ))}
               </div>
-              
-              <blockquote className="text-lg md:text-xl font-light text-zinc-300 leading-relaxed mb-8 flex-1 italic">
+
+              <blockquote
+                className="font-light text-zinc-300 leading-relaxed mb-8 flex-1 italic"
+                style={{ fontSize: "var(--theme-body-size)" }}
+              >
                 &quot;{item.quote}&quot;
               </blockquote>
-              
+
               <div className="flex items-center gap-4 mt-auto">
                 <div className="w-12 h-12 bg-zinc-800 rounded-full flex items-center justify-center text-lg font-argine text-[#D4AF37]">
                   {item.name.charAt(0)}

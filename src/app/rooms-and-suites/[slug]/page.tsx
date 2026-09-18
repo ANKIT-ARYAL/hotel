@@ -1,8 +1,11 @@
 import { notFound } from "next/navigation";
-import { RoomDetails } from "../_components/RoomDetails";
+
+import { getHomepageSettings } from "@/app/actions/homepage-settings";
+import { getRoomCategorySettings } from "@/app/actions/room-category-settings";
+import { getRoomsPageSettings } from "@/app/actions/rooms-page-settings";
 import prisma from "@/lib/db";
-import { getHomepageSettings } from '@/app/actions/homepage-settings';
-import { getRoomsPageSettings } from '@/app/actions/rooms-page-settings';
+
+import { RoomDetails } from "../_components/RoomDetails";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
@@ -12,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!room) {
     return {
-      title: 'Room Not Found - Hotel Luxury',
+      title: "Room Not Found - Hotel Luxury",
     };
   }
 
@@ -26,23 +29,25 @@ export default async function RoomDetailsPage({ params }: { params: Promise<{ sl
   const settings = await getHomepageSettings();
   const roomsSettings = await getRoomsPageSettings();
   const resolvedParams = await params;
-  
+
   const room = await prisma.roomCategory.findUnique({
     where: { slug: resolvedParams.slug },
     include: {
       images: true,
       amenities: true,
-      rooms: true
-    }
+      rooms: true,
+    },
   });
 
   if (!room) {
     notFound();
   }
 
+  const categorySettings = await getRoomCategorySettings(room.id);
+
   return (
     <main className="min-h-screen text-foreground">
-      <RoomDetails room={room} settings={roomsSettings} />
+      <RoomDetails room={room} settings={categorySettings} />
     </main>
   );
 }

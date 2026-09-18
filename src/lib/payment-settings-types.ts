@@ -12,8 +12,8 @@ export const defaultPaymentSettings: PaymentSettings = {
   enablePaymentOptions: false,
   reservationFeePercentage: 20,
   enableQrCode: false,
-  qrCodeImageUrl: '',
+  qrCodeImageUrl: "",
   enableStripe: false,
-  stripePublicKey: '',
-  stripeSecretKey: '',
-}
+  stripePublicKey: "",
+  stripeSecretKey: "",
+};

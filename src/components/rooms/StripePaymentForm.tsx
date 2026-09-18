@@ -1,9 +1,11 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { toast } from 'sonner';
+import type React from "react";
+import { useEffect, useState } from "react";
+
+import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { toast } from "sonner";
 
 interface StripePaymentFormProps {
   amount: number;
@@ -12,7 +14,15 @@ interface StripePaymentFormProps {
   onCancel: () => void;
 }
 
-function CheckoutForm({ amount, onSuccess, onCancel }: { amount: number, onSuccess: (id: string) => void, onCancel: () => void }) {
+function CheckoutForm({
+  amount,
+  onSuccess,
+  onCancel,
+}: {
+  amount: number;
+  onSuccess: (id: string) => void;
+  onCancel: () => void;
+}) {
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -31,13 +41,13 @@ function CheckoutForm({ amount, onSuccess, onCancel }: { amount: number, onSucce
       confirmParams: {
         return_url: window.location.origin, // Not actually used since we redirect: 'if_required'
       },
-      redirect: 'if_required',
+      redirect: "if_required",
     });
 
     if (error) {
-      toast.error(error.message || 'Payment failed');
+      toast.error(error.message || "Payment failed");
       setIsProcessing(false);
-    } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+    } else if (paymentIntent && paymentIntent.status === "succeeded") {
       onSuccess(paymentIntent.id);
     } else {
       setIsProcessing(false);
@@ -62,7 +72,7 @@ function CheckoutForm({ amount, onSuccess, onCancel }: { amount: number, onSucce
           disabled={isProcessing || !stripe}
           className="flex-1 h-12 bg-zinc-900 text-white hover:bg-zinc-800 transition-colors uppercase tracking-widest text-xs font-medium disabled:opacity-50"
         >
-          {isProcessing ? 'Processing...' : `Pay $${amount.toFixed(2)}`}
+          {isProcessing ? "Processing..." : `Pay $${amount.toFixed(2)}`}
         </button>
       </div>
     </form>
@@ -70,15 +80,15 @@ function CheckoutForm({ amount, onSuccess, onCancel }: { amount: number, onSucce
 }
 
 export function StripePaymentProvider({ amount, stripePublicKey, onSuccess, onCancel }: StripePaymentFormProps) {
-  const [clientSecret, setClientSecret] = useState('');
-  
+  const [clientSecret, setClientSecret] = useState("");
+
   // Calculate amount in cents
   const amountInCents = Math.round(amount * 100);
 
   useEffect(() => {
-    fetch('/api/create-payment-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    fetch("/api/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: amountInCents }),
     })
       .then((res) => res.json())
@@ -86,11 +96,11 @@ export function StripePaymentProvider({ amount, stripePublicKey, onSuccess, onCa
         if (data.clientSecret) {
           setClientSecret(data.clientSecret);
         } else {
-          toast.error(data.error || 'Failed to initialize payment');
+          toast.error(data.error || "Failed to initialize payment");
         }
       })
       .catch(() => {
-        toast.error('Failed to initialize payment');
+        toast.error("Failed to initialize payment");
       });
   }, [amountInCents]);
 
@@ -101,7 +111,7 @@ export function StripePaymentProvider({ amount, stripePublicKey, onSuccess, onCa
   const stripePromise = loadStripe(stripePublicKey);
 
   return (
-    <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe' } }}>
+    <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: "stripe" } }}>
       <CheckoutForm amount={amount} onSuccess={onSuccess} onCancel={onCancel} />
     </Elements>
   );

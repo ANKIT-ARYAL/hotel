@@ -1,5 +1,6 @@
-import prisma from '@/lib/db';
-import { BookingsClient } from './bookings-client';
+import prisma from "@/lib/db";
+
+import { BookingsClient } from "./bookings-client";
 
 export default async function BookingsPage() {
   const bookings = await prisma.booking.findMany({
@@ -7,13 +8,13 @@ export default async function BookingsPage() {
       guest: true,
       room: {
         include: {
-          category: true
-        }
-      }
+          category: true,
+        },
+      },
     },
     orderBy: {
-      createdAt: 'desc'
-    }
+      createdAt: "desc",
+    },
   });
 
   return <BookingsClient initialBookings={bookings} />;

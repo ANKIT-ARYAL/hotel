@@ -1,51 +1,66 @@
-'use client'
-import { toast } from 'sonner';
+"use client";
+import { useState } from "react";
 
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { MoreHorizontal, Trash2, CheckCircle, Star } from 'lucide-react'
+import { CheckCircle, MoreHorizontal, Star, Trash2 } from "lucide-react";
+import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export function ReviewsClientView({ initialReviews }: { initialReviews: any[] }) {
-  const [reviews, setReviews] = useState(initialReviews)
+  const [reviews, setReviews] = useState(initialReviews);
 
   const handleApprove = async (id: string) => {
     try {
       const res = await fetch(`/api/reviews/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ isApproved: true })
-      })
-      const updated = await res.json()
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isApproved: true }),
+      });
+      const updated = await res.json();
       // Merge back relations so UI doesn't break
-      const existing = reviews.find(r => r.id === id)
-      setReviews(reviews.map(r => r.id === id ? { ...updated, guest: existing.guest, booking: existing.booking } : r))
+      const existing = reviews.find((r) => r.id === id);
+      setReviews(
+        reviews.map((r) => (r.id === id ? { ...updated, guest: existing.guest, booking: existing.booking } : r)),
+      );
     } catch (e) {
-      console.error('Failed to approve review', e)
+      console.error("Failed to approve review", e);
     }
-  }
+  };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to reject and delete this review permanently?')) return
+    if (!confirm("Are you sure you want to reject and delete this review permanently?")) return;
     try {
-      await fetch(`/api/reviews/${id}`, { method: 'DELETE' })
-      setReviews(reviews.filter(r => r.id !== id))
+      await fetch(`/api/reviews/${id}`, { method: "DELETE" });
+      setReviews(reviews.filter((r) => r.id !== id));
     } catch (e) {
-      console.error('Failed to delete review', e)
+      console.error("Failed to delete review", e);
     }
-  }
+  };
 
-  const pendingReviews = reviews.filter(r => !r.isApproved).length
-  const approvedReviews = reviews.filter(r => r.isApproved).length
+  const pendingReviews = reviews.filter((r) => !r.isApproved).length;
+  const approvedReviews = reviews.filter((r) => r.isApproved).length;
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 pb-12">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-gray-200 pb-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Guest Reviews</h1>
-          <p className="text-base text-gray-500 mt-1">Moderate guest feedback before it appears publicly on the frontend.</p>
+          <h1
+            className="text-3xl font-bold tracking-tight text-gray-900"
+            style={{ fontSize: "var(--admin-heading-size)" }}
+          >
+            Guest Reviews
+          </h1>
+          <p className="text-base text-gray-500 mt-1">
+            Moderate guest feedback before it appears publicly on the frontend.
+          </p>
         </div>
       </div>
 
@@ -88,24 +103,33 @@ export function ReviewsClientView({ initialReviews }: { initialReviews: any[] })
                 {reviews.map((r) => (
                   <TableRow key={r.id}>
                     <TableCell>
-                      <div className="font-semibold text-gray-900">{r.guest?.name || 'Unknown'}</div>
-                      <div className="text-sm text-gray-500">Room {r.booking?.room?.number} ({r.booking?.room?.category?.name})</div>
+                      <div className="font-semibold text-gray-900">{r.guest?.name || "Unknown"}</div>
+                      <div className="text-sm text-gray-500">
+                        Room {r.booking?.room?.number} ({r.booking?.room?.category?.name})
+                      </div>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center space-x-1">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} className={`h-4 w-4 ${i < r.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} />
+                          <Star
+                            key={i}
+                            className={`h-4 w-4 ${i < r.rating ? "text-yellow-400 fill-current" : "text-gray-300"}`}
+                          />
                         ))}
                       </div>
                     </TableCell>
                     <TableCell className="text-gray-700 max-w-md italic">
-                      "{r.comment || 'No written feedback provided.'}"
+                      "{r.comment || "No written feedback provided."}"
                     </TableCell>
                     <TableCell>
                       {r.isApproved ? (
-                        <span className="px-2 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-700">Public</span>
+                        <span className="px-2 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-700">
+                          Public
+                        </span>
                       ) : (
-                        <span className="px-2 py-1 rounded-full text-sm font-semibold bg-orange-100 text-orange-700">Pending</span>
+                        <span className="px-2 py-1 rounded-full text-sm font-semibold bg-orange-100 text-orange-700">
+                          Pending
+                        </span>
                       )}
                     </TableCell>
                     <TableCell className="text-right">
@@ -141,5 +165,5 @@ export function ReviewsClientView({ initialReviews }: { initialReviews: any[] })
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

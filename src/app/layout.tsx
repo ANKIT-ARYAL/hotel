@@ -1,20 +1,41 @@
-import type { Metadata } from "next";
+/**
+ * FlyUp eCommerce CMS
+ * Developed & Maintained by FlyUp Technology Pvt. Ltd.
+ * Website: https://flyuptechnology.com
+ * @author FlyUp Technology Pvt. Ltd.
+ */
+
+import {
+  Cinzel,
+  Cormorant_Garamond,
+  Inter,
+  Lora,
+  Montserrat,
+  Outfit,
+  Playfair_Display,
+  Prata,
+  Roboto,
+  Syne,
+} from "next/font/google";
 import { headers } from "next/headers";
-import { Cormorant_Garamond, Syne, Outfit, Playfair_Display, Cinzel, Prata, Lora, Inter } from "next/font/google";
+
+import type { Metadata } from "next";
 import "./globals.css";
-import { getHomepageSettings } from '@/app/actions/homepage-settings';
+
+import { Toaster } from "sonner";
+
+import { getHomepageSettings } from "@/app/actions/homepage-settings";
 import { FooterSection } from "@/components/homepage/FooterSection";
-import { Navbar } from "@/components/homepage/Navbar";
-import { Toaster } from 'sonner';
+import { NavbarContainer } from "@/components/homepage/NavbarContainer";
 
 const cormorant = Cormorant_Garamond({
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-argine",
   subsets: ["latin"],
 });
 
 const syne = Syne({
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-nove",
   subsets: ["latin"],
 });
@@ -35,7 +56,7 @@ const cinzel = Cinzel({
 });
 
 const prata = Prata({
-  weight: ['400'],
+  weight: ["400"],
   variable: "--font-prata",
   subsets: ["latin"],
 });
@@ -50,26 +71,47 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Hotel Luxury",
-  description: "Experience Unmatched Luxury",
-};
+const roboto = Roboto({
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-roboto",
+  subsets: ["latin"],
+});
+
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+});
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getHomepageSettings();
+  return {
+    title: settings.hero?.title || "FlyUp CMS",
+    description: settings.hero?.subtitle || "Developed by FlyUp Technology",
+  };
+}
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getHomepageSettings();
   const headersList = await headers();
-  const isAdmin = headersList.get('x-is-admin') === 'true';
-  
+  const isAdmin = headersList.get("x-is-admin") === "true";
+
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${syne.variable} ${outfit.variable} ${playfair.variable} ${cinzel.variable} ${prata.variable} ${lora.variable} ${inter.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${syne.variable} ${outfit.variable} ${playfair.variable} ${cinzel.variable} ${prata.variable} ${lora.variable} ${inter.variable} ${roboto.variable} ${montserrat.variable} h-full antialiased bg-white`}
     >
-      <body 
-        className={`min-h-full flex flex-col ${settings.theme.fontFamily}`}
-        style={{ '--theme-heading-font': `var(--${settings.theme.headingFontFamily})` } as React.CSSProperties}
+      <body
+        className={`min-h-full flex flex-col ${settings.theme.fontFamily} max-w-[1920px] mx-auto w-full relative shadow-2xl overflow-x-hidden`}
+        style={
+          {
+            "--theme-heading-font": `var(--${settings.theme.headingFontFamily})`,
+            "--theme-heading-size": settings.theme.headingFontSize || "1em",
+            "--admin-heading-size": settings.theme.adminHeadingFontSize || "1.875rem",
+            "--theme-body-size": settings.theme.bodyFontSize || "16px",
+          } as React.CSSProperties
+        }
       >
-        {!isAdmin && <Navbar />}
+        {!isAdmin && <NavbarContainer />}
         {children}
         {!isAdmin && settings.footer.isVisible && <FooterSection settings={settings.footer} />}
         <Toaster position="bottom-right" />

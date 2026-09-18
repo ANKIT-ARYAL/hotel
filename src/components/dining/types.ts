@@ -47,6 +47,7 @@ export interface MenuItem {
   description: string;
   price?: string;
   dietaryTags?: string[];
+  image?: string;
 }
 
 export interface MenuCategory {
@@ -63,41 +64,9 @@ export interface MenuSection extends BaseSectionSettings {
   typography?: TypographyOverrides;
 }
 
-export interface DiningEvent {
-  id: string;
-  title: string;
-  date: string;
-  time: string;
+export interface DiningSliderSection extends BaseSectionSettings {
   description: string;
-  image?: string | null;
-  type: 'live-music' | 'wine-dinner' | 'private-dining' | 'tasting' | 'other';
-  capacity?: string;
-  ctaLabel?: string;
-  ctaUrl?: string;
-}
-
-export interface EventsSection extends BaseSectionSettings {
-  title: string;
-  description: string;
-  events: DiningEvent[];
-  typography?: TypographyOverrides;
-}
-
-export interface Cocktail {
-  id: string;
-  name: string;
-  description: string;
-  price?: string;
-  image?: string | null;
-}
-
-export interface BarSection extends BaseSectionSettings {
-  title: string;
-  description: string;
-  image?: string | null;
-  videoUrl?: string | null;
-  happyHour?: string;
-  cocktails: Cocktail[];
+  images: { id: string; url: string }[];
   typography?: TypographyOverrides;
 }
 
@@ -116,63 +85,115 @@ export interface DiningPageSettings {
   };
   philosophy: PhilosophySection;
   menus: MenuSection;
-  events: EventsSection;
-  bar: BarSection;
+  events: DiningSliderSection;
+  bar: DiningSliderSection;
+  liveMusic: DiningSliderSection;
+  privateDining: DiningSliderSection;
 }
 
 export const defaultDiningPageSettings: DiningPageSettings = {
   hero: {
     isVisible: true,
-    title: 'CUISINE SHAPED BY TRADITION',
-    image: '/uploads/1789613047675-977465389.png',
+    title: "CUISINE SHAPED BY TRADITION",
+    image: "/uploads/1789613047675-977465389.png",
     videoUrl: null,
   },
   intro: {
     isVisible: true,
-    title: 'An unforgettable culinary journey.',
-    description: '<p>Experience the finest traditional recipes brought to life by master chefs.</p>',
+    title: "An unforgettable culinary journey.",
+    description: "<p>Experience the finest traditional recipes brought to life by master chefs.</p>",
   },
   restaurantsList: {
     isVisible: true,
-    title: 'Our Venues',
-    description: 'Explore our distinctive dining venues and culinary experiences.',
-    venues: []
+    title: "Our Venues",
+    description: "Explore our distinctive dining venues and culinary experiences.",
+    venues: [],
   },
   philosophy: {
     isVisible: true,
-    title: 'Our Culinary Philosophy',
-    description: '<p>Rooted in tradition, driven by seasonality.</p>',
+    title: "Our Culinary Philosophy",
+    description: "<p>Rooted in tradition, driven by seasonality.</p>",
     image: null,
     videoUrl: null,
     stats: [
-      { id: '1', label: 'Local Ingredients', value: '80%' },
-      { id: '2', label: 'Kilometer Radius', value: '50km' },
-      { id: '3', label: 'Partner Farms', value: '12' },
+      { id: "1", label: "Local Ingredients", value: "80%" },
+      { id: "2", label: "Kilometer Radius", value: "50km" },
+      { id: "3", label: "Partner Farms", value: "12" },
     ],
     typography: {},
   },
   menus: {
     isVisible: true,
-    title: 'Our Menus',
-    description: 'Explore our seasonal offerings across all venues.',
-    categories: [],
+    title: "Chef's Specials",
+    description: "A curated selection of our finest seasonal creations.",
+    categories: [
+      {
+        id: "c1",
+        title: "Specials",
+        items: [
+          {
+            id: "i1",
+            name: "Wagyu Beef Tenderloin",
+            description: "A5 Wagyu with truffle mash, roasted asparagus, and a rich red wine reduction.",
+            price: "$120",
+            dietaryTags: ["gluten-free"],
+            image: "/uploads/events_wine_tasting_1789633002418.jpg",
+          },
+          {
+            id: "i2",
+            name: "Pan-Seared Scallops",
+            description: "Diver scallops served over a bed of sweet corn puree with crispy pancetta.",
+            price: "$45",
+            dietaryTags: ["gluten-free"],
+            image: "/uploads/exterior.jpg",
+          },
+          {
+            id: "i3",
+            name: "Lobster Risotto",
+            description: "Creamy Arborio rice with fresh Maine lobster, saffron, and aged parmesan.",
+            price: "$65",
+            dietaryTags: [],
+            image: "/uploads/cocktail_closeup_1789632977279.jpg",
+          },
+          {
+            id: "i4",
+            name: "Dark Chocolate Soufflé",
+            description: "Decadent Valrhona chocolate soufflé with vanilla bean crème anglaise.",
+            price: "$25",
+            dietaryTags: ["vegetarian"],
+            image: "/uploads/bar_interior_1789632964846.jpg",
+          },
+        ],
+      },
+    ],
     typography: {},
   },
   events: {
     isVisible: true,
-    title: 'Events & Private Dining',
-    description: 'Memorable moments crafted for you.',
-    events: [],
+    title: "Events & Private Dining",
+    description: "Memorable moments crafted for you.",
+    images: [],
     typography: {},
   },
   bar: {
     isVisible: true,
-    title: 'The Bar & Lounge',
-    description: 'Signature cocktails and curated wines in an intimate setting.',
-    image: null,
-    videoUrl: null,
-    happyHour: 'Daily 16:00–19:00',
-    cocktails: [],
+    title: "The Bar & Lounge",
+    description: "Signature cocktails and curated wines in an intimate setting.",
+    images: [],
     typography: {},
-  }
+  },
+  liveMusic: {
+    isVisible: true,
+    title: "Live Entertainment",
+    description: "Experience enchanting evenings with our curated live music performances.",
+    images: [],
+    typography: {},
+  },
+  privateDining: {
+    isVisible: true,
+    title: "Private Dining",
+    description: "Exclusive spaces for your most important gatherings and celebrations.",
+    images: [],
+    typography: {},
+  },
 };
