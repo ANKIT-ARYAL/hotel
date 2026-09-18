@@ -12,7 +12,7 @@ import { Autoplay, Navigation } from "swiper/modules";
 // Swiper imports
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import { Button } from "@/components/ui/button";
+
 
 import type { HomepageSettings } from "./types";
 import "swiper/css";

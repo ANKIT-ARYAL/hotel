@@ -111,7 +111,7 @@ export function BookingForm({ roomId, roomNumber, price, paymentSettings }: Book
       }
 
       setStep(3);
-    } catch (error) {
+    } catch {
       toast.error("An error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);

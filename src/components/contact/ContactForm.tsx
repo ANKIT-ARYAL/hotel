@@ -53,7 +53,7 @@ export function ContactForm() {
       } else {
         toast.error(res.error || "Failed to send message.");
       }
-    } catch (err) {
+    } catch {
       toast.error("An unexpected error occurred.");
     } finally {
       setIsSubmitting(false);
