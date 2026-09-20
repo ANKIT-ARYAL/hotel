@@ -60,7 +60,7 @@ export function SearchResults({
         {rooms.map((room) => (
           <div key={room.id} className="h-full">
             <Link
-              href={`/booking?roomId=${room.id}&arrival=${arrivalStr}&departure=${departureStr}&guests=${guestsStr}`}
+              href={`/rooms-and-suites/${room.category.slug || room.categoryId}/${room.number}`}
               className="block bg-white group overflow-hidden h-full flex flex-col hover:-translate-y-2 hover:shadow-2xl transition-all duration-500 border border-transparent hover:border-zinc-200"
             >
               <div className="aspect-[4/3] relative overflow-hidden bg-zinc-200">
@@ -73,9 +73,9 @@ export function SearchResults({
 
               <div className="p-8 flex flex-col items-start border border-t-0 border-zinc-100 flex-1 group-hover:border-zinc-200 transition-colors">
                 <div className="flex justify-between w-full items-start mb-2">
-                  <h3 className="text-2xl tracking-wide line-clamp-1">{room.category.name}</h3>
+                  <h3 className="text-2xl tracking-wide line-clamp-1">{room.name || `Room ${room.number}`}</h3>
                   <span className="text-xs font-bold uppercase tracking-widest text-zinc-500 bg-zinc-100 px-2 py-1">
-                    Room {room.number}
+                    {room.category.name}
                   </span>
                 </div>
                 <p className="text-zinc-500 font-light mb-8 line-clamp-2 text-sm">

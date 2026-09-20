@@ -35,7 +35,7 @@ export function GalleryHero({ settings }: GalleryHeroProps) {
           className="text-white font-medium tracking-tighter mb-8"
           style={{
             fontFamily: "var(--theme-heading-font)",
-            fontSize: settings.typography?.titleSize || "var(--theme-heading-size)",
+            fontSize: "var(--theme-heading-size)",
           }}
         >
           {settings.title}
@@ -45,8 +45,8 @@ export function GalleryHero({ settings }: GalleryHeroProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
-          className="text-white/90 font-light tracking-wide max-w-2xl"
-          style={{ fontSize: settings.typography?.descriptionSize || "var(--theme-body-size)" }}
+          className="text-white/90 font-light tracking-tighter text-center max-w-2xl"
+          style={{ fontSize: "var(--theme-body-size)" }}
         >
           {settings.description}
         </motion.p>

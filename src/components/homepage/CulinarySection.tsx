@@ -55,7 +55,7 @@ export function CulinarySection({ settings }: CulinarySectionProps) {
             className="flex flex-col items-end gap-8"
           >
             <div
-              className="text-white/80 max-w-lg font-light  prose prose-invert text-right"
+              className="text-white/80 max-w-lg font-light  prose prose-invert text-justify tracking-tighter rich-text"
               style={{ fontSize: "var(--theme-body-size)" }}
               dangerouslySetInnerHTML={{ __html: settings.description }}
             />

@@ -43,7 +43,7 @@ export function ExperiencesSection({ settings }: ExperiencesSectionProps) {
               </h1>
 
               <div
-                className="text-zinc-500 font-light leading-relaxed  mb-10 max-w-md prose prose-zinc"
+                className="text-zinc-500 font-light text-justify tracking-tighter mb-10 max-w-md prose prose-zinc rich-text"
                 style={{ fontSize: "var(--theme-body-size)" }}
                 dangerouslySetInnerHTML={{ __html: settings.description }}
               />

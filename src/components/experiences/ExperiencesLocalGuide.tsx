@@ -29,7 +29,7 @@ export function ExperiencesLocalGuide({ settings }: ExperiencesLocalGuideProps) 
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="font-medium tracking-tighter text-zinc-900 mb-6"
-              style={{ fontSize: settings.typography?.titleSize || "var(--theme-heading-size)" }}
+              style={{ fontSize: "var(--theme-heading-size)" }}
             >
               {settings.title}
             </motion.h2>
@@ -38,8 +38,8 @@ export function ExperiencesLocalGuide({ settings }: ExperiencesLocalGuideProps) 
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-zinc-500 font-light leading-relaxed prose prose-zinc"
-              style={{ fontSize: settings.typography?.bodySize || "var(--theme-body-size)" }}
+              className="text-zinc-500 font-light text-justify tracking-tighter rich-text"
+              style={{ fontSize: "var(--theme-body-size)" }}
               dangerouslySetInnerHTML={{ __html: settings.description }}
             />
           </div>
@@ -62,12 +62,16 @@ export function ExperiencesLocalGuide({ settings }: ExperiencesLocalGuideProps) 
 
                 <div className="flex flex-col md:flex-row gap-8">
                   <div className="flex-1">
-                    <h3 className="text-2xl font-medium tracking-tight text-zinc-900 mb-3">{item.name}</h3>
+                    <h3 className="text-3xl font-medium tracking-tight text-zinc-900 mb-3">{item.name}</h3>
                     <div className="flex items-center text-zinc-400 text-sm font-medium uppercase tracking-widest mb-4">
                       <MapPin className="w-4 h-4 mr-2" />
                       {item.distance}
                     </div>
-                    <p className="text-zinc-500 font-light leading-relaxed">{item.description}</p>
+                    <p className="text-zinc-500 font-light text-justify tracking-tighter"
+                    style={{ fontSize: "var(--theme-body-size)" }}
+                    >
+                      {item.description}
+                    </p>
                   </div>
 
                   <div className="w-full md:w-48 lg:w-64 aspect-video md:aspect-square relative rounded-lg overflow-hidden shadow-md flex-shrink-0">

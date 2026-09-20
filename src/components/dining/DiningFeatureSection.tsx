@@ -30,7 +30,7 @@ export function DiningFeatureSection({ section, reverse = false }: DiningFeature
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="font-medium tracking-tighter leading-[1.1] text-zinc-900"
-            style={{ fontSize: section.typography?.titleSize || "var(--theme-heading-size)" }}
+            style={{ fontSize: "var(--theme-heading-size)" }}
           >
             {section.title}
           </motion.h2>
@@ -40,8 +40,8 @@ export function DiningFeatureSection({ section, reverse = false }: DiningFeature
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="prose prose-zinc max-w-none prose-p:font-light prose-p:leading-relaxed text-zinc-600 tracking-tight"
-            style={{ fontSize: section.typography?.bodySize || "var(--theme-body-size)" }}
+            className="prose prose-zinc max-w-none text-justify text-zinc-600 tracking-tighter rich-text"
+            style={{ fontSize: "var(--theme-body-size)" }}
             dangerouslySetInnerHTML={{ __html: section.description }}
           />
         </div>

@@ -73,7 +73,8 @@ export default async function RoomDetailsPage({ params }: { params: Promise<{ sl
         <div className="relative z-20 mt-12 flex flex-col gap-4">
           <Link
             href={`/rooms-and-suites/${slug}`}
-            className="text-zinc-400 hover:text-white transition-colors uppercase tracking-widest text-xs font-medium flex items-center gap-2"
+            className="text-zinc-400 hover:text-white transition-colors uppercase tracking-widest  font-medium flex items-center gap-2"
+            style={{ fontSize: "var(--theme-body-size)" }}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth="1.5" d="M19 12H5M12 19l-7-7 7-7" />
@@ -84,9 +85,13 @@ export default async function RoomDetailsPage({ params }: { params: Promise<{ sl
             className="text-white"
             style={{ fontFamily: "var(--theme-heading-font)", fontSize: "var(--theme-heading-size)" }}
           >
-            Room {room.number}
+            {room.name || `Room ${room.number}`}
           </h1>
-          <p className="text-zinc-300 font-light max-w-2xl text-lg">{room.description}</p>
+          <p className="text-zinc-300 font-light text-justify tracking-tighter max-w-2xl text-lg"
+          style={{ fontSize: "var(--theme-body-size)" }}
+          >
+          {room.description}
+          </p>
         </div>
       </div>
 
@@ -97,14 +102,18 @@ export default async function RoomDetailsPage({ params }: { params: Promise<{ sl
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6 py-6 border-b border-zinc-100">
               {room.category.size && (
                 <div className="flex flex-col gap-1">
-                  <span className="text-xs uppercase tracking-widest text-zinc-400 font-medium">Size</span>
-                  <span className="text-sm font-medium text-zinc-900">{room.category.size}</span>
+                  <span className="text-xs uppercase tracking-widest text-zinc-400 font-medium"
+                  style={{ fontSize: "var(--theme-body-size)" }}>Size</span>
+                  <span className="text-sm font-medium text-zinc-900"
+                  style={{ fontSize: "var(--theme-body-size)" }}>{room.category.size}</span>
                 </div>
               )}
               {room.category.occupancy && (
                 <div className="flex flex-col gap-1">
-                  <span className="text-xs uppercase tracking-widest text-zinc-400 font-medium">Occupancy</span>
-                  <span className="text-sm font-medium text-zinc-900">Up to {room.category.occupancy}</span>
+                  <span className="text-xs uppercase tracking-widest text-zinc-400 font-medium"
+                  style={{ fontSize: "var(--theme-body-size)" }}>Occupancy</span>
+                  <span className="text-sm font-medium text-zinc-900"
+                  style={{ fontSize: "var(--theme-body-size)" }}>Up to {room.category.occupancy}</span>
                 </div>
               )}
             </div>
@@ -118,8 +127,12 @@ export default async function RoomDetailsPage({ params }: { params: Promise<{ sl
             <RoomGallery images={galleryImages} altPrefix={`Room ${room.number}`} />
 
             <div className="mt-4">
-              <h2 className="text-4xl tracking-wide text-zinc-900 mb-6">About this Room</h2>
-              <p className="text-zinc-600 font-light leading-relaxed text-lg">
+              <h2 className="text-4xl tracking-wide text-zinc-900 mb-6">
+                About this Room
+              </h2>
+              <p className="text-zinc-600 font-light text-justify tracking-tighter"
+              style={{ fontSize: "var(--theme-body-size)" }}
+              >
                 {room.description ||
                   `Experience the pinnacle of comfort in Room ${room.number}. Specifically designed as part of our ${room.category.name} collection, this unit offers spectacular styling and a restful environment for your stay.`}
               </p>
@@ -145,7 +158,9 @@ export default async function RoomDetailsPage({ params }: { params: Promise<{ sl
         <div className="flex flex-col gap-12">
           <div>
             <h2 className="text-4xl tracking-wide text-zinc-900 mb-4">Package Inclusions</h2>
-            <p className="text-zinc-500 font-light text-lg max-w-2xl">
+            <p className="text-zinc-500 font-light text-justify tracking-tighter max-w-2xl"
+            style={{ fontSize: "var(--theme-body-size)" }}
+            >
               Everything you need for an unforgettable stay. Your reservation in the {room.category.name} includes the
               following complimentary amenities and services.
             </p>
@@ -178,14 +193,15 @@ export default async function RoomDetailsPage({ params }: { params: Promise<{ sl
                           src={imgUrl}
                           alt={amenity.name}
                           fill
-                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"                          
                         />
                       </div>
                       <div>
-                        <h4 className="font-medium text-zinc-900 uppercase tracking-widest text-xs mb-1">
+                        <h4 className="font-medium text-zinc-900 uppercase tracking-widest text-lg mb-1">                        
                           {amenity.name}
                         </h4>
-                        <p className="text-sm font-light text-zinc-500 line-clamp-2">
+                        <p className="text-sm font-light text-zinc-500 line-clamp-2"
+                        style={{ fontSize: "var(--theme-body-size)" }}>
                           Included complimentary with your stay.
                         </p>
                       </div>
@@ -240,13 +256,15 @@ export default async function RoomDetailsPage({ params }: { params: Promise<{ sl
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div>
                 <h2 className="text-4xl tracking-wide text-zinc-900 mb-4">Explore More Accommodations</h2>
-                <p className="text-zinc-500 font-light text-lg">
+                <p className="text-zinc-500 font-light"
+                style={{ fontSize: "var(--theme-body-size)" }}>
                   Discover our other beautifully appointed rooms and suites.
                 </p>
               </div>
               <Link
                 href="/rooms-and-suites"
                 className="text-xs uppercase tracking-widest font-medium border-b border-zinc-900 pb-1 hover:text-zinc-500 hover:border-zinc-500 transition-colors"
+                style={{ fontSize: "var(--theme-body-size)" }}
               >
                 View All
               </Link>
@@ -268,10 +286,14 @@ export default async function RoomDetailsPage({ params }: { params: Promise<{ sl
                     />
                   </div>
                   <div>
-                    <h3 className="text-2xl text-zinc-900 mb-1 group-hover:text-zinc-600 transition-colors">
+                    <h3 className="text-3xl text-zinc-900 mb-1 group-hover:text-zinc-600 transition-colors py-2">
                       {category.name}
                     </h3>
-                    <p className="text-zinc-500 font-light text-sm line-clamp-2">{category.description}</p>
+                    <p className="text-zinc-500 font-light text-justify tracking-tighter line-clamp-2"
+                    style={{ fontSize: "var(--theme-body-size)" }}
+                    >
+                      {category.description}
+                    </p>
                   </div>
                 </Link>
               ))}

@@ -56,7 +56,7 @@ export function BookingCtaSection({ settings }: BookingCtaSectionProps) {
           className="flex flex-col items-center gap-12"
         >
           <div
-            className="text-white/80 max-w-2xl font-light prose prose-invert  text-center"
+            className="text-white/80 max-w-2xl font-light prose prose-invert  text-center rich-text"
             style={{ fontSize: "var(--theme-body-size)" }}
             dangerouslySetInnerHTML={{ __html: settings.description }}
           />

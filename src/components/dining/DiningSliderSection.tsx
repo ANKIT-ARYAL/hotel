@@ -46,8 +46,8 @@ export function DiningSliderSection({ section }: DiningSliderSectionProps) {
             {section.title}
           </h1>
           <div
-            className="prose prose-zinc max-w-none prose-p:font-light prose-p:leading-relaxed text-zinc-600 tracking-tight"
-            style={{ fontSize: section.typography?.bodySize || "var(--theme-body-size)" }}
+            className="prose prose-zinc max-w-none text-zinc-600 tracking-tighter text-justify rich-text"
+            style={{ fontSize: "var(--theme-body-size)" }}
             dangerouslySetInnerHTML={{ __html: section.description }}
           />
         </div>

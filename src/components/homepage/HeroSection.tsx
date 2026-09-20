@@ -82,7 +82,7 @@ export function HeroSection({ settings }: HeroSectionProps) {
             className="flex flex-col sm:flex-row sm:items-center gap-8"
           >
             <div
-              className="text-white/90  max-w-xl font-light mb-12"
+              className="text-white/90 max-w-xl font-light mb-12 text-justify tracking-tighter [&_strong]:font-bold [&_b]:font-bold rich-text"
               style={{ fontSize: "var(--theme-body-size)" }}
               dangerouslySetInnerHTML={{ __html: settings.subtitle }}
             />

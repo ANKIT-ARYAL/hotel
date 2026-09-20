@@ -25,9 +25,18 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
     const body = await request.json();
+    const { amenities, ...rest } = body;
     const data = await prisma.room.update({
       where: { id },
-      data: body,
+      data: {
+        ...rest,
+        ...(amenities && {
+          amenities: {
+            set: amenities.map((id: string) => ({ id }))
+          }
+        })
+      },
+      include: { category: true, amenities: true }
     });
     return NextResponse.json(data);
   } catch (error) {

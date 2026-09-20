@@ -55,7 +55,7 @@ export function DiningHero({ settings }: DiningHeroProps) {
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-            className="text-white/80 font-light tracking-wide max-w-2xl mx-auto"
+            className="text-white/80 font-light tracking-wide max-w-2xl mx-auto rich-text"
             style={{ fontSize: "var(--theme-body-size)" }}
             dangerouslySetInnerHTML={{ __html: settings.subtitle }}
           />

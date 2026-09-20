@@ -65,9 +65,10 @@ export function Navbar({ settings }: NavbarProps) {
             >
               <Link
                 href={item.href}
-                className={`flex items-center text-lg font-medium tracking-wide transition-opacity ${
+                className={`flex items-center font-medium tracking-wide transition-opacity ${
                   effectiveScrolled ? "text-zinc-600 hover:text-zinc-900" : "text-white/90 hover:text-white"
                 }`}
+                style={{ fontSize: "var(--theme-body-size)" }}
               >
                 {item.label}
                 {item.children && item.children.length > 0 && (

@@ -32,7 +32,7 @@ export function RestaurantsList({ settings }: RestaurantsListProps) {
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-zinc-600 font-light leading-relaxed max-w-2xl mx-auto text-center tracking-tight prose prose-zinc"
+            className="text-zinc-600 font-light leading-relaxed max-w-2xl mx-auto text-center tracking-tight prose prose-zinc rich-text"
             style={{ fontSize: "var(--theme-body-size)" }}
             dangerouslySetInnerHTML={{ __html: settings.description }}
           />
@@ -48,8 +48,9 @@ export function RestaurantsList({ settings }: RestaurantsListProps) {
                     style={{ backgroundImage: `url(${venue.image || ""})` }}
                   />
                 </div>
-                <h3 className="text-2xl tracking-tight mb-2">{venue.name}</h3>
-                <p className="text-zinc-500 font-light">{venue.details}</p>
+                <h3 className="text-3xl py-2 tracking-tight mb-2">{venue.name}</h3>
+                <p className="text-zinc-500 font-light text-justify tracking-tighter"
+                style={{ fontSize: "var(--theme-body-size)" }}>{venue.details}</p>
               </div>
             ))
           ) : (

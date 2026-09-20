@@ -54,7 +54,7 @@ export function SpaWellnessSection({ settings }: SpaWellnessSectionProps) {
           className="flex flex-col items-center gap-10"
         >
           <div
-            className="text-white/80 w-full font-light  text-center"
+            className="text-white/80 w-full font-light  text-center rich-text"
             style={{ fontSize: "var(--theme-body-size)" }}
             dangerouslySetInnerHTML={{ __html: settings.description }}
           />

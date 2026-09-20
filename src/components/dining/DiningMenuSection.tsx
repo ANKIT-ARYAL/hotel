@@ -52,7 +52,7 @@ export function DiningMenuSection({ section }: DiningMenuSectionProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="prose prose-zinc max-w-none prose-p:font-light prose-p:leading-relaxed text-zinc-600 tracking-tight"
+              className="prose prose-zinc max-w-none prose-p:font-light prose-p:leading-relaxed text-zinc-600 tracking-tighter text-justify rich-text"
               style={{ fontSize: section.typography?.bodySize || "var(--theme-body-size)" }}
               dangerouslySetInnerHTML={{ __html: section.description }}
             />
@@ -70,13 +70,14 @@ export function DiningMenuSection({ section }: DiningMenuSectionProps) {
                 className="space-y-4"
               >
                 <div className="flex justify-between items-start gap-4">
-                  <h3 className="font-semibold text-2xl tracking-tight text-zinc-900">{currentItem.name}</h3>
+                  <h3 className="font-semibold text-3xl tracking-tight text-zinc-900">{currentItem.name}</h3>
                   {currentItem.price && (
                     <span className="text-xl text-zinc-500 font-light whitespace-nowrap">{currentItem.price}</span>
                   )}
                 </div>
 
-                <p className="text-zinc-600 font-light leading-relaxed">{currentItem.description}</p>
+                <p className="text-zinc-600 font-light text-justify tracking-tighter"
+                style={{ fontSize: "var(--theme-body-size)" }}>{currentItem.description}</p>
 
                 {currentItem.dietaryTags && currentItem.dietaryTags.length > 0 && (
                   <div className="flex flex-wrap gap-2 pt-2">

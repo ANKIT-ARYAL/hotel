@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState } from "react";
 
@@ -16,12 +17,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-export function RoomsClientView({ initialRooms, categories }: { initialRooms: any[]; categories: any[] }) {
+export function RoomsClientView({
+  initialRooms,
+  categories,
+  allAmenities,
+}: {
+  initialRooms: any[];
+  categories: any[];
+  allAmenities: any[];
+}) {
   const [rooms, setRooms] = useState(initialRooms);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingRoom, setEditingRoom] = useState<any>(null);
 
   // Form state
+  const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [categoryId, setCategoryId] = useState(categories[0]?.id || "");
   const [status, setStatus] = useState("AVAILABLE");
@@ -29,10 +39,12 @@ export function RoomsClientView({ initialRooms, categories }: { initialRooms: an
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
+  const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
 
   const openDialog = (room?: any) => {
     if (room) {
       setEditingRoom(room);
+      setName(room.name || "");
       setNumber(room.number);
       setCategoryId(room.categoryId);
       setStatus(room.status);
@@ -40,10 +52,17 @@ export function RoomsClientView({ initialRooms, categories }: { initialRooms: an
       setDescription(room.description || "");
       setImage(room.image || "");
       setVideoUrl(room.videoUrl || "");
+      setSelectedAmenities(room.amenities ? room.amenities.map((a: any) => a.id) : []);
     } else {
       setEditingRoom(null);
+      setName("");
       setNumber("");
-      setCategoryId(categories[0]?.id || "");
+      
+      const defaultCatId = categories[0]?.id || "";
+      setCategoryId(defaultCatId);
+      const defaultCat = categories.find((c) => c.id === defaultCatId);
+      setSelectedAmenities(defaultCat && defaultCat.amenities ? defaultCat.amenities.map((a: any) => a.id) : []);
+      
       setStatus("AVAILABLE");
       setPrice("");
       setDescription("");
@@ -53,8 +72,21 @@ export function RoomsClientView({ initialRooms, categories }: { initialRooms: an
     setIsDialogOpen(true);
   };
 
+  const handleCategoryChange = (newCategoryId: string) => {
+    setCategoryId(newCategoryId);
+    if (!editingRoom) {
+      const selectedCat = categories.find((c) => c.id === newCategoryId);
+      if (selectedCat && selectedCat.amenities) {
+        setSelectedAmenities(selectedCat.amenities.map((a: any) => a.id));
+      } else {
+        setSelectedAmenities([]);
+      }
+    }
+  };
+
   const handleSave = async () => {
     const payload = {
+      name,
       number,
       categoryId,
       status,
@@ -62,6 +94,7 @@ export function RoomsClientView({ initialRooms, categories }: { initialRooms: an
       description,
       image,
       videoUrl,
+      amenities: selectedAmenities,
     };
 
     try {
@@ -200,9 +233,9 @@ export function RoomsClientView({ initialRooms, categories }: { initialRooms: an
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {rooms.map((room) => (
+                {rooms.map((room, idx) => (
                   <TableRow
-                    key={room.id}
+                    key={room.id || `room-${idx}`}
                     className="cursor-pointer hover:bg-gray-50 transition-colors"
                     onClick={() => openDialog(room)}
                   >
@@ -285,6 +318,10 @@ export function RoomsClientView({ initialRooms, categories }: { initialRooms: an
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
             <div className="space-y-4">
               <div className="grid gap-2">
+                <label className="text-sm font-medium">Room Name (Optional)</label>
+                <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Ocean View Suite" />
+              </div>
+              <div className="grid gap-2">
                 <label className="text-sm font-medium">Room Number</label>
                 <Input value={number} onChange={(e) => setNumber(e.target.value)} placeholder="e.g. 101" />
               </div>
@@ -293,7 +330,7 @@ export function RoomsClientView({ initialRooms, categories }: { initialRooms: an
                 <select
                   className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                   value={categoryId}
-                  onChange={(e) => setCategoryId(e.target.value)}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
                 >
                   {categories.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -316,7 +353,7 @@ export function RoomsClientView({ initialRooms, categories }: { initialRooms: an
                 </select>
               </div>
               <div className="grid gap-2">
-                <label className="text-sm font-medium">Price per Night</label>
+                <label className="text-sm font-medium">Price per night $</label>
                 <Input type="number" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="e.g. 150" />
               </div>
             </div>
@@ -345,6 +382,35 @@ export function RoomsClientView({ initialRooms, categories }: { initialRooms: an
                   <Input type="file" onChange={(e) => handleFileUpload(e, "video")} accept="video/*" />
                 </div>
                 {videoUrl && <video src={videoUrl} controls className="w-full h-32 object-cover rounded-md mt-2" />}
+              </div>
+            </div>
+
+            {/* Full width row for amenities */}
+            <div className="col-span-1 md:col-span-2 space-y-4">
+              <div className="grid gap-2 border-t pt-4">
+                <label className="text-sm font-medium">Custom Room Amenities</label>
+                <p className="text-xs text-gray-500">
+                  Select amenities specific to this room. Category amenities are pre-selected when creating a new room.
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-2">
+                  {allAmenities.map((amenity) => (
+                    <label key={amenity.id} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-300 text-gray-900 focus:ring-gray-900"
+                        checked={selectedAmenities.includes(amenity.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedAmenities([...selectedAmenities, amenity.id]);
+                          } else {
+                            setSelectedAmenities(selectedAmenities.filter((id) => id !== amenity.id));
+                          }
+                        }}
+                      />
+                      <span className="text-sm">{amenity.name}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

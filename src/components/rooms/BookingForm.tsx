@@ -139,7 +139,7 @@ export function BookingForm({ roomId, roomNumber, price, paymentSettings }: Book
       className="bg-white p-8 border border-zinc-100 rounded-sm shadow-xl shadow-zinc-200/50 flex flex-col gap-6"
     >
       <div className="flex justify-between items-end border-b border-zinc-100 pb-4">
-        <h3 className="text-2xl text-zinc-900">Reserve Room {roomNumber}</h3>
+        <h3 className="text-3xl font-semibold text-zinc-900">Reserve Room {roomNumber}</h3>
         <div className="flex flex-col items-end gap-1">
           <span className="text-xs uppercase tracking-widest text-zinc-400 font-medium leading-none">Rate</span>
           <span className="text-2xl font-medium text-zinc-900 leading-none">

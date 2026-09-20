@@ -16,7 +16,18 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const data = await prisma.room.create({ data: body });
+    const { amenities, ...rest } = body;
+    const data = await prisma.room.create({ 
+      data: {
+        ...rest,
+        ...(amenities && {
+          amenities: {
+            connect: amenities.map((id: string) => ({ id }))
+          }
+        })
+      },
+      include: { category: true, amenities: true }
+    });
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: "Failed to create record" }, { status: 500 });

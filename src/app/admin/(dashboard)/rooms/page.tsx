@@ -6,11 +6,17 @@ const prisma = new PrismaClient();
 
 export default async function RoomsPage() {
   const rooms = await prisma.room.findMany({
-    include: { category: true },
+    include: { category: true, amenities: true },
     orderBy: { number: "asc" },
   });
 
-  const categories = await prisma.roomCategory.findMany();
+  const categories = await prisma.roomCategory.findMany({
+    include: { amenities: true },
+  });
 
-  return <RoomsClientView initialRooms={rooms} categories={categories} />;
+  const allAmenities = await prisma.amenity.findMany({
+    orderBy: { name: "asc" },
+  });
+
+  return <RoomsClientView initialRooms={rooms} categories={categories} allAmenities={allAmenities} />;
 }

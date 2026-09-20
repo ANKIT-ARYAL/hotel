@@ -55,7 +55,7 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-              className="text-lg md:text-xl font-light tracking-wide max-w-2xl text-zinc-200"
+              className="text-lg md:text-xl font-light tracking-wide max-w-2xl text-zinc-200 rich-text"
               dangerouslySetInnerHTML={{ __html: settings.hero.subtitle }}
             />
           </div>
@@ -78,7 +78,8 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-zinc-600 text-lg font-light leading-relaxed"
+            className="text-zinc-600 text-lg font-light leading-relaxed rich-text"
+            style={{ fontSize: "var(--theme-body-size)" }}
             dangerouslySetInnerHTML={{ __html: settings.listSection.description }}
           />
         </section>
@@ -133,7 +134,7 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
                   {cat.occupancy && <span>Up to {cat.occupancy} Guests</span>}
                   {cat.bedType && <span>{cat.bedType}</span>}
                 </div>
-                <p className="text-zinc-600 leading-relaxed text-lg font-light line-clamp-4">
+                <p className="text-zinc-600 text-justify tracking-tighter font-light line-clamp-4" style={{fontSize: "var(--theme-body-size)"}}>
                   {cat.description || "A beautiful room offering comfort and luxury."}
                 </p>
                 <div className="pt-4">

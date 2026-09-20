@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React from "react";
@@ -67,9 +68,11 @@ const settings = [
 export function SidebarContent({
   isCollapsed,
   setIsCollapsed,
+  session,
 }: {
   isCollapsed: boolean;
   setIsCollapsed: (val: boolean) => void;
+  session?: any;
 }) {
   const pathname = usePathname();
   const [unreadBookings, setUnreadBookings] = React.useState(0);
@@ -93,6 +96,17 @@ export function SidebarContent({
     return () => clearInterval(interval);
   }, []);
 
+  const userPermissions = session?.user?.role?.permissions || [];
+  
+  const hasPermission = (itemName: string) => {
+    if (userPermissions.includes("ALL")) return true;
+    return userPermissions.includes(itemName);
+  };
+
+  const filteredNavigation = navigation.filter(item => hasPermission(item.name));
+  const filteredPages = pages.filter(item => hasPermission(item.name));
+  const filteredSettings = settings.filter(item => hasPermission(item.name));
+
   return (
     <>
       <div
@@ -115,22 +129,64 @@ export function SidebarContent({
       </div>
 
       <div className="flex-1 overflow-y-auto py-4 px-3">
-        <div className="space-y-1">
-          {!isCollapsed && (
-            <p className="px-3 text-base font-semibold text-gray-400 uppercase tracking-wider mb-2">Operations</p>
-          )}
-          {navigation.map((item) => {
-            const isActive = pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  "flex items-center justify-between px-3 py-2 text-lg font-medium rounded-md transition-colors",
-                  isActive ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                )}
-              >
-                <div className="flex items-center">
+        {filteredNavigation.length > 0 && (
+          <div className="space-y-1">
+            {!isCollapsed && (
+              <p className="px-3 text-base font-semibold text-gray-400 uppercase tracking-wider mb-2">Operations</p>
+            )}
+            {filteredNavigation.map((item) => {
+              const isActive = pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    "flex items-center justify-between px-3 py-2 text-lg font-medium rounded-md transition-colors",
+                    isActive ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                  )}
+                >
+                  <div className="flex items-center">
+                    <item.icon
+                      className={cn(
+                        "flex-shrink-0 h-5 w-5",
+                        !isCollapsed && "mr-3",
+                        isActive ? "text-primary" : "text-gray-400",
+                      )}
+                    />
+                    {!isCollapsed && item.name}
+                  </div>
+                  {!isCollapsed && item.name === "Bookings" && unreadBookings > 0 && (
+                    <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                      {unreadBookings}
+                    </span>
+                  )}
+                  {!isCollapsed && item.name === "Messages" && unreadMessages > 0 && (
+                    <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                      {unreadMessages}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        )}
+
+        {filteredPages.length > 0 && (
+          <div className="mt-8 space-y-1">
+            {!isCollapsed && (
+              <p className="px-3 text-base font-semibold text-gray-400 uppercase tracking-wider mb-2">Pages</p>
+            )}
+            {filteredPages.map((item) => {
+              const isActive = pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    "flex items-center px-3 py-2 text-lg font-medium rounded-md transition-colors",
+                    isActive ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                  )}
+                >
                   <item.icon
                     className={cn(
                       "flex-shrink-0 h-5 w-5",
@@ -139,77 +195,41 @@ export function SidebarContent({
                     )}
                   />
                   {!isCollapsed && item.name}
-                </div>
-                {!isCollapsed && item.name === "Bookings" && unreadBookings > 0 && (
-                  <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                    {unreadBookings}
-                  </span>
-                )}
-                {!isCollapsed && item.name === "Messages" && unreadMessages > 0 && (
-                  <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                    {unreadMessages}
-                  </span>
-                )}
-              </Link>
-            );
-          })}
-        </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
 
-        <div className="mt-8 space-y-1">
-          {!isCollapsed && (
-            <p className="px-3 text-base font-semibold text-gray-400 uppercase tracking-wider mb-2">Pages</p>
-          )}
-          {pages.map((item) => {
-            const isActive = pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  "flex items-center px-3 py-2 text-lg font-medium rounded-md transition-colors",
-                  isActive ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                )}
-              >
-                <item.icon
+        {filteredSettings.length > 0 && (
+          <div className="mt-8 space-y-1">
+            {!isCollapsed && (
+              <p className="px-3 text-base font-semibold text-gray-400 uppercase tracking-wider mb-2">System</p>
+            )}
+            {filteredSettings.map((item) => {
+              const isActive = pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
                   className={cn(
-                    "flex-shrink-0 h-5 w-5",
-                    !isCollapsed && "mr-3",
-                    isActive ? "text-primary" : "text-gray-400",
+                    "flex items-center px-3 py-2 text-lg font-medium rounded-md transition-colors",
+                    isActive ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
                   )}
-                />
-                {!isCollapsed && item.name}
-              </Link>
-            );
-          })}
-        </div>
-
-        <div className="mt-8 space-y-1">
-          {!isCollapsed && (
-            <p className="px-3 text-base font-semibold text-gray-400 uppercase tracking-wider mb-2">System</p>
-          )}
-          {settings.map((item) => {
-            const isActive = pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  "flex items-center px-3 py-2 text-lg font-medium rounded-md transition-colors",
-                  isActive ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                )}
-              >
-                <item.icon
-                  className={cn(
-                    "flex-shrink-0 h-5 w-5",
-                    !isCollapsed && "mr-3",
-                    isActive ? "text-primary" : "text-gray-400",
-                  )}
-                />
-                {!isCollapsed && item.name}
-              </Link>
-            );
-          })}
-        </div>
+                >
+                  <item.icon
+                    className={cn(
+                      "flex-shrink-0 h-5 w-5",
+                      !isCollapsed && "mr-3",
+                      isActive ? "text-primary" : "text-gray-400",
+                    )}
+                  />
+                  {!isCollapsed && item.name}
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <div className="p-4 border-t border-gray-100">
@@ -245,9 +265,11 @@ export function SidebarContent({
 export function Sidebar({
   isCollapsed,
   setIsCollapsed,
+  session,
 }: {
   isCollapsed?: boolean;
   setIsCollapsed?: (val: boolean) => void;
+  session?: any;
 }) {
   return (
     <div
@@ -256,7 +278,7 @@ export function Sidebar({
         isCollapsed ? "w-20" : "w-64",
       )}
     >
-      <SidebarContent isCollapsed={!!isCollapsed} setIsCollapsed={setIsCollapsed || (() => {})} />
+      <SidebarContent isCollapsed={!!isCollapsed} setIsCollapsed={setIsCollapsed || (() => {})} session={session} />
     </div>
   );
 }

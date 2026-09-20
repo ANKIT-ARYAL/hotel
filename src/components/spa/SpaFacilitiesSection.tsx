@@ -25,7 +25,7 @@ export function SpaFacilitiesSection({ settings }: SpaFacilitiesSectionProps) {
           className="font-medium tracking-tight text-zinc-900 mb-6"
           style={{
             fontFamily: "var(--theme-heading-font)",
-            fontSize: settings.typography?.titleSize || "var(--theme-heading-size)",
+            fontSize: "var(--theme-heading-size)",
           }}
         >
           {settings.title}
@@ -35,8 +35,8 @@ export function SpaFacilitiesSection({ settings }: SpaFacilitiesSectionProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ delay: 0.2 }}
-          className="text-zinc-500 font-light max-w-2xl mx-auto leading-relaxed"
-          style={{ fontSize: settings.typography?.bodySize || "var(--theme-body-size)" }}
+          className="text-zinc-500 font-light max-w-2xl mx-auto text-center tracking-tighter"
+          style={{ fontSize: "var(--theme-body-size)" }}
         >
           {settings.description}
         </motion.p>
@@ -121,7 +121,8 @@ export function SpaFacilitiesSection({ settings }: SpaFacilitiesSectionProps) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
-                  className="text-zinc-500 font-light leading-relaxed text-lg text-justify"
+                  className="text-zinc-500 font-light text-justify tracking-tighter"
+                  style={{ fontSize: "var(--theme-body-size)" }}
                 >
                   {facility.description}
                 </motion.p>

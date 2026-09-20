@@ -56,7 +56,7 @@ export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps)
           >
             {settings.title}
           </h1>
-          <p className="text-black/80 max-w-lg mb-6" style={{ fontSize: "var(--theme-body-size)" }}>
+          <p className="text-black/80 mb-6" style={{ fontSize: "var(--theme-body-size)" }}>
             {settings.description}
           </p>
 
@@ -193,16 +193,29 @@ export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps)
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white max-w-4xl w-full rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh]"
+              className="bg-white max-w-6xl w-full rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh]"
             >
               <div className="w-full md:w-1/2 aspect-square md:aspect-auto relative bg-zinc-100">
-                <img
-                  src={selectedRoom.images?.[0]?.url || "/placeholder.jpg"}
-                  alt={selectedRoom.name}
-                  className="w-full h-full object-cover"
-                />
+                <Swiper
+                  modules={[Autoplay, Navigation]}
+                  autoplay={{ delay: 2000, disableOnInteraction: false }}
+                  loop={true}
+                  className="w-full h-full"
+                >
+                  {selectedRoom.images && selectedRoom.images.length > 0 ? (
+                    selectedRoom.images.map((img: any, i: number) => (
+                      <SwiperSlide key={i} className="w-full h-full">
+                        <img src={img.url} alt={selectedRoom.name} className="w-full h-full object-cover" />
+                      </SwiperSlide>
+                    ))
+                  ) : (
+                    <SwiperSlide className="w-full h-full">
+                      <img src="/placeholder.jpg" alt={selectedRoom.name} className="w-full h-full object-cover" />
+                    </SwiperSlide>
+                  )}
+                </Swiper>
               </div>
-              <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col relative overflow-y-auto">
+              <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col relative overflow-hidden">
                 <button
                   onClick={() => setSelectedRoom(null)}
                   className="absolute top-6 right-6 p-2 rounded-full hover:bg-zinc-100 transition-colors"
@@ -219,7 +232,7 @@ export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps)
                   <span className="text-sm uppercase tracking-widest text-zinc-400">/ Night</span>
                 </div>
 
-                <p className="text-zinc-600 mb-8 leading-relaxed">{selectedRoom.description}</p>
+                <p className="text-zinc-600 mb-8 text-justify tracking-[-0.075rem] line-clamp-[7]" style={{ fontSize: "var(--theme-body-size)" }}>{selectedRoom.description}</p>
 
                 <div className="mb-8">
                   <h4 className="text-sm uppercase tracking-widest font-bold text-zinc-900 mb-4">Room Amenities</h4>

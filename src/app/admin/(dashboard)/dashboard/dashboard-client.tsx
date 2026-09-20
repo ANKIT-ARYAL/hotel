@@ -19,31 +19,24 @@ import {
   Zap,
 } from "lucide-react";
 import { Cell, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
-import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface DashboardData {
-  totalRevenue: number;
+  unreadMessages: number;
   availableRooms: number;
-  monthlyExpenses: number;
-  occupancyRate: number;
-  revSources: { name: string; amount: number }[];
+  pendingReviews: number;
+  totalGuests: number;
   roomAllocation: { name: string; value: number; fill: string }[];
   chartData: { date: string; income: number; expense: number }[];
-  recentBookings: unknown[];
-  checkInsToday: number;
+  recentBookings: any[];
+  checkInsToday: any[];
   totalRooms: number;
 }
 
 export function DashboardClientView({ data }: { data: DashboardData }) {
   const formatCurrency = (val: number) =>
     new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(val);
-
-  const totalRevSource = data.revSources.reduce((acc, curr) => acc + curr.amount, 0);
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 pb-12">
@@ -89,73 +82,78 @@ export function DashboardClientView({ data }: { data: DashboardData }) {
 
       {/* Top row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="shadow-sm">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Total Revenue</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex justify-between items-end">
-              <div>
-                <div className="text-3xl font-semibold text-gray-900">{formatCurrency(data.totalRevenue)}</div>
-                <div className="text-sm text-gray-500 mt-1">Total accumulated revenue</div>
+        <Link href="/admin/messages">
+          <Card className="shadow-sm hover:shadow-md transition-shadow cursor-pointer h-full">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base font-medium text-gray-500 font-normal">Unread Messages</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex justify-between items-end">
+                <div>
+                  <div className="text-3xl font-semibold text-gray-900">{data.unreadMessages}</div>
+                  <div className="text-sm text-gray-500 mt-1">New guest inquiries</div>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </Link>
 
-        <Card className="shadow-sm">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Available Rooms</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex justify-between items-end">
-              <div>
-                <div className="text-3xl font-semibold text-gray-900">{data.availableRooms}</div>
-                <div className="text-sm text-gray-500 mt-1">Out of {data.totalRooms} total rooms</div>
+        <Link href="/admin/rooms">
+          <Card className="shadow-sm hover:shadow-md transition-shadow cursor-pointer h-full">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base font-medium text-gray-500 font-normal">Available Rooms</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex justify-between items-end">
+                <div>
+                  <div className="text-3xl font-semibold text-gray-900">{data.availableRooms}</div>
+                  <div className="text-sm text-gray-500 mt-1">Out of {data.totalRooms} total rooms</div>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </Link>
 
-        <Card className="shadow-sm">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Monthly Expenses</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex justify-between items-end">
-              <div>
-                <div className="text-3xl font-semibold text-gray-900">{formatCurrency(data.monthlyExpenses)}</div>
-                <div className="text-sm text-gray-500 mt-1">Expenses in the last 30 days</div>
+        <Link href="/admin/reviews">
+          <Card className="shadow-sm hover:shadow-md transition-shadow cursor-pointer h-full">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base font-medium text-gray-500 font-normal">Pending Reviews</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex justify-between items-end">
+                <div>
+                  <div className="text-3xl font-semibold text-gray-900">{data.pendingReviews}</div>
+                  <div className="text-sm text-gray-500 mt-1">Require approval</div>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </Link>
 
-        <Card className="shadow-sm">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Occupancy Rate</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex justify-between items-end">
-              <div>
-                <div className="text-3xl font-semibold text-gray-900">{data.occupancyRate}%</div>
-                <div className="text-sm text-gray-500 mt-1">Current live occupancy</div>
+        <Link href="/admin/guests">
+          <Card className="shadow-sm hover:shadow-md transition-shadow cursor-pointer h-full">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base font-medium text-gray-500 font-normal">Total Guests</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex justify-between items-end">
+                <div>
+                  <div className="text-3xl font-semibold text-gray-900">{data.totalGuests}</div>
+                  <div className="text-sm text-gray-500 mt-1">Registered guests</div>
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </Link>
       </div>
 
-      {/* Second Row: Complex layouts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left Column */}
-        <div className="space-y-6">
+      {/* Second Row: Charts layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Column (Spans 2) */}
+        <div className="lg:col-span-2 space-y-6">
           <Card className="shadow-sm h-full">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-lg font-semibold">Revenue Overview</CardTitle>
-              <Button variant="outline" size="sm" className="h-8 text-sm font-normal">
-                Weekly <ChevronDown className="w-3 h-3 ml-2" />
-              </Button>
+              <CardTitle className="text-lg font-semibold">Revenue Overview (Last 7 Days)</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="h-[250px] mt-4 w-full">
@@ -190,48 +188,23 @@ export function DashboardClientView({ data }: { data: DashboardData }) {
           </Card>
         </div>
 
-        {/* Right Column */}
+        {/* Right Column (Spans 1) */}
         <div className="space-y-6">
-          <Card className="shadow-sm">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg font-semibold">Revenue Sources</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center space-x-4 mt-2">
-                {data.revSources.map((source, i) => {
-                  const percentage = totalRevSource > 0 ? Math.round((source.amount / totalRevSource) * 100) : 0;
-                  return (
-                    <div key={i} className="flex-1 relative border-l-2 border-dashed border-gray-200 pl-4">
-                      <div className="text-sm text-gray-500 mb-1">
-                        {source.name} • {percentage}%
-                      </div>
-                      <div className="text-xl font-semibold mb-3">{formatCurrency(source.amount)}</div>
-                      <div className="h-4 w-full bg-gray-500 rounded-sm opacity-80" />
-                    </div>
-                  );
-                })}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-sm">
+          <Card className="shadow-sm h-full flex flex-col justify-between">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-lg font-semibold">Room Allocation</CardTitle>
-              <Button variant="outline" size="sm" className="h-8 text-sm font-normal">
-                All Rooms <ChevronDown className="w-3 h-3 ml-2" />
-              </Button>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center h-[200px]">
-                <div className="w-1/2 h-full relative">
+              <div className="flex flex-col items-center h-[250px] justify-between">
+                <div className="w-full h-[150px] relative">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
                         data={data.roomAllocation}
                         cx="50%"
                         cy="50%"
-                        innerRadius={60}
-                        outerRadius={80}
+                        innerRadius={50}
+                        outerRadius={70}
                         paddingAngle={5}
                         dataKey="value"
                         stroke="none"
@@ -248,17 +221,19 @@ export function DashboardClientView({ data }: { data: DashboardData }) {
                   </div>
                 </div>
 
-                <div className="w-1/2 flex flex-col justify-center space-y-4 pl-4 border-l border-gray-100">
+                <div className="w-full flex flex-col justify-center space-y-2 mt-4 pt-4 border-t border-gray-100">
                   {data.roomAllocation.map((item, i) => (
-                    <div key={i} className="flex justify-between items-center text-base">
-                      <div className="flex flex-col">
-                        <span className="flex items-center text-sm text-gray-500">
-                          <span className="w-1.5 h-3 rounded-sm mr-2" style={{ backgroundColor: item.fill }} />
-                          {item.name}
-                        </span>
-                        <span className="font-semibold text-gray-900 mt-0.5 ml-3.5">{item.value}</span>
+                    <div key={i} className="flex justify-between items-center text-sm">
+                      <div className="flex items-center text-gray-500">
+                        <span className="w-1.5 h-3 rounded-sm mr-2" style={{ backgroundColor: item.fill }} />
+                        {item.name}
                       </div>
-                      <span className="font-semibold">{Math.round((item.value / data.totalRooms) * 100)}%</span>
+                      <div className="flex items-center space-x-3">
+                        <span className="font-semibold text-gray-900">{item.value}</span>
+                        <span className="font-semibold text-gray-400 w-8 text-right">
+                          {data.totalRooms > 0 ? Math.round((item.value / data.totalRooms) * 100) : 0}%
+                        </span>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -269,131 +244,79 @@ export function DashboardClientView({ data }: { data: DashboardData }) {
       </div>
 
       {/* Bottom Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Bookings */}
         <Card className="shadow-sm">
-          <CardHeader className="pb-4">
+          <CardHeader className="flex flex-row items-center justify-between pb-4">
             <CardTitle className="text-lg font-semibold">Recent Bookings</CardTitle>
+            <Link href="/admin/bookings" className="text-sm text-gray-500 hover:text-gray-900 flex items-center">
+              View all <ArrowRight className="w-4 h-4 ml-1" />
+            </Link>
           </CardHeader>
           <CardContent className="space-y-6">
-            {data.recentBookings.map((b: any, i: number) => (
-              <div
-                key={i}
-                className="flex items-center justify-between border-b border-gray-50 pb-4 last:border-0 last:pb-0"
-              >
-                <div>
-                  <div className="font-semibold text-base text-gray-900">
-                    {b.guest.name} • {b.room.number}
+            {data.recentBookings.length > 0 ? (
+              data.recentBookings.map((b: any, i: number) => (
+                <Link
+                  key={i}
+                  href={`/admin/bookings`}
+                  className="flex items-center justify-between border-b border-gray-50 pb-4 last:border-0 last:pb-0 hover:bg-gray-50 transition-colors p-2 -mx-2 rounded-lg"
+                >
+                  <div>
+                    <div className="font-semibold text-base text-gray-900">
+                      {b.guest?.name || "Unknown"} • {b.room?.number || "N/A"}
+                    </div>
+                    <div className="text-sm text-gray-500 mt-0.5">{formatCurrency(b.totalAmount)}</div>
                   </div>
-                  <div className="text-sm text-gray-500 mt-0.5">{formatCurrency(b.totalAmount)}</div>
-                </div>
-                <div className="h-8 w-8 rounded-md bg-gray-100 flex items-center justify-center font-bold text-gray-500 text-sm">
-                  {b.room?.type?.substring(0, 2) || "RM"}
-                </div>
-              </div>
-            ))}
+                  <div className="h-8 w-8 rounded-md bg-gray-100 flex items-center justify-center font-bold text-gray-500 text-sm">
+                    {b.room?.type?.substring(0, 2) || "RM"}
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div className="text-gray-500 text-sm text-center py-4">No recent bookings</div>
+            )}
           </CardContent>
         </Card>
 
-        {/* Pending Actions */}
+        {/* Today's Check-ins */}
         <Card className="shadow-sm">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg font-semibold">Pending Actions</CardTitle>
+          <CardHeader className="pb-4">
+            <CardTitle className="text-lg font-semibold">Todays Check-ins</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="mb-4">
-              <div className="text-3xl font-semibold text-gray-900">{data.checkInsToday}</div>
-              <div className="text-base text-gray-500 mt-1">Check-ins expected today</div>
-            </div>
-
-            <div className="space-y-3">
-              <div className="border border-gray-100 rounded-lg p-3 flex items-center justify-between hover:bg-gray-50 cursor-pointer">
-                <div className="flex items-center">
-                  <div className="h-8 w-8 rounded-full bg-gray-200 mr-3 flex items-center justify-center">⚙️</div>
-                  <div>
-                    <div className="text-base font-semibold text-gray-900">System Status</div>
-                    <div className="text-sm text-gray-500">All systems operational</div>
-                  </div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-gray-400" />
+            {data.checkInsToday.length > 0 ? (
+              <div className="space-y-4">
+                {data.checkInsToday.map((b: any, i: number) => (
+                  <Link
+                    key={i}
+                    href={`/admin/bookings`}
+                    className="border border-gray-100 rounded-lg p-3 flex items-center justify-between hover:bg-gray-50 transition-colors block"
+                  >
+                    <div className="flex items-center">
+                      <div className="h-10 w-10 rounded-full bg-gray-100 mr-3 flex items-center justify-center font-bold text-gray-600">
+                        {b.guest?.name?.substring(0, 1) || "?"}
+                      </div>
+                      <div>
+                        <div className="text-base font-semibold text-gray-900">{b.guest?.name || "Unknown"}</div>
+                        <div className="text-sm text-gray-500">Room {b.room?.number || "N/A"}</div>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-gray-400" />
+                  </Link>
+                ))}
               </div>
-            </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center h-[150px] text-gray-500">
+                <div className="h-12 w-12 rounded-full bg-gray-50 flex items-center justify-center mb-3">
+                  <span className="text-xl">☀️</span>
+                </div>
+                <p>No check-ins scheduled for today.</p>
+              </div>
+            )}
           </CardContent>
         </Card>
-
-        {/* Quick Actions & Shortcuts */}
-        <div className="space-y-6">
-          <Card className="shadow-sm">
-            <CardHeader className="flex flex-row items-center justify-between pb-4">
-              <CardTitle className="text-lg font-semibold">Quick Booking</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex space-x-2">
-                <Input placeholder="Guest Email" className="flex-1 bg-gray-50 border-gray-200" />
-                <Button className="bg-gray-900 text-white hover:bg-gray-800">Create</Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-sm h-full">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-semibold">Shortcuts</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-4 gap-4">
-                <div className="flex flex-col items-center">
-                  <div className="h-12 w-12 rounded-full border border-gray-200 flex items-center justify-center mb-2 hover:bg-gray-50 cursor-pointer">
-                    <QrCode className="w-5 h-5 text-gray-600" />
-                  </div>
-                  <span className="text-sm text-gray-500">Scan QR</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="h-12 w-12 rounded-full border border-gray-200 flex items-center justify-center mb-2 hover:bg-gray-50 cursor-pointer">
-                    <Send className="w-5 h-5 text-gray-600" />
-                  </div>
-                  <span className="text-sm text-gray-500">Invoice</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="h-12 w-12 rounded-full border border-gray-200 flex items-center justify-center mb-2 hover:bg-gray-50 cursor-pointer">
-                    <Wallet className="w-5 h-5 text-gray-600" />
-                  </div>
-                  <span className="text-sm text-gray-500">Billing</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="h-12 w-12 rounded-full border border-gray-200 flex items-center justify-center mb-2 hover:bg-gray-50 cursor-pointer">
-                    <Clock className="w-5 h-5 text-gray-600" />
-                  </div>
-                  <span className="text-sm text-gray-500">History</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="h-12 w-12 rounded-full border border-gray-200 flex items-center justify-center mb-2 hover:bg-gray-50 cursor-pointer">
-                    <Smartphone className="w-5 h-5 text-gray-600" />
-                  </div>
-                  <span className="text-sm text-gray-500">Mobile</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="h-12 w-12 rounded-full border border-gray-200 flex items-center justify-center mb-2 hover:bg-gray-50 cursor-pointer">
-                    <Zap className="w-5 h-5 text-gray-600" />
-                  </div>
-                  <span className="text-sm text-gray-500">Energy</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="h-12 w-12 rounded-full border border-gray-200 flex items-center justify-center mb-2 hover:bg-gray-50 cursor-pointer">
-                    <Droplet className="w-5 h-5 text-gray-600" />
-                  </div>
-                  <span className="text-sm text-gray-500">Water</span>
-                </div>
-                <div className="flex flex-col items-center">
-                  <div className="h-12 w-12 rounded-full border border-gray-200 flex items-center justify-center mb-2 hover:bg-gray-50 cursor-pointer">
-                    <MoreHorizontal className="w-5 h-5 text-gray-600" />
-                  </div>
-                  <span className="text-sm text-gray-500">More</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
       </div>
     </div>
   );
 }
+

@@ -25,6 +25,12 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
     const body = await request.json();
+    
+    if (body.password) {
+      const bcrypt = require("bcrypt");
+      body.password = await bcrypt.hash(body.password, 10);
+    }
+    
     const data = await prisma.user.update({
       where: { id },
       data: body,

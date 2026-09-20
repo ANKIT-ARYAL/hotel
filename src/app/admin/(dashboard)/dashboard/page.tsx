@@ -7,49 +7,30 @@ const prisma = new PrismaClient();
 export default async function DashboardPage() {
   // 1. Top Stats
   const now = new Date();
-  const thirtyDaysAgo = new Date(now);
-  thirtyDaysAgo.setDate(now.getDate() - 30);
-
-  const incomeTx = await prisma.transaction.aggregate({
-    _sum: { amount: true },
-    where: { type: "INCOME" },
-  });
-  const totalRevenue = incomeTx._sum.amount || 0;
-
-  const expenseTx = await prisma.transaction.aggregate({
-    _sum: { amount: true },
-    where: { type: "EXPENSE", date: { gte: thirtyDaysAgo } },
-  });
-  const monthlyExpenses = expenseTx._sum.amount || 0;
-
+  
   const rooms = await prisma.room.findMany();
   const totalRooms = rooms.length;
   const availableRooms = rooms.filter((r) => r.status === "AVAILABLE").length;
   const occupiedRooms = rooms.filter((r) => r.status === "OCCUPIED").length;
-  const occupancyRate = totalRooms > 0 ? Math.round((occupiedRooms / totalRooms) * 100) : 0;
 
-  // 2. Revenue Sources (From seed data descriptions)
-  const roomBookings = await prisma.transaction.aggregate({
-    _sum: { amount: true },
-    where: { type: "INCOME", description: { contains: "Booking" } },
+  const unreadMessages = await prisma.contactMessage.count({
+    where: { isRead: false },
   });
-  const otherServices = await prisma.transaction.aggregate({
-    _sum: { amount: true },
-    where: { type: "INCOME", description: { not: { contains: "Booking" } } },
+  
+  const pendingReviews = await prisma.review.count({
+    where: { isApproved: false },
   });
-  const revSources = [
-    { name: "Room Bookings", amount: roomBookings._sum.amount || 0 },
-    { name: "Restaurant & Spa", amount: otherServices._sum.amount || 0 },
-  ];
 
-  // 3. Room Allocation for Donut
+  const totalGuests = await prisma.guest.count();
+
+  // 2. Room Allocation for Donut
   const roomAllocation = [
     { name: "Available", value: availableRooms, fill: "#4ade80" },
     { name: "Occupied", value: occupiedRooms, fill: "#f87171" },
     { name: "Maintenance/Cleaning", value: totalRooms - availableRooms - occupiedRooms, fill: "#facc15" },
   ];
 
-  // 4. Line Chart Data (Last 7 days revenue vs expense)
+  // 3. Line Chart Data (Last 7 days revenue vs expense)
   const last7Days = Array.from({ length: 7 }, (_, i) => {
     const d = new Date();
     d.setDate(now.getDate() - (6 - i));
@@ -71,29 +52,33 @@ export default async function DashboardPage() {
     };
   });
 
-  // 5. Recent Bookings
+  // 4. Recent Bookings
   const recentBookings = await prisma.booking.findMany({
     take: 3,
     orderBy: { createdAt: "desc" },
     include: { guest: true, room: true },
   });
 
-  // 6. Pending Actions (Check-ins today)
-  const checkInsToday = await prisma.booking.count({
+  // 5. Today's Check-ins
+  const todayStart = new Date(now.setHours(0, 0, 0, 0));
+  const todayEnd = new Date(now.setHours(23, 59, 59, 999));
+  
+  const checkInsToday = await prisma.booking.findMany({
     where: {
       checkIn: {
-        gte: new Date(now.setHours(0, 0, 0, 0)),
-        lt: new Date(now.setHours(23, 59, 59, 999)),
+        gte: todayStart,
+        lt: todayEnd,
       },
     },
+    include: { guest: true, room: true },
+    take: 5,
   });
 
   const stats = {
-    totalRevenue,
+    unreadMessages,
     availableRooms,
-    monthlyExpenses,
-    occupancyRate,
-    revSources,
+    pendingReviews,
+    totalGuests,
     roomAllocation,
     chartData,
     recentBookings,

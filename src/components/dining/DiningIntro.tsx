@@ -32,7 +32,7 @@ export function DiningIntro({ settings }: DiningIntroProps) {
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-zinc-600 font-light leading-relaxed tracking-tight text-center max-w-2xl prose prose-zinc"
+          className="text-zinc-600 font-light leading-relaxed tracking-tight text-center max-w-2xl prose prose-zinc rich-text"
           style={{ fontSize: "var(--theme-body-size)" }}
           dangerouslySetInnerHTML={{ __html: settings.description }}
         />

@@ -74,7 +74,7 @@ export default async function BookingPage({
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-3 left-3 bg-white/90 backdrop-blur text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">
-                  Room {room.number}
+                  {room.name || `Room ${room.number}`}
                 </div>
               </div>
 

@@ -104,7 +104,7 @@ export default async function SearchPage({
         <div className="absolute top-0 left-0 right-0 z-50 h-24 bg-gradient-to-b from-black/80 to-transparent" />
         <div className="relative z-20 max-w-7xl mx-auto w-full text-center mt-24">
           <h1
-            className={`text-white mb-4 ${settings.theme.headingFontFamily}`}
+            className="text-white leading-[1] tracking-tighter mb-8 pr-4 text-center backdrop-md"
             style={{ fontSize: "var(--theme-heading-size)" }}
           >
             Explore Our Collections

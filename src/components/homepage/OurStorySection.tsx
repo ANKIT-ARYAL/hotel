@@ -89,7 +89,7 @@ export function OurStorySection({ settings }: OurStorySectionProps) {
             </div>
 
             <div
-              className="text-zinc-600 font-light leading-relaxed  prose prose-zinc"
+              className="text-zinc-600 font-light text-justify tracking-tighter prose prose-zinc rich-text"
               style={{ fontSize: "var(--theme-body-size)" }}
               dangerouslySetInnerHTML={{ __html: settings.description }}
             />

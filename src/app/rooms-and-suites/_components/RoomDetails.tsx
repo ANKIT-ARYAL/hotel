@@ -85,7 +85,8 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
         <div className="absolute top-32 left-6 md:left-12 lg:left-24 z-50">
           <Link
             href="/rooms-and-suites"
-            className="relative z-50 pointer-events-auto text-white hover:text-white/70 transition-colors uppercase tracking-widest text-xs font-medium flex items-center gap-2"
+            className="relative z-50 pointer-events-auto text-white hover:text-white/70 transition-colors uppercase tracking-widest font-medium flex items-center gap-2"
+            style={{ fontSize: "var(--theme-body-size)" }}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth="1.5" d="M19 12H5M12 19l-7-7 7-7" />
@@ -120,7 +121,9 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
             <h2 className="text-4xl text-zinc-900 tracking-wide mb-2">The Experience</h2>
             <div className="w-12 h-[1px] bg-zinc-900 mb-8" />
 
-            <p className="text-zinc-600 leading-relaxed text-lg font-light mb-12">
+            <p className="text-zinc-600 text-justify tracking-tighter font-light mb-12"
+            style={{ fontSize: "var(--theme-body-size)" }}
+            >
               {room.description ||
                 "Immerse yourself in our beautifully appointed rooms, designed to offer the perfect blend of modern luxury and timeless elegance. Enjoy a restful stay with premium amenities and stunning views."}
             </p>
@@ -290,8 +293,9 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
                       </div>
 
                       <div className="p-8 flex flex-col items-start border border-t-0 border-zinc-100 flex-1 group-hover:border-zinc-200 transition-colors">
-                        <h3 className="text-2xl tracking-wide mb-2">Room {individualRoom.number}</h3>
-                        <p className="text-zinc-500 font-light mb-8 line-clamp-2">
+                        <h3 className="text-2xl tracking-wide mb-2">{individualRoom.name || `Room ${individualRoom.number}`}</h3>
+                        <p className="text-zinc-500 font-light mb-8 line-clamp-2 text-justify tracking-tighter"
+                        >
                           {individualRoom.description ||
                             `Enjoy a comfortable stay in our beautiful Room ${individualRoom.number}.`}
                         </p>
@@ -345,7 +349,7 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-lg text-zinc-300 mb-10 font-light"
+              className="text-lg text-zinc-300 mb-10 font-light rich-text"
               dangerouslySetInnerHTML={{ __html: settings.bookingCta.description }}
             />
             <motion.div

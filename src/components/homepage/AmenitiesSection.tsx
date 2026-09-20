@@ -67,7 +67,7 @@ export function AmenitiesSection({ settings }: AmenitiesSectionProps) {
                   <IconComponent className="w-8 h-8 stroke-[1.5]" />
                 </div>
                 <h3 className="text-2xl text-xl font-serif font-bold text-zinc-900 mb-3">{item.title}</h3>
-                <p className="text-zinc-600 leading-relaxed font-sans text-lg">{item.description}</p>
+                <p className="text-zinc-600 tracking-tighter text-center font-sans text-lg">{item.description}</p>
               </motion.div>
             );
           })}
