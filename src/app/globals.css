@@ -183,3 +183,68 @@
     text-underline-offset: 2px;
   }
 }
+
+/* Admin layout containment and breakpoint behavior. These rules are scoped so
+   the public-facing site keeps its existing responsive behavior. */
+[data-admin-shell] *,
+[data-admin-shell] *::before,
+[data-admin-shell] *::after {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+[data-admin-shell] img,
+[data-admin-shell] video,
+[data-admin-shell] canvas,
+[data-admin-shell] svg {
+  max-width: 100%;
+}
+
+[data-admin-shell] form,
+[data-admin-shell] [role="dialog"] {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+[data-admin-shell] main,
+[data-admin-shell] main > *,
+[data-admin-shell] form > *,
+[data-admin-shell] [role="dialog"] > * {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+[data-admin-shell] main {
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 767px) {
+  [data-admin-shell] main {
+    padding: 1rem;
+  }
+
+  [data-admin-shell] .grid {
+    min-width: 0;
+  }
+
+  [data-admin-shell] input,
+  [data-admin-shell] textarea,
+  [data-admin-shell] select,
+  [data-admin-shell] button {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1279px) {
+  [data-admin-shell] main {
+    padding: 1.25rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  [data-admin-shell] main {
+    padding: 2rem;
+  }
+}

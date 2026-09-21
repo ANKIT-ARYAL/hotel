@@ -33,6 +33,7 @@ import {
 
 import { handleSignOut } from "@/app/actions/auth";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const navigation = [
   { name: "Dashboard", href: "/admin/dashboard", icon: Home },
@@ -69,12 +70,15 @@ export function SidebarContent({
   isCollapsed,
   setIsCollapsed,
   session,
+  onNavigate,
 }: {
   isCollapsed: boolean;
   setIsCollapsed: (val: boolean) => void;
   session?: any;
+  onNavigate?: () => void;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [unreadBookings, setUnreadBookings] = React.useState(0);
   const [unreadMessages, setUnreadMessages] = React.useState(0);
 
@@ -108,7 +112,7 @@ export function SidebarContent({
   const filteredSettings = settings.filter(item => hasPermission(item.name));
 
   return (
-    <>
+    <div className="flex flex-col h-full">
       <div
         className={`h-16 flex flex-shrink-0 items-center border-b border-gray-100 ${isCollapsed ? "justify-center" : "px-6 justify-between"}`}
       >
@@ -140,6 +144,7 @@ export function SidebarContent({
                 <Link
                   key={item.name}
                   href={item.href}
+                  onClick={onNavigate}
                   className={cn(
                     "flex items-center justify-between px-3 py-2 text-lg font-medium rounded-md transition-colors",
                     isActive ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
@@ -182,6 +187,7 @@ export function SidebarContent({
                 <Link
                   key={item.name}
                   href={item.href}
+                  onClick={onNavigate}
                   className={cn(
                     "flex items-center px-3 py-2 text-lg font-medium rounded-md transition-colors",
                     isActive ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
@@ -212,6 +218,7 @@ export function SidebarContent({
                 <Link
                   key={item.name}
                   href={item.href}
+                  onClick={onNavigate}
                   className={cn(
                     "flex items-center px-3 py-2 text-lg font-medium rounded-md transition-colors",
                     isActive ? "bg-primary/10 text-primary" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
@@ -258,7 +265,7 @@ export function SidebarContent({
           </button>
         </form>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -274,7 +281,7 @@ export function Sidebar({
   return (
     <div
       className={cn(
-        "hidden md:flex fixed left-0 top-0 bottom-0 bg-white border-r border-gray-200 min-h-screen flex-col flex-shrink-0 z-40 transition-all duration-300",
+        "hidden md:flex fixed left-0 top-0 bottom-0 bg-white border-r border-gray-200 min-h-screen h-dvh flex-col flex-shrink-0 z-40 transition-all duration-300",
         isCollapsed ? "w-20" : "w-64",
       )}
     >

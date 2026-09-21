@@ -95,7 +95,7 @@ export function BookingsClient({ initialBookings }: { initialBookings: Booking[]
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h1
           className="text-3xl font-bold text-gray-900 tracking-tight"
           style={{ fontSize: "var(--admin-heading-size)" }}
@@ -109,7 +109,7 @@ export function BookingsClient({ initialBookings }: { initialBookings: Booking[]
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="overflow-x-auto">
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left text-sm text-gray-500">
             <thead className="bg-gray-50 text-xs text-gray-700 uppercase border-b border-gray-200">
               <tr>
@@ -181,6 +181,47 @@ export function BookingsClient({ initialBookings }: { initialBookings: Booking[]
               )}
             </tbody>
           </table>
+        </div>
+
+        <div className="md:hidden divide-y divide-gray-100">
+          {bookings.length > 0 ? (
+            bookings.map((booking) => (
+              <button
+                key={booking.id}
+                type="button"
+                className="block w-full p-4 text-left hover:bg-gray-50 transition-colors"
+                onClick={() => openDialog(booking)}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-medium text-gray-900 truncate">{booking.guest.name}</p>
+                    <p className="text-xs text-gray-400 break-all">{booking.guest.email}</p>
+                  </div>
+                  <div className="shrink-0">{getStatusBadge(booking.status)}</div>
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                  <div>
+                    <p className="text-xs text-gray-400">Room</p>
+                    <p className="text-gray-900">Room {booking.room.number}</p>
+                    <p className="text-xs text-gray-500 truncate">{booking.room.category.name}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400">Total</p>
+                    <p className="font-medium text-gray-900">${booking.totalAmount.toFixed(2)}</p>
+                  </div>
+                  <div className="col-span-2">
+                    <p className="text-xs text-gray-400">Stay</p>
+                    <p className="text-gray-900 break-words">
+                      {format(new Date(booking.checkIn), "MMM dd, yyyy")} – {format(new Date(booking.checkOut), "MMM dd, yyyy")}
+                    </p>
+                  </div>
+                </div>
+                <p className="mt-3 text-xs font-medium text-primary">Tap to manage booking</p>
+              </button>
+            ))
+          ) : (
+            <p className="px-4 py-12 text-center text-gray-400">No bookings found.</p>
+          )}
         </div>
       </div>
 

@@ -311,7 +311,7 @@ export function RoomsClientView({
 
       {/* CRUD Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[700px]">
+        <DialogContent className="sm:max-w-[700px] max-h-[calc(100dvh-1rem)] overflow-y-auto overscroll-contain">
           <DialogHeader>
             <DialogTitle>{editingRoom ? "Edit Room" : "Add New Room"}</DialogTitle>
           </DialogHeader>

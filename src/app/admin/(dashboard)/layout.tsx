@@ -9,9 +9,8 @@ import type { ReactNode } from "react";
 import { auth } from "@/lib/auth";
 
 import { AdminClientLayout } from "./_components/AdminClientLayout";
-import { Topbar } from "./_components/topbar";
 
 export default async function AdminDashboardLayout({ children }: { children: ReactNode }) {
   const session = await auth();
-  return <AdminClientLayout session={session} topbar={<Topbar />}>{children}</AdminClientLayout>;
+  return <AdminClientLayout session={session}>{children}</AdminClientLayout>;
 }
