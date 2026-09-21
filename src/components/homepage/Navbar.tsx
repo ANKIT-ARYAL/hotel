@@ -47,7 +47,7 @@ export function Navbar({ settings }: NavbarProps) {
       <div className="px-6 md:px-12 lg:px-24 flex items-center justify-between">
         <Link
           href="/"
-          className={`font-nove text-3xl font-bold transition-colors ${
+          className={`font-nove text-xl md:text-3xl font-bold transition-colors ${
             effectiveScrolled || isMobileMenuOpen ? "text-zinc-900" : "text-white"
           }`}
         >

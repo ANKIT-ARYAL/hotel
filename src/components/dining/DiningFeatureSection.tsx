@@ -20,7 +20,7 @@ export function DiningFeatureSection({ section, reverse = false }: DiningFeature
   const image = section.images && section.images.length > 0 ? section.images[0] : null;
 
   return (
-    <section className="py-24 px-6 md:px-12 lg:px-24 w-full">
+    <section className="py-16 md:py-24 px-6 md:px-12 lg:px-24 w-full">
       <div
         className={`flex flex-col md:flex-row gap-12 lg:gap-24 items-center ${reverse ? "md:flex-row-reverse" : ""}`}
       >
@@ -30,8 +30,7 @@ export function DiningFeatureSection({ section, reverse = false }: DiningFeature
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="font-medium tracking-tighter leading-[1.1] text-zinc-900"
-            style={{ fontSize: "var(--theme-heading-size)" }}
+            className="font-medium tracking-tighter leading-[1.1] text-zinc-900 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"            
           >
             {section.title}
           </motion.h2>
@@ -41,8 +40,7 @@ export function DiningFeatureSection({ section, reverse = false }: DiningFeature
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="prose prose-zinc max-w-none text-justify text-zinc-600 tracking-tighter rich-text"
-            style={{ fontSize: "var(--theme-body-size)" }}
+            className="prose prose-zinc max-w-none text-justify text-zinc-600 tracking-tighter rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(section.description) }}
           />
         </div>
@@ -65,7 +63,7 @@ export function DiningFeatureSection({ section, reverse = false }: DiningFeature
               />
             </motion.div>
           ) : (
-            <div className="aspect-square w-full bg-zinc-100 rounded-sm flex items-center justify-center text-zinc-400">
+            <div className="aspect-square w-full bg-zinc-100 rounded-sm flex items-center justify-center text-zinc-400 font-[var(--theme-body-font)]">
               No image provided
             </div>
           )}

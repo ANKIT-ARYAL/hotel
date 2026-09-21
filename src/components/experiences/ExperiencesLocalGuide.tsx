@@ -18,7 +18,7 @@ export function ExperiencesLocalGuide({ settings }: ExperiencesLocalGuideProps) 
   if (!settings.isVisible) return null;
 
   return (
-    <section className="py-32 px-6 md:px-12 lg:px-24 w-full bg-zinc-50 relative">
+    <section className="py-16 md:py-32 px-6 md:px-12 lg:px-24 w-full bg-zinc-50 relative">
       <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none" />
 
       <div className="relative z-10 flex flex-col lg:flex-row gap-16 lg:gap-24">
@@ -29,8 +29,7 @@ export function ExperiencesLocalGuide({ settings }: ExperiencesLocalGuideProps) 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="font-medium tracking-tighter text-zinc-900 mb-6"
-              style={{ fontSize: "var(--theme-heading-size)" }}
+              className="font-medium tracking-tighter text-zinc-900 mb-6 text-5xl md:text-[length:var(--theme-heading-size)]"              
             >
               {settings.title}
             </motion.h2>
@@ -39,8 +38,7 @@ export function ExperiencesLocalGuide({ settings }: ExperiencesLocalGuideProps) 
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-zinc-500 font-light text-justify tracking-tighter rich-text"
-              style={{ fontSize: "var(--theme-body-size)" }}
+              className="text-zinc-500 font-light text-justify tracking-tighter rich-text text-lg md:text-[length:var(--theme-body-size)]"              
               dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
             />
           </div>
@@ -68,8 +66,7 @@ export function ExperiencesLocalGuide({ settings }: ExperiencesLocalGuideProps) 
                       <MapPin className="w-4 h-4 mr-2" />
                       {item.distance}
                     </div>
-                    <p className="text-zinc-500 font-light text-justify tracking-tighter"
-                    style={{ fontSize: "var(--theme-body-size)" }}
+                    <p className="text-zinc-500 font-light text-justify tracking-tighter text-lg md:text-[length:var(--theme-body-size)]"                    
                     >
                       {item.description}
                     </p>

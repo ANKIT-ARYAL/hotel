@@ -20,7 +20,7 @@ export function ExperiencesSection({ settings }: ExperiencesSectionProps) {
   if (!settings?.isVisible) return null;
 
   return (
-    <section className="bg-transparent text-zinc-900 py-32 overflow-hidden">
+    <section className="bg-transparent text-zinc-900 py-16 md:py-32 overflow-hidden">
       <div className="px-6 px-6 md:px-12 lg:px-24 relative">
         <div className="flex flex-col lg:flex-row items-center gap-16 relative">
           {/* Text Content (Left) */}
@@ -37,21 +37,19 @@ export function ExperiencesSection({ settings }: ExperiencesSectionProps) {
               </div>
 
               <h1
-                className="text-black leading-[1] tracking-tighter mb-8 pr-4 w-1/2"
-                style={{ fontSize: "var(--theme-heading-size)" }}
+                className="text-black leading-[1] tracking-tighter mb-8 pr-4 w-1/2 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"                
               >
                 {settings.title}
               </h1>
 
               <div
-                className="text-zinc-500 font-light text-justify tracking-tighter mb-10 max-w-md prose prose-zinc rich-text"
-                style={{ fontSize: "var(--theme-body-size)" }}
+                className="text-zinc-500 font-light text-justify tracking-tighter mb-10 max-w-md prose prose-zinc rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"                
                 dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
               />
               <Link href="/experiences">
                 <Button
                   size="lg"
-                  className="group bg-zinc-900 text-white hover:bg-zinc-800 h-14 px-8 rounded-full font-medium tracking-wide transition-all duration-500 w-fit shadow-xl shadow-zinc-200"
+                  className="group bg-zinc-900 text-white hover:bg-zinc-800 h-14 px-8 rounded-full font-medium tracking-wide transition-all duration-500 w-fit shadow-xl shadow-zinc-200 font-[var(--theme-body-font)]"
                 >
                   {settings.buttonLabel}
                   <ArrowRight className="w-4 h-4 ml-3 transition-transform duration-500 group-hover:translate-x-2" />

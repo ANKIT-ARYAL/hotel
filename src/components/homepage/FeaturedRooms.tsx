@@ -12,8 +12,6 @@ import { Autoplay, Navigation } from "swiper/modules";
 // Swiper imports
 import { Swiper, SwiperSlide } from "swiper/react";
 
-
-
 import type { HomepageSettings } from "./types";
 import "swiper/css";
 
@@ -25,7 +23,10 @@ interface FeaturedRoomsProps {
   categories?: any[]; // Passed from page.tsx
 }
 
-export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps) {
+export function FeaturedRooms({
+  settings,
+  categories = [],
+}: FeaturedRoomsProps) {
   const [activeTab, setActiveTab] = useState("All");
   const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
   const [selectedRoom, setSelectedRoom] = useState<any | null>(null);
@@ -41,7 +42,7 @@ export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps)
   });
 
   return (
-    <section className="py-24 bg-transparent">
+    <section className="py-16 md:py-24 bg-transparent">
       <div className="px-6 md:px-12 lg:px-24">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -50,13 +51,10 @@ export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps)
           transition={{ duration: 0.8 }}
           className="mb-12"
         >
-          <h1
-            className="text-black leading-[1] tracking-tighter mb-8 pr-4 w-1/2"
-            style={{ fontSize: "var(--theme-heading-size)" }}
-          >
+          <h1 className="text-black leading-[1] tracking-tighter mb-8 pr-4 w-1/2 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]">
             {settings.title}
           </h1>
-          <p className="text-black/80 mb-6" style={{ fontSize: "var(--theme-body-size)" }}>
+          <p className="text-black/80 mb-6 text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]">
             {settings.description}
           </p>
 
@@ -65,7 +63,7 @@ export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps)
               <div className="rounded-full border border-zinc-400 p-0.5">
                 <Check className="text-zinc-600" strokeWidth={3} />
               </div>
-              <span className="text-black/80 max-w-lg font-light" style={{ fontSize: "var(--theme-body-size)" }}>
+              <span className="text-black/80 max-w-lg font-light text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]">
                 The price shown is for one night, today
               </span>
             </div>
@@ -73,7 +71,7 @@ export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps)
               <div className="rounded-full border border-zinc-400 p-0.5">
                 <Check className="text-zinc-600" strokeWidth={3} />
               </div>
-              <span className="text-black/80 max-w-lg font-light" style={{ fontSize: "var(--theme-body-size)" }}>
+              <span className="text-black/80 max-w-lg font-light text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]">
                 Member rates & promotions at the next step
               </span>
             </div>
@@ -88,12 +86,16 @@ export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps)
                     setActiveTab(tab);
                     swiperInstance?.slideTo(0);
                   }}
-                  className={`pb-4 text-xl font-medium whitespace-nowrap transition-colors relative ${
-                    activeTab === tab ? "text-zinc-900" : "text-zinc-500 hover:text-zinc-700"
+                  className={`pb-4 text-xl font-medium whitespace-nowrap transition-colors relative font-[var(--theme-body-font)]${
+                    activeTab === tab
+                      ? "text-zinc-900"
+                      : "text-zinc-500 hover:text-zinc-700"
                   }`}
                 >
                   {tab}
-                  {activeTab === tab && <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#a8824f]" />}
+                  {activeTab === tab && (
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#a8824f]" />
+                  )}
                 </button>
               ))}
             </div>
@@ -115,7 +117,10 @@ export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps)
             className="w-full !pb-12"
           >
             {filteredRooms.map((room) => (
-              <SwiperSlide key={room.id} className="!w-[85vw] sm:!w-[400px] flex flex-col group !h-auto">
+              <SwiperSlide
+                key={room.id}
+                className="!w-[85vw] sm:!w-[400px] flex flex-col group !h-auto"
+              >
                 <div className="flex flex-col h-full">
                   <div className="aspect-[4/3] w-full mb-6 overflow-hidden bg-zinc-100">
                     <img
@@ -125,18 +130,21 @@ export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps)
                     />
                   </div>
 
-                  <h3 className="text-lg font-medium tracking-widest text-zinc-900 uppercase mb-3">{room.name}</h3>
+                  <h3 className="text-lg font-medium tracking-widest text-zinc-900 uppercase mb-3 font-[var(--theme-heading-font)]">
+                    {room.name}
+                  </h3>
 
-                  <p className="text-base text-zinc-500 mb-4 line-clamp-2 leading-relaxed">
-                    {room.amenities?.map((a: any) => a.name).join(" • ") || "Standard Amenities"}
+                  <p className="text-base text-zinc-500 mb-4 line-clamp-2 leading-relaxed font-[var(--theme-body-font)]">
+                    {room.amenities?.map((a: any) => a.name).join(" • ") ||
+                      "Standard Amenities"}
                   </p>
 
-                  <div className="flex items-center gap-2 text-sm text-zinc-400 mb-8 mt-auto">
+                  <div className="flex items-center gap-2 text-sm text-zinc-400 mb-8 mt-auto font-[var(--theme-body-font)]">
                     <Info className="w-4 h-4" />
-                    <span>Check rates at the next step*</span>
+                    <span className=" font-[var(--theme-body-font)]">Check rates at the next step*</span>
                   </div>
 
-                  <div className="flex items-center gap-6 mt-auto">
+                  <div className="flex items-center gap-6 mt-auto font-[var(--theme-body-font)]">
                     <Link
                       href={`/search?categories=${room.id}`}
                       className="inline-flex shrink-0 items-center justify-center rounded-none bg-black hover:bg-zinc-800 text-white px-3 py-4 h-auto text-base font-medium transition-colors"
@@ -155,13 +163,17 @@ export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps)
             ))}
 
             {filteredRooms.length === 0 && (
-              <div className="py-20 text-center text-zinc-500">No rooms found in this category.</div>
+              <div className="py-20 text-center text-zinc-500 font-[var(--theme-body-font)]">
+                No rooms found in this category.
+              </div>
             )}
           </Swiper>
         </div>
 
         <div className="flex items-center justify-between mt-8 border-t border-zinc-200 pt-8">
-          <p className="text-sm text-zinc-500 underline underline-offset-2">*See rate conditions</p>
+          <p className="text-sm text-zinc-500 underline underline-offset-2 font-[var(--theme-body-font)]">
+            *See rate conditions
+          </p>
           <div className="flex items-center gap-4 text-base text-zinc-500">
             <button
               onClick={scrollLeft}
@@ -205,12 +217,20 @@ export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps)
                   {selectedRoom.images && selectedRoom.images.length > 0 ? (
                     selectedRoom.images.map((img: any, i: number) => (
                       <SwiperSlide key={i} className="w-full h-full">
-                        <img src={img.url} alt={selectedRoom.name} className="w-full h-full object-cover" />
+                        <img
+                          src={img.url}
+                          alt={selectedRoom.name}
+                          className="w-full h-full object-cover"
+                        />
                       </SwiperSlide>
                     ))
                   ) : (
                     <SwiperSlide className="w-full h-full">
-                      <img src="/placeholder.jpg" alt={selectedRoom.name} className="w-full h-full object-cover" />
+                      <img
+                        src="/placeholder.jpg"
+                        alt={selectedRoom.name}
+                        className="w-full h-full object-cover"
+                      />
                     </SwiperSlide>
                   )}
                 </Swiper>
@@ -223,23 +243,29 @@ export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps)
                   <X className="w-6 h-6 text-zinc-500" />
                 </button>
 
-                <h2 className="text-3xl font-medium tracking-wide text-zinc-900 uppercase mb-4 mt-4 md:mt-0">
+                <h2 className="text-3xl font-medium tracking-wide text-zinc-900 uppercase mb-4 mt-4 md:mt-0 font-[var(--theme-heading-font)]">
                   {selectedRoom.name}
                 </h2>
 
-                <div className="text-2xl font-light text-zinc-600 mb-6">
+                <div className="text-2xl font-light text-zinc-600 mb-6 font-[var(--theme-body-font)]">
                   From ${selectedRoom.basePrice}{" "}
-                  <span className="text-sm uppercase tracking-widest text-zinc-400">/ Night</span>
+                  <span className="text-sm uppercase tracking-widest text-zinc-400">
+                    / Night
+                  </span>
                 </div>
 
-                <p className="text-zinc-600 mb-8 text-justify tracking-[-0.075rem] line-clamp-[7]" style={{ fontSize: "var(--theme-body-size)" }}>{selectedRoom.description}</p>
+                <p className="text-zinc-600 mb-8 text-justify tracking-[-0.075rem] line-clamp-[7] font-[var(--theme-body-font)] text-lg md:text-[length:var(--theme-body-size)]">
+                  {selectedRoom.description}
+                </p>
 
                 <div className="mb-8">
-                  <h4 className="text-sm uppercase tracking-widest font-bold text-zinc-900 mb-4">Room Amenities</h4>
+                  <h4 className="text-sm uppercase tracking-widest font-bold text-zinc-900 mb-4  font-[var(--theme-heading-font)]">
+                    Room Amenities
+                  </h4>
                   <ul className="grid grid-cols-2 gap-y-3 text-zinc-600">
                     {selectedRoom.amenities?.map((amenity: any) => (
                       <li key={amenity.id} className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#a8824f]" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#a8824f] font-[var(--theme-body-font)]" />
                         {amenity.name}
                       </li>
                     ))}
@@ -249,7 +275,7 @@ export function FeaturedRooms({ settings, categories = [] }: FeaturedRoomsProps)
                 <div className="mt-auto pt-8 flex flex-col gap-4">
                   <Link
                     href={`/rooms-and-suites/${selectedRoom.slug || selectedRoom.id}`}
-                    className="w-full inline-flex items-center justify-center bg-black hover:bg-zinc-800 text-white px-6 py-4 text-base font-medium transition-colors"
+                    className="w-full inline-flex items-center justify-center bg-black hover:bg-zinc-800 text-white px-6 py-4 text-base font-medium transition-colors font-[var(--theme-body-font)]"
                   >
                     View more details
                   </Link>

@@ -27,7 +27,7 @@ export function AmenitiesSection({ settings }: AmenitiesSectionProps) {
   };
 
   return (
-    <section className="py-24 bg-transparent">
+    <section className="py-16 md:py-24 bg-transparent">
       <div className="px-6 md:px-12 lg:px-24">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -37,12 +37,11 @@ export function AmenitiesSection({ settings }: AmenitiesSectionProps) {
           className="text-center mb-16"
         >
           <h1
-            className="text-black leading-[1] tracking-tighter mb-8 pr-4"
-            style={{ fontSize: "var(--theme-heading-size)" }}
+            className="text-black leading-[1] tracking-tighter mb-8 pr-4 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"            
           >
             {settings.title}
           </h1>
-          <p className="text-zinc-600 max-w-2xl mx-auto " style={{ fontSize: "var(--theme-body-size)" }}>
+          <p className="text-zinc-600 max-w-2xl mx-auto text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]">
             {settings.description}
           </p>
         </motion.div>
@@ -66,8 +65,8 @@ export function AmenitiesSection({ settings }: AmenitiesSectionProps) {
                 <div className="w-20 h-20 rounded-full bg-zinc-50 flex items-center justify-center mb-6 group-hover:bg-zinc-900 group-hover:text-white transition-colors duration-500">
                   <IconComponent className="w-8 h-8 stroke-[1.5]" />
                 </div>
-                <h3 className="text-2xl text-xl font-serif font-bold text-zinc-900 mb-3">{item.title}</h3>
-                <p className="text-zinc-600 tracking-tighter text-center font-sans text-lg">{item.description}</p>
+                <h3 className="text-2xl text-xl font-serif font-bold text-zinc-900 mb-3 font-[var(--theme-heading-font)]">{item.title}</h3>
+                <p className="text-zinc-600 tracking-tighter text-center font-sans text-lg font-[var(--theme-body-font)] ">{item.description}</p>
               </motion.div>
             );
           })}

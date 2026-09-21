@@ -23,8 +23,7 @@ export function DiningGridSection({ section }: DiningGridSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="font-medium tracking-tighter leading-[1.1] text-zinc-900 mb-6"
-          style={{ fontSize: "var(--theme-heading-size)" }}
+          className="font-medium tracking-tighter leading-[1.1] text-zinc-900 mb-6 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"          
         >
           {section.title}
         </motion.h2>
@@ -34,8 +33,7 @@ export function DiningGridSection({ section }: DiningGridSectionProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="prose prose-zinc mx-auto text-center text-zinc-600 tracking-tighter rich-text"
-          style={{ fontSize: "var(--theme-body-size)" }}
+          className="prose prose-zinc mx-auto text-justify md:text-center text-zinc-600 tracking-tighter rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"          
           dangerouslySetInnerHTML={{ __html: sanitizeHtml(section.description) }}
         />
       </div>

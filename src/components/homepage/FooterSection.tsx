@@ -118,8 +118,8 @@ export function FooterSection({ settings }: FooterSectionProps) {
       <div className="px-6 md:px-12 lg:px-24 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12">
         {/* Brand & Socials */}
         <div className="space-y-6">
-          <h3 className="text-2xl font-bold text-white text-zinc-950 tracking-tight">HOTEL LUXURY</h3>
-          <p className="text-zinc-500 text-sm">
+          <h3 className="text-2xl font-bold text-white text-zinc-950 tracking-tight font-[var(--theme-heading-font)]">HOTEL LUXURY</h3>
+          <p className="text-zinc-500 text-sm font-[var(--theme-body-font)]">
             {settings.brandDescription ||
               "Experience the pinnacle of hospitality. Where every stay is a story worth telling."}
           </p>
@@ -140,8 +140,8 @@ export function FooterSection({ settings }: FooterSectionProps) {
 
         {/* Quick Links */}
         <div>
-          <h4 className="text-lg font-semibold text-white mb-6 text-zinc-950 ">Explore</h4>
-          <ul className="space-y-3">
+          <h4 className="text-lg font-semibold text-white mb-6 text-zinc-950  font-[var(--theme-heading-font)]">Explore</h4>
+          <ul className="space-y-3 font-[var(--theme-body-font)]">
             {(settings.exploreLinks || [])
               .filter((link) => link.isVisible)
               .map((link) => (
@@ -156,8 +156,8 @@ export function FooterSection({ settings }: FooterSectionProps) {
 
         {/* Quick Links */}
         <div>
-          <h4 className="text-lg font-semibold text-white mb-6 text-zinc-950 ">Quick Links</h4>
-          <ul className="space-y-3">
+          <h4 className="text-lg font-semibold text-white mb-6 text-zinc-950 font-[var(-  -theme-heading-font)]">Quick Links</h4>
+          <ul className="space-y-3 font-[var(--theme-body-font)]">
             {(settings.quickLinks || [])
               .filter((link) => link.isVisible)
               .map((link) => (
@@ -171,8 +171,8 @@ export function FooterSection({ settings }: FooterSectionProps) {
         </div>
         {/* Contact Info */}
         <div>
-          <h4 className="text-lg font-semibold text-white mb-6 text-zinc-950 ">Contact</h4>
-          <ul className="space-y-4">
+          <h4 className="text-lg font-semibold text-white mb-6 text-zinc-950 font-[var  (--theme-heading-font)] ">Contact</h4>
+          <ul className="space-y-4 font-[var(--theme-body-font)]">
             <li className="flex items-start">
               <MapPin className="w-5 h-5 mr-3 text-zinc-500 shrink-0 mt-0.5" />
               <span className="text-zinc-500 text-sm">{settings.address}</span>
@@ -190,9 +190,9 @@ export function FooterSection({ settings }: FooterSectionProps) {
 
         {/* Newsletter */}
         <div>
-          <h4 className="text-lg font-semibold text-white mb-6 text-zinc-950 ">Newsletter</h4>
-          <p className="text-zinc-500 text-sm mb-4">Subscribe to receive special offers and updates.</p>
-          <div className="flex space-x-2">
+          <h4 className="text-lg font-semibold text-white mb-6 text-zinc-950  font-[var(--theme-he  ading-font)]">Newsletter</h4>
+          <p className="text-zinc-500 text-sm mb-4 font-[var(--theme-body-font)]">Subscribe to receive special offers and updates.</p>
+          <div className="flex space-x-2 font-[var(--theme-body-font)]">
             <Input
               type="email"
               placeholder="Your email"

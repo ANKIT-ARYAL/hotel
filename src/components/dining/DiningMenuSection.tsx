@@ -32,7 +32,7 @@ export function DiningMenuSection({ section }: DiningMenuSectionProps) {
   const currentItem = allItems[currentIndex];
 
   return (
-    <section className="py-24 px-4 md:px-8 w-full bg-zinc-50 relative overflow-hidden my-12 rounded-lg">
+    <section className="py-16 md:py-24 px-4 md:px-8 w-full bg-zinc-50 relative overflow-hidden my-12 rounded-lg">
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none" />
 
       <div className="relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-24">
@@ -43,8 +43,7 @@ export function DiningMenuSection({ section }: DiningMenuSectionProps) {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="font-medium tracking-tighter leading-[1.1] text-zinc-900 mb-4"
-              style={{ fontSize: section.typography?.titleSize || "var(--theme-heading-size)" }}
+              className="font-medium tracking-tighter leading-[1.1] text-zinc-900 mb-4 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"              
             >
               {section.title}
             </motion.h2>
@@ -53,8 +52,7 @@ export function DiningMenuSection({ section }: DiningMenuSectionProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="prose prose-zinc max-w-none prose-p:font-light prose-p:leading-relaxed text-zinc-600 tracking-tighter text-justify rich-text"
-              style={{ fontSize: section.typography?.bodySize || "var(--theme-body-size)" }}
+              className="prose prose-zinc max-w-none prose-p:font-light prose-p:leading-relaxed text-zinc-600 tracking-tighter text-justify rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"
               dangerouslySetInnerHTML={{ __html: sanitizeHtml(section.description) }}
             />
           </div>
@@ -71,14 +69,16 @@ export function DiningMenuSection({ section }: DiningMenuSectionProps) {
                 className="space-y-4"
               >
                 <div className="flex justify-between items-start gap-4">
-                  <h3 className="font-semibold text-3xl tracking-tight text-zinc-900">{currentItem.name}</h3>
+                  <h3 className="font-semibold text-3xl tracking-tight text-zinc-900 font-[var(--theme-heading-font)]">{currentItem.name}</h3>
                   {currentItem.price && (
-                    <span className="text-xl text-zinc-500 font-light whitespace-nowrap">{currentItem.price}</span>
+                    <span className="text-xl text-zinc-500 font-light whitespace-nowrap font-[var(--theme-body-font)]">{currentItem.price}</span>
                   )}
                 </div>
 
-                <p className="text-zinc-600 font-light text-justify tracking-tighter"
-                style={{ fontSize: "var(--theme-body-size)" }}>{currentItem.description}</p>
+                <p className="text-zinc-600 font-light text-justify tracking-tighter text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"
+                >
+                  {currentItem.description}
+                </p>
 
                 {currentItem.dietaryTags && currentItem.dietaryTags.length > 0 && (
                   <div className="flex flex-wrap gap-2 pt-2">
@@ -123,7 +123,7 @@ export function DiningMenuSection({ section }: DiningMenuSectionProps) {
               {currentItem.image ? (
                 <Image src={currentItem.image} alt={currentItem.name} fill className="object-cover" />
               ) : (
-                <div className="w-full h-full bg-zinc-200 flex items-center justify-center text-zinc-400">
+                <div className="w-full h-full bg-zinc-200 flex items-center justify-center text-zinc-400 font-[var(--theme-body-font)]">
                   No Image Available
                 </div>
               )}

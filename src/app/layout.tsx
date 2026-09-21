@@ -90,7 +90,11 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const settings = await getHomepageSettings();
   const headersList = await headers();
   const isAdmin = headersList.get("x-is-admin") === "true";
@@ -102,18 +106,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     >
       <body
         className={`min-h-full flex flex-col ${settings.theme.fontFamily} max-w-[1920px] mx-auto w-full relative shadow-2xl overflow-x-hidden`}
-        style={
-          {
-            "--theme-heading-font": `var(--${settings.theme.headingFontFamily})`,
-            "--theme-heading-size": settings.theme.headingFontSize || "1em",
-            "--admin-heading-size": settings.theme.adminHeadingFontSize || "1.875rem",
-            "--theme-body-size": settings.theme.bodyFontSize || "16px",
-          } as React.CSSProperties
-        }
+        style={{
+  "--theme-heading-font": `var(--${settings.theme.headingFontFamily})`,
+  "--theme-heading-size": settings.theme.headingFontSize || "1em",
+  "--admin-heading-size": settings.theme.adminHeadingFontSize || "1.875rem",
+  "--theme-body-size": settings.theme.bodyFontSize || "16px",
+  "--theme-body-font": `var(--${settings.theme.fontFamily})`, 
+} as React.CSSProperties}
+
       >
         {!isAdmin && <NavbarContainer />}
         {children}
-        {!isAdmin && settings.footer.isVisible && <FooterSection settings={settings.footer} />}
+        {!isAdmin && settings.footer.isVisible && (
+          <FooterSection settings={settings.footer} />
+        )}
         <Toaster position="bottom-right" />
       </body>
     </html>

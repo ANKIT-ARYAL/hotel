@@ -86,8 +86,7 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
         <div className="absolute top-32 left-6 md:left-12 lg:left-24 z-50">
           <Link
             href="/rooms-and-suites"
-            className="relative z-50 pointer-events-auto text-white hover:text-white/70 transition-colors uppercase tracking-widest font-medium flex items-center gap-2"
-            style={{ fontSize: "var(--theme-body-size)" }}
+            className="relative z-50 pointer-events-auto text-white hover:text-white/70 transition-colors uppercase tracking-widest font-medium flex items-center gap-2 text-0lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"            
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth="1.5" d="M19 12H5M12 19l-7-7 7-7" />
@@ -101,8 +100,7 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="font-light tracking-wider mb-6"
-            style={{ fontSize: "var(--theme-heading-size)" }}
+            className="font-light tracking-wider mb-6 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"            
           >
             {room.name}
           </motion.h1>
@@ -110,7 +108,7 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
       </section>
 
       {/* Details Section - Editorial Layout */}
-      <section className="py-24 px-6 md:px-12 lg:px-24 ">
+      <section className="py-16 md:py-24 px-6 md:px-12 lg:px-24 ">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-stretch">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -119,11 +117,10 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
             transition={{ duration: 0.8 }}
             className="w-full lg:w-5/12 flex flex-col"
           >
-            <h2 className="text-4xl text-zinc-900 tracking-wide mb-2">The Experience</h2>
+            <h2 className="text-4xl text-zinc-900 tracking-wide mb-2 font-[var(--theme-heading-font)]">The Experience</h2>
             <div className="w-12 h-[1px] bg-zinc-900 mb-8" />
 
-            <p className="text-zinc-600 text-justify tracking-tighter font-light mb-12"
-            style={{ fontSize: "var(--theme-body-size)" }}
+            <p className="text-zinc-600 text-justify font-light mb-12 font-[var(--theme-body-font)] text-[length:var(--theme-body-size)]"
             >
               {room.description ||
                 "Immerse yourself in our beautifully appointed rooms, designed to offer the perfect blend of modern luxury and timeless elegance. Enjoy a restful stay with premium amenities and stunning views."}
@@ -232,15 +229,15 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
         <div className="">
           <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <h2 className="text-4xl tracking-wide text-zinc-900 mb-4">Available Units</h2>
-              <p className="text-zinc-500 font-light text-lg">
+              <h2 className="text-4xl tracking-wide text-zinc-900 mb-4 font-[var(--theme-heading-font)]">Available Units</h2>
+              <p className="text-zinc-500 font-light text-lg font-[var(--theme-body-font)]">
                 Select your specific room from our {room.name} collection.
               </p>
             </div>
 
             {/* Amenities for Category */}
             {settings?.amenitiesSection?.isVisible && (
-              <div className="flex flex-wrap justify-end gap-6 items-center">
+              <div className="flex flex-wrap justify-start md:justify-end gap-4 md:gap-6 items-center font-[var(--theme-body-font)]">
                 {room.amenities.map((amenity) => {
                   const nameLower = amenity.name.toLowerCase();
                   let Icon = Bed;
@@ -294,8 +291,8 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
                       </div>
 
                       <div className="p-8 flex flex-col items-start border border-t-0 border-zinc-100 flex-1 group-hover:border-zinc-200 transition-colors">
-                        <h3 className="text-2xl tracking-wide mb-2">{individualRoom.name || `Room ${individualRoom.number}`}</h3>
-                        <p className="text-zinc-500 font-light mb-8 line-clamp-2 text-justify tracking-tighter"
+                        <h3 className="text-2xl tracking-wide mb-2 font-[var(--theme-heading-font)]">{individualRoom.name || `Room ${individualRoom.number}`}</h3>
+                        <p className="text-zinc-500 font-light mb-8 line-clamp-2 text-justify tracking-tighter font-[var(--theme-body-font)]"
                         >
                           {individualRoom.description ||
                             `Enjoy a comfortable stay in our beautiful Room ${individualRoom.number}.`}
@@ -318,7 +315,7 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
             </div>
           ) : (
             <div className="text-center text-zinc-500 py-16 bg-white border border-zinc-100">
-              <p className="text-lg font-light">No individual rooms are currently listed for this category.</p>
+              <p className="text-lg font-light font-[var(--theme-body-font)]">No individual rooms are currently listed for this category.</p>
             </div>
           )}
         </div>
@@ -341,7 +338,7 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-serif mb-6"
+              className="font-serif mb-6 font-[var(--theme-heading-font)] text-5xl md:text-[length:var(--theme-heading-size)]"
             >
               {settings.bookingCta.title}
             </motion.h2>
@@ -361,7 +358,7 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
             >
               <Link
                 href="/book"
-                className="inline-flex h-14 items-center justify-center bg-white px-10 text-sm font-medium text-black transition-colors hover:bg-zinc-200"
+                className="inline-flex h-14 items-center justify-center bg-white px-10 text-sm font-medium text-black transition-colors hover:bg-zinc-200 font-[var(--theme-body-font)]"
               >
                 {settings.bookingCta.buttonLabel}
               </Link>

@@ -38,15 +38,14 @@ export function CulinarySection({ settings }: CulinarySectionProps) {
       <div className="relative z-20 w-full max-w-[1600px] mx-auto flex flex-col items-end text-right gap-8">
         <div className="max-w-3xl flex-1 flex flex-col items-end">
           <motion.h2
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-white leading-[0.9] tracking-tighter mb-8"
-            style={{ fontSize: "var(--theme-heading-size)" }}
-          >
-            {settings.title}
-          </motion.h2>
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, margin: "-100px" }}
+  transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+  className="text-white leading-[0.9] tracking-tighter mb-8 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"
+>
+  {settings.title}
+</motion.h2>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -56,14 +55,13 @@ export function CulinarySection({ settings }: CulinarySectionProps) {
             className="flex flex-col items-end gap-8"
           >
             <div
-              className="text-white/80 max-w-lg font-light  prose prose-invert text-justify tracking-tighter rich-text"
-              style={{ fontSize: "var(--theme-body-size)" }}
+              className="text-white max-w-lg font-light text-justify tracking-tighter rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"              
               dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
             />
             <Link href="/dining">
               <Button
                 size="lg"
-                className="group bg-white text-black hover:bg-zinc-200 h-14 px-8 rounded-full font-medium tracking-wide transition-all duration-500 w-fit mt-4"
+                className="group bg-white text-black hover:bg-zinc-200 h-14 px-8 rounded-full font-medium tracking-wide transition-all duration-500 w-fit mt-4 font-[var(--theme-body-font)]"
               >
                 {settings.buttonLabel}
                 <ArrowRight className="w-4 h-4 ml-3 transition-transform duration-500 group-hover:translate-x-2" />

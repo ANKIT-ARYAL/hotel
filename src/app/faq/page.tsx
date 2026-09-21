@@ -34,13 +34,12 @@ export default async function FaqPage() {
 
             <div className="relative z-20 text-center px-6 max-w-4xl mx-auto flex flex-col items-center">
               <h1
-                className="text-white mb-6 tracking-tight leading-tight"
-                style={{ fontSize: "var(--theme-heading-size)", textTransform: "uppercase" }}
+                className="text-white mb-6 tracking-tight leading-tight text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"
               >
                 {settings.hero.title}
               </h1>
 
-              <p className="text-white/90 text-lg md:text-2xl font-light">{settings.hero.subtitle}</p>
+              <p className="text-white/90 font-light text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]">{settings.hero.subtitle}</p>
             </div>
           </div>
         )}
@@ -51,7 +50,7 @@ export default async function FaqPage() {
           )}
 
           {settings.faqs.isVisible !== false && (!settings.faqs.items || settings.faqs.items.length === 0) && (
-            <div className="text-center py-20 text-zinc-400">No frequently asked questions available at this time.</div>
+            <div className="text-center py-20 text-zinc-400 text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]">No frequently asked questions available at this time.</div>
           )}
         </div>
       </main>

@@ -18,15 +18,13 @@ export default async function TermsPage() {
       <main className="flex flex-col w-full py-32 px-6 md:px-12 lg:px-24">
         <div className="w-full">
           <h1
-            className="text-zinc-900 mb-12 tracking-tight uppercase"
-            style={{ fontSize: "var(--theme-heading-size)" }}
+            className="text-zinc-900 mb-12 tracking-tight uppercase text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"
           >
             Terms & Conditions
           </h1>
 
           <div
-            className="prose prose-zinc prose-lg max-w-none font-light leading-relaxed text-zinc-600"
-            style={{ fontSize: "var(--theme-body-size)" }}
+            className="max-w-none font-light text-justify tracking-tighter text-zinc-600 text-lg-[var(--theme-body-size)] font-[var(--theme-body-font)]"
           >
             <p>
               <strong>Effective Date: September 18, 2026</strong>

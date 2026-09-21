@@ -41,14 +41,12 @@ export function DiningSliderSection({ section }: DiningSliderSectionProps) {
         {/* Left Side: Text */}
         <div className="flex flex-col justify-center">
           <h1
-            className="text-black leading-[1] tracking-tighter mb-8 pr-4 w-1/2"
-            style={{ fontSize: "var(--theme-heading-size)" }}
+            className="text-black leading-[1] tracking-tighter mb-8 pr-4 md:w-1/2 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"            
           >
             {section.title}
           </h1>
           <div
-            className="prose prose-zinc max-w-none text-zinc-600 tracking-tighter text-justify rich-text"
-            style={{ fontSize: "var(--theme-body-size)" }}
+            className="prose prose-zinc max-w-none text-zinc-600 tracking-tighter text-justify rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"            
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(section.description) }}
           />
         </div>
@@ -68,7 +66,7 @@ export function DiningSliderSection({ section }: DiningSliderSectionProps) {
                 <Image src={topImage.url} alt={section.title} fill className="object-cover" />
               </motion.div>
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center text-zinc-400">No images</div>
+              <div className="absolute inset-0 flex items-center justify-center text-zinc-400 font-[var(--theme-body-font)]">No images</div>
             )}
           </AnimatePresence>
         </div>

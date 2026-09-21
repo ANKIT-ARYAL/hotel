@@ -54,7 +54,9 @@ export function HeroSection({ settings }: HeroSectionProps) {
         ) : (
           <div
             className="w-full h-full bg-cover bg-center"
-            style={{ backgroundImage: `url(${settings.image || settings.backgroundImageFallback})` }}
+            style={{
+              backgroundImage: `url(${settings.image || settings.backgroundImageFallback})`,
+            }}
           />
         )}
       </motion.div>
@@ -70,9 +72,8 @@ export function HeroSection({ settings }: HeroSectionProps) {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-white leading-[1] tracking-tighter mb-8 pr-4 w-1/2"
-            style={{ fontSize: "var(--theme-heading-size)" }}
-          >
+            className="text-white leading-[1] tracking-tighter mb-8 pr-4 w-1/2 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"
+          > 
             {settings.title}
           </motion.h1>
 
@@ -83,9 +84,11 @@ export function HeroSection({ settings }: HeroSectionProps) {
             className="flex flex-col sm:flex-row sm:items-center gap-8"
           >
             <div
-              className="text-white/90 max-w-xl font-light mb-12 text-justify tracking-tighter [&_strong]:font-bold [&_b]:font-bold rich-text"
-              style={{ fontSize: "var(--theme-body-size)" }}
-              dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.subtitle) }}
+              className="text-white/90 max-w-xl font-light mb-12 text-left tracking-tighter [&_strong]:font-bold [&_b]:font-bold rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"
+              
+              dangerouslySetInnerHTML={{
+                __html: sanitizeHtml(settings.subtitle),
+              }}
             />
           </motion.div>
 
@@ -109,7 +112,9 @@ export function HeroSection({ settings }: HeroSectionProps) {
               >
                 <div className="flex items-center gap-3">
                   <Search className="w-5 h-5 text-white" />
-                  <span className="text-white font-medium text-lg tracking-wide">Reserve a Room</span>
+                  <span className="text-white font-medium tracking-wide text-lg font-[var(--theme-body-font)]">
+                    Reserve a Room
+                  </span>
                 </div>
                 <motion.div
                   animate={{ rotate: isBookingOpen ? 180 : 0 }}
@@ -132,7 +137,9 @@ export function HeroSection({ settings }: HeroSectionProps) {
                   >
                     <div className="p-6 flex flex-col lg:flex-row items-end gap-6">
                       <div className="flex flex-col gap-2 w-full lg:w-auto flex-1">
-                        <label className="text-md uppercase font-bold tracking-[0.2em] text-white/50">Arrival</label>
+                        <label className="text-md uppercase font-bold tracking-[0.2em] text-white/50 font-[var(--theme-body-font)]">
+                          Arrival
+                        </label>
                         <div className="relative">
                           <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" />
                           <input
@@ -147,13 +154,17 @@ export function HeroSection({ settings }: HeroSectionProps) {
                                 if (arrivalD >= departureD) {
                                   const nextDay = new Date(arrivalD);
                                   nextDay.setDate(nextDay.getDate() + 1);
-                                  setDepartureDate(nextDay.toISOString().split("T")[0]);
+                                  setDepartureDate(
+                                    nextDay.toISOString().split("T")[0],
+                                  );
                                 }
                               } else if (newArrival && !departureDate) {
                                 const arrivalD = new Date(newArrival);
                                 const nextDay = new Date(arrivalD);
                                 nextDay.setDate(nextDay.getDate() + 1);
-                                setDepartureDate(nextDay.toISOString().split("T")[0]);
+                                setDepartureDate(
+                                  nextDay.toISOString().split("T")[0],
+                                );
                               }
                             }}
                             className="w-full bg-white/5 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-white/50 transition-colors placeholder:text-white/30 [color-scheme:dark]"
@@ -163,7 +174,9 @@ export function HeroSection({ settings }: HeroSectionProps) {
                       </div>
 
                       <div className="flex flex-col gap-2 w-full lg:w-auto flex-1">
-                        <label className="text-sm uppercase font-bold tracking-[0.2em] text-white/50">Departure</label>
+                        <label className="text-sm uppercase font-bold tracking-[0.2em] text-white/50 font-[var(--theme-body-font)]">
+                          Departure
+                        </label>
                         <div className="relative">
                           <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" />
                           <input
@@ -173,15 +186,23 @@ export function HeroSection({ settings }: HeroSectionProps) {
                             className="w-full bg-white/5 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-white/50 transition-colors placeholder:text-white/30 [color-scheme:dark]"
                             min={
                               arrivalDate
-                                ? new Date(new Date(arrivalDate).getTime() + 86400000).toISOString().split("T")[0]
-                                : new Date(new Date().getTime() + 86400000).toISOString().split("T")[0]
+                                ? new Date(
+                                    new Date(arrivalDate).getTime() + 86400000,
+                                  )
+                                    .toISOString()
+                                    .split("T")[0]
+                                : new Date(new Date().getTime() + 86400000)
+                                    .toISOString()
+                                    .split("T")[0]
                             }
                           />
                         </div>
                       </div>
 
                       <div className="flex flex-col gap-2 w-full lg:w-auto flex-1">
-                        <label className="text-sm uppercase font-bold tracking-[0.2em] text-white/50">Guests</label>
+                        <label className="text-sm uppercase font-bold tracking-[0.2em] text-white/50 font-[var(--theme-body-font)]">
+                          Guests
+                        </label>
                         <div className="relative">
                           <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" />
                           <select
@@ -189,19 +210,34 @@ export function HeroSection({ settings }: HeroSectionProps) {
                             onChange={(e) => setGuests(e.target.value)}
                             className="w-full bg-white/5 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-white/50 transition-colors appearance-none cursor-pointer [color-scheme:dark]"
                           >
-                            <option value="1" className="bg-zinc-900 text-white">
+                            <option
+                              value="1"
+                              className="bg-zinc-900 text-white font-[var(--theme-body-font)]"
+                            >
                               1 Guest
                             </option>
-                            <option value="2" className="bg-zinc-900 text-white">
+                            <option
+                              value="2"
+                              className="bg-zinc-900 text-white font-[var(--theme-body-font)]"
+                            >
                               2 Guests
                             </option>
-                            <option value="3" className="bg-zinc-900 text-white">
+                            <option
+                              value="3"
+                              className="bg-zinc-900 text-white font-[var(--theme-body-font)]"
+                            >
                               3 Guests
                             </option>
-                            <option value="4" className="bg-zinc-900 text-white">
+                            <option
+                              value="4"
+                              className="bg-zinc-900 text-white font-[var(--theme-body-font)]"
+                            >
                               4 Guests
                             </option>
-                            <option value="5" className="bg-zinc-900 text-white">
+                            <option
+                              value="5"
+                              className="bg-zinc-900 text-white font-[var(--theme-body-font)]"
+                            >
                               5+ Guests
                             </option>
                           </select>
@@ -211,7 +247,7 @@ export function HeroSection({ settings }: HeroSectionProps) {
 
                       <Button
                         onClick={handleSearch}
-                        className="w-full lg:w-auto shrink-0 bg-white text-black hover:bg-zinc-200 h-[50px] px-8 rounded-lg font-medium tracking-wide"
+                        className="w-full lg:w-auto shrink-0 bg-white text-black hover:bg-zinc-200 h-[50px] px-8 rounded-lg font-medium tracking-wide font-[var(--theme-body-font)]"
                       >
                         Check Availability
                       </Button>

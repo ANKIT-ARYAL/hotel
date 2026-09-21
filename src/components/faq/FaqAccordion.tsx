@@ -20,12 +20,12 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
       {items.map((item, index) => {
         const isOpen = openIndex === index;
         return (
-          <div key={index} className="border-b border-zinc-200 pb-2">
+          <div key={index} className="border-b border-zinc-200 pb-2 text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]">
             <button
               onClick={() => toggle(index)}
               className="flex justify-between items-center w-full py-4 text-left focus:outline-none"
             >
-              <span className="text-lg font-medium text-zinc-900 pr-8">{item.question}</span>
+              <span className="font-medium text-zinc-900 pr-8">{item.question}</span>
               <ChevronDown
                 className={cn(
                   "w-5 h-5 text-zinc-500 transition-transform duration-200 shrink-0",

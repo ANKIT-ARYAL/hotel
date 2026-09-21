@@ -344,11 +344,10 @@ export const defaultHomepageSettings: HomepageSettings = {
       { id: "3", platform: "facebook", url: "#", isVisible: true },
     ],
     exploreLinks: [
-      { id: "1", label: "Rooms & Suites", href: "/rooms", isVisible: true },
+      { id: "1", label: "Rooms & Suites", href: "/rooms-and-suites", isVisible: true },
       { id: "2", label: "Dining", href: "/dining", isVisible: true },
-      { id: "3", label: "Spa & Wellness", href: "/spa", isVisible: true },
-      { id: "4", label: "Offers", href: "/offers", isVisible: true },
-      { id: "5", label: "Gallery", href: "/gallery", isVisible: true },
+      { id: "3", label: "Spa & Wellness", href: "/spa", isVisible: true },      
+      { id: "4", label: "Gallery", href: "/gallery", isVisible: true },
     ],
     quickLinks: [
       { id: "1", label: "About Us", href: "/about", isVisible: true },

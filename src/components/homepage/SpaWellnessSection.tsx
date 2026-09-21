@@ -41,8 +41,7 @@ export function SpaWellnessSection({ settings }: SpaWellnessSectionProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-white leading-[0.9] tracking-tighter"
-          style={{ fontSize: "var(--theme-heading-size)" }}
+          className="text-white leading-[0.9] tracking-tighter text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"
         >
           {settings.title}
         </motion.h2>
@@ -55,14 +54,13 @@ export function SpaWellnessSection({ settings }: SpaWellnessSectionProps) {
           className="flex flex-col items-center gap-10"
         >
           <div
-            className="text-white/80 w-full font-light  text-center rich-text"
-            style={{ fontSize: "var(--theme-body-size)" }}
+            className="text-white/80 w-full font-light  text-center rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"          
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
           />
           <Link href="/spa">
             <Button
               size="lg"
-              className="group bg-transparent border border-white/30 text-white hover:bg-white hover:text-black hover:border-white h-14 px-8 rounded-full font-medium tracking-wide transition-all duration-500 w-fit text-xl"
+              className="group bg-transparent border border-white/30 text-white hover:bg-white hover:text-black hover:border-white h-14 px-8 rounded-full font-medium tracking-wide transition-all duration-500 w-fit text-xl font-[var(--theme-body-font)]"
             >
               {settings.buttonLabel}
               <ArrowRight className="w-4 h-4 ml-3 transition-transform duration-500 group-hover:translate-x-2" />

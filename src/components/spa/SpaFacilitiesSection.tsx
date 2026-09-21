@@ -22,10 +22,9 @@ export function SpaFacilitiesSection({ settings }: SpaFacilitiesSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="font-medium tracking-tight text-zinc-900 mb-6"
+          className="font-medium tracking-tight text-zinc-900 mb-6 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"
           style={{
-            fontFamily: "var(--theme-heading-font)",
-            fontSize: "var(--theme-heading-size)",
+            fontFamily: "var(--theme-heading-font)",            
           }}
         >
           {settings.title}
@@ -35,8 +34,7 @@ export function SpaFacilitiesSection({ settings }: SpaFacilitiesSectionProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ delay: 0.2 }}
-          className="text-zinc-500 font-light max-w-2xl mx-auto text-center tracking-tighter"
-          style={{ fontSize: "var(--theme-body-size)" }}
+          className="text-zinc-500 font-light max-w-2xl mx-auto text-center tracking-tighter text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"          
         >
           {settings.description}
         </motion.p>
@@ -99,7 +97,7 @@ export function SpaFacilitiesSection({ settings }: SpaFacilitiesSectionProps) {
                     )}
                   </>
                 ) : (
-                  <div className="absolute inset-0 bg-zinc-100 flex items-center justify-center text-zinc-400">
+                  <div className="absolute inset-0 bg-zinc-100 flex items-center justify-center text-zinc-400 font-[var(--theme-body-font)]">
                     No images provided
                   </div>
                 )}
@@ -111,8 +109,7 @@ export function SpaFacilitiesSection({ settings }: SpaFacilitiesSectionProps) {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="text-3xl lg:text-4xl font-medium tracking-tight text-zinc-900"
-                  style={{ fontFamily: "var(--theme-heading-font)" }}
+                  className="font-medium tracking-tight text-zinc-900 font-[var(--theme-heading-font)] text-5xl md:text-[length:var(--theme-heading-size)]"
                 >
                   {facility.name}
                 </motion.h3>
@@ -121,8 +118,7 @@ export function SpaFacilitiesSection({ settings }: SpaFacilitiesSectionProps) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
-                  className="text-zinc-500 font-light text-justify tracking-tighter"
-                  style={{ fontSize: "var(--theme-body-size)" }}
+                  className="text-zinc-500 font-light text-justify tracking-tighter text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"                  
                 >
                   {facility.description}
                 </motion.p>

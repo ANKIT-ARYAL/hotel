@@ -30,8 +30,7 @@ export function ExperiencesHero({ settings }: ExperiencesHeroProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-          className="text-white/80 font-light tracking-[0.3em] uppercase text-sm md:text-base mb-6"
-          style={{ fontSize: settings.typography?.subtitleSize || "var(--theme-body-size)" }}
+          className="text-white/80 font-light tracking-[0.3em] uppercase text-sm md:text-base mb-6 text-lg md:text-[length:var(--theme-body-size)]"          
         >
           {settings.subtitle}
         </motion.p>
@@ -39,10 +38,9 @@ export function ExperiencesHero({ settings }: ExperiencesHeroProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
-          className="text-white font-medium tracking-tight"
+          className="text-white font-medium tracking-tight text-5xl md:text-[length:var(--theme-heading-size)]"
           style={{
-            fontFamily: "var(--theme-heading-font)",
-            fontSize: settings.typography?.titleSize || "calc(var(--theme-heading-size) * 1.5)",
+            fontFamily: "var(--theme-heading-font)",            
           }}
         >
           {settings.title}

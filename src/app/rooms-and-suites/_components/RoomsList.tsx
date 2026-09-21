@@ -47,8 +47,7 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, ease: "easeOut" }}
-              className="tracking-tight mb-6"
-              style={{ fontSize: "var(--theme-heading-size)" }}
+              className="tracking-tight mb-6 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"              
             >
               {settings.hero.title}
             </motion.h1>
@@ -56,7 +55,7 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-              className="text-lg md:text-xl font-light tracking-wide max-w-2xl text-zinc-200 rich-text"
+              className="text-lg md:text-xl font-light tracking-wide max-w-2xl text-zinc-200 rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"
               dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.hero.subtitle) }}
             />
           </div>
@@ -70,7 +69,7 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-serif mb-6"
+            className="text-5xl md:text-[length:var(--theme-heading-size)]  mb-6 font-[var(--theme-heading-font)]"
           >
             {settings.listSection.title}
           </motion.h1>
@@ -79,8 +78,7 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-zinc-600 text-lg font-light leading-relaxed rich-text"
-            style={{ fontSize: "var(--theme-body-size)" }}
+            className="text-zinc-600 text-lg font-light leading-relaxed rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"            
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.listSection.description) }}
           />
         </section>
@@ -114,7 +112,7 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-zinc-400 font-medium">
+                    <div className="w-full h-full flex items-center justify-center text-zinc-400 font-medium font-[var(--theme-body-font)]">
                       No Image Available
                     </div>
                   )}
@@ -129,19 +127,19 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
                 className="w-full lg:w-1/2 space-y-6"
               >
-                <h2 className="text-4xl text-zinc-900 tracking-wide">{cat.name}</h2>
-                <div className="flex flex-wrap items-center gap-6 text-sm text-zinc-500 uppercase tracking-widest font-medium border-b border-zinc-200 pb-4">
+                <h2 className="text-4xl text-zinc-900 tracking-wide font-[var(--theme-heading-font)]">{cat.name}</h2>
+                <div className="flex flex-wrap items-center gap-6 text-sm text-zinc-500 uppercase tracking-widest font-medium border-b border-zinc-200 pb-4 font-[var(--theme-body-font)]">
                   {cat.size && <span>{cat.size}</span>}
                   {cat.occupancy && <span>Up to {cat.occupancy} Guests</span>}
                   {cat.bedType && <span>{cat.bedType}</span>}
                 </div>
-                <p className="text-zinc-600 text-justify tracking-tighter font-light line-clamp-4" style={{fontSize: "var(--theme-body-size)"}}>
+                <p className="text-zinc-600 text-justify tracking-tighter font-light line-clamp-4 font-[var(--theme-body-font)] text-lg md:text-[length:var(--theme-body-size)]">
                   {cat.description || "A beautiful room offering comfort and luxury."}
                 </p>
                 <div className="pt-4">
                   <Link
                     href={`/rooms-and-suites/${cat.slug || cat.id}`}
-                    className="inline-flex items-center text-sm font-medium tracking-widest uppercase text-zinc-900 hover:text-zinc-500 transition-colors"
+                    className="inline-flex items-center text-sm font-medium tracking-widest uppercase text-zinc-900 hover:text-zinc-500 transition-colors font-[var(--theme-body-font)]"
                   >
                     Explore Rooms
                     <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -154,7 +152,7 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
           );
         })}
         {categories.length === 0 && (
-          <div className="text-center text-zinc-500 py-12 text-xl font-light">
+          <div className="text-center text-zinc-500 py-12 text-xl font-light font-[var(--theme-body-font)]">
             No rooms available at the moment. Please check back later.
           </div>
         )}

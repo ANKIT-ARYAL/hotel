@@ -13,7 +13,7 @@ interface OurStoryProps {
 
 export function OurStory({ settings }: OurStoryProps) {
   return (
-    <section className="py-32 px-6 md:px-12 lg:px-24 bg-white">
+    <section className="py-16 md:py-32 px-6 md:px-12 lg:px-24 bg-white">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
         <div className="flex-1 space-y-8">
           <motion.h2
@@ -21,8 +21,7 @@ export function OurStory({ settings }: OurStoryProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="text-zinc-900 tracking-tighter uppercase"
-            style={{ fontSize: "calc(var(--theme-heading-size) * 0.7)" }}
+            className="text-zinc-900 tracking-tighter uppercase text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"
           >
             {settings.title}
           </motion.h2>
@@ -32,8 +31,7 @@ export function OurStory({ settings }: OurStoryProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-zinc-600 prose prose-lg prose-zinc font-light leading-relaxed rich-text"
-            style={{ fontSize: "var(--theme-body-size)" }}
+            className="text-zinc-600 prose prose-lg prose-zinc font-light text-justify tracking-tighter rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"            
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.content) }}
           />
         </div>

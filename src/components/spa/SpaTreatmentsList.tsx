@@ -25,8 +25,7 @@ export function SpaTreatmentsList({ settings }: SpaTreatmentsListProps) {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="font-medium tracking-tighter text-zinc-900 mb-6"
-              style={{ fontSize: "var(--theme-heading-size)" }}
+              className="font-medium tracking-tighter text-zinc-900 mb-6 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"              
             >
               {settings.title}
             </motion.h2>
@@ -35,8 +34,7 @@ export function SpaTreatmentsList({ settings }: SpaTreatmentsListProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-zinc-500 font-light leading-relaxed prose prose-zinc rich-text"
-              style={{ fontSize: "var(--theme-body-size)" }}
+              className="text-zinc-500 font-light leading-relaxed prose prose-zinc rich-text text-lg text-[var(--theme-body-size)] font-[var(--theme-body-font)]"              
               dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
             />
           </div>
@@ -52,7 +50,7 @@ export function SpaTreatmentsList({ settings }: SpaTreatmentsListProps) {
               viewport={{ once: true }}
               transition={{ delay: catIdx * 0.1 }}
             >
-              <h3 className="text-4xl font-medium tracking-tight text-zinc-900 mb-8 border-b border-zinc-200 pb-4">
+              <h3 className="text-4xl font-medium tracking-tight text-zinc-900 mb-8 border-b border-zinc-200 pb-4 font-[var(--theme-heading-font)]">
                 {category.name}
               </h3>
               <div className="space-y-4">
@@ -82,8 +80,8 @@ function TreatmentAccordion({
         className="w-full text-left px-8 py-6 flex items-center justify-between focus:outline-none"
       >
         <div className="flex-1">
-          <h4 className="text-3xl font-medium text-zinc-900">{treatment.name}</h4>
-          <div className="text-sm text-zinc-400 mt-2 font-light tracking-wide flex items-center gap-4">
+          <h4 className="text-3xl font-medium text-zinc-900 font-[var(--theme-body-font)]">{treatment.name}</h4>
+          <div className="text-sm text-zinc-400 mt-2 font-light tracking-wide flex items-center gap-4 font-[var(--theme-body-font)]">
             <span>{treatment.duration}</span>
             <span className="w-1 h-1 rounded-full bg-zinc-300" />
             <span>{treatment.price}</span>
@@ -103,8 +101,10 @@ function TreatmentAccordion({
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="px-8 pb-6 pt-2 text-zinc-500 font-light text-justify tracking-tighter"
-            style={{ fontSize: "var(--theme-body-size)" }}>{treatment.description}</div>
+            <div className="px-8 pb-6 pt-2 text-zinc-500 font-light text-justify tracking-tighter text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"
+            >
+              {treatment.description}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

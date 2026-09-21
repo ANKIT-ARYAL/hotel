@@ -21,7 +21,7 @@ export function OurStorySection({ settings }: OurStorySectionProps) {
   if (!settings?.isVisible) return null;
 
   return (
-    <section className="bg-transparent text-zinc-900 py-32 overflow-hidden">
+    <section className="bg-transparent text-zinc-900 py-16 md:py-32 overflow-hidden">
       <div className="px-6 md:px-12 lg:px-24">
         {/* Top Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
@@ -30,8 +30,7 @@ export function OurStorySection({ settings }: OurStorySectionProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-medium leading-[0.9] tracking-tighter max-w-3xl text-zinc-900"
-            style={{ fontSize: "var(--theme-heading-size)" }}
+            className="font-medium leading-[0.9] tracking-tighter max-w-3xl text-zinc-900 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"            
           >
             {settings.title}
           </motion.h2>
@@ -46,7 +45,7 @@ export function OurStorySection({ settings }: OurStorySectionProps) {
               <Button
                 size="lg"
                 variant="outline"
-                className="group border-zinc-300 bg-transparent text-zinc-900 hover:bg-zinc-100 hover:border-zinc-400 h-14 px-8 rounded-full font-medium tracking-wide transition-all duration-500 w-fit"
+                className="group border-zinc-300 bg-transparent text-zinc-900 hover:bg-zinc-100 hover:border-zinc-400 h-14 px-8 rounded-full font-medium tracking-wide transition-all duration-500 w-fit font-[var(--theme-body-font)]"
               >
                 {settings.buttonLabel}
                 <ArrowRight className="w-4 h-4 ml-3 transition-transform duration-500 group-hover:translate-x-2" />
@@ -84,14 +83,13 @@ export function OurStorySection({ settings }: OurStorySectionProps) {
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-7 flex flex-col justify-center"
           >
-            <div className="flex items-center mb-10">
+            <div className="flex items-center mb-10 font-[var(--theme-body-font)]">
               <span className="text-sm font-medium tracking-widest uppercase text-zinc-400 mr-6">Est. 1924</span>
               <div className="flex-1 h-[1px] bg-zinc-200" />
             </div>
 
             <div
-              className="text-zinc-600 font-light text-justify tracking-tighter prose prose-zinc rich-text"
-              style={{ fontSize: "var(--theme-body-size)" }}
+              className="text-zinc-600 font-light text-justify tracking-tighter prose prose-zinc rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"              
               dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
             />
           </motion.div>

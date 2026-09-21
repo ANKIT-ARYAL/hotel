@@ -32,10 +32,9 @@ export function GalleryHero({ settings }: GalleryHeroProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-          className="text-white font-medium tracking-tighter mb-8"
+          className="text-white font-medium tracking-tighter mb-8 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"
           style={{
-            fontFamily: "var(--theme-heading-font)",
-            fontSize: "var(--theme-heading-size)",
+            fontFamily: "var(--theme-heading-font)",            
           }}
         >
           {settings.title}
@@ -45,8 +44,7 @@ export function GalleryHero({ settings }: GalleryHeroProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
-          className="text-white/90 font-light tracking-tighter text-center max-w-2xl"
-          style={{ fontSize: "var(--theme-body-size)" }}
+          className="text-white/90 font-light tracking-tighter text-center max-w-2xl text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"          
         >
           {settings.description}
         </motion.p>

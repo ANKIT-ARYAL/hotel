@@ -22,8 +22,7 @@ export function RestaurantsList({ settings }: RestaurantsListProps) {
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
-            className="font-medium tracking-tighter text-zinc-900 mb-6"
-            style={{ fontSize: "var(--theme-heading-size)" }}
+            className="font-medium text-zinc-900 mb-6 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"            
           >
             {settings.title}
           </motion.h2>
@@ -33,8 +32,7 @@ export function RestaurantsList({ settings }: RestaurantsListProps) {
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-zinc-600 font-light leading-relaxed max-w-2xl mx-auto text-center tracking-tight prose prose-zinc rich-text"
-            style={{ fontSize: "var(--theme-body-size)" }}
+            className="text-zinc-600 font-light leading-relaxed max-w-2xl mx-auto text-center tracking-tight prose prose-zinc rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"            
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
           />
         </div>
@@ -49,13 +47,15 @@ export function RestaurantsList({ settings }: RestaurantsListProps) {
                     style={{ backgroundImage: `url(${venue.image || ""})` }}
                   />
                 </div>
-                <h3 className="text-3xl py-2 tracking-tight mb-2">{venue.name}</h3>
-                <p className="text-zinc-500 font-light text-justify tracking-tighter"
-                style={{ fontSize: "var(--theme-body-size)" }}>{venue.details}</p>
+                <h3 className="text-3xl py-2 tracking-tight mb-2 font-[var(--theme-heading-font)]">{venue.name}</h3>
+                <p className="text-zinc-500 font-light text-justify tracking-tighter text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"
+                >
+                  {venue.details}
+                </p>
               </div>
             ))
           ) : (
-            <p className="text-zinc-500 font-light italic col-span-full text-center">No venues added yet.</p>
+            <p className="text-zinc-500 font-light italic col-span-full text-center font-[var(--theme-body-font)]">No venues added yet.</p>
           )}
         </div>
       </div>

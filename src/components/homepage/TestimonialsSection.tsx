@@ -15,7 +15,7 @@ export function TestimonialsSection({ settings }: TestimonialsSectionProps) {
   if (!settings.isVisible) return null;
 
   return (
-    <section className="py-24 bg-zinc-900 text-white overflow-hidden relative">
+    <section className="py-16 md:py-24 bg-zinc-900 text-white overflow-hidden relative">
       <div className="px-6 md:px-12 lg:px-24 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -25,8 +25,7 @@ export function TestimonialsSection({ settings }: TestimonialsSectionProps) {
           className="text-center mb-16"
         >
           <h1
-            className="text-white leading-[1] tracking-tighter mb-8 pr-4"
-            style={{ fontSize: "var(--theme-heading-size)" }}
+            className="text-white leading-[1] tracking-tighter mb-8 pr-4 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"            
           >
             {settings.title}
           </h1>
@@ -49,7 +48,7 @@ export function TestimonialsSection({ settings }: TestimonialsSectionProps) {
               </div>
 
               <blockquote
-                className="font-light text-zinc-300 leading-relaxed mb-8 flex-1 italic"
+                className="font-light text-zinc-300 leading-relaxed mb-8 flex-1 italic font-[var(--theme-body-font)]"
                 style={{ fontSize: "var(--theme-body-size)" }}
               >
                 &quot;{item.quote}&quot;
@@ -60,8 +59,8 @@ export function TestimonialsSection({ settings }: TestimonialsSectionProps) {
                   {item.name.charAt(0)}
                 </div>
                 <div>
-                  <h4 className="font-bold text-white tracking-wide text-base">{item.name}</h4>
-                  <p className="text-sm text-zinc-500 uppercase tracking-wider font-medium mt-1">{item.role}</p>
+                  <h4 className="font-bold text-white tracking-wide text-base font-[var(--theme-heading-font)]">{item.name}</h4>
+                  <p className="text-sm text-zinc-500 uppercase tracking-wider font-medium mt-1 font-[var(--theme-body-font)]">{item.role}</p>
                 </div>
               </div>
             </motion.div>

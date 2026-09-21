@@ -22,8 +22,7 @@ export function DiningIntro({ settings }: DiningIntroProps) {
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="font-medium tracking-tighter text-zinc-900 mb-8"
-          style={{ fontSize: "var(--theme-heading-size)" }}
+          className="font-medium text-zinc-900 mb-8 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"          
         >
           {settings.title}
         </motion.h2>
@@ -33,8 +32,7 @@ export function DiningIntro({ settings }: DiningIntroProps) {
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-zinc-600 font-light leading-relaxed tracking-tight text-center max-w-2xl prose prose-zinc rich-text"
-          style={{ fontSize: "var(--theme-body-size)" }}
+          className="text-zinc-600 font-light leading-relaxed tracking-tight text-center max-w-2xl prose prose-zinc rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"          
           dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
         />
       </div>

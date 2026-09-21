@@ -27,10 +27,10 @@ export default async function ContactPage() {
           <div className="absolute inset-0 bg-black/40" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center mt-20">
-          <h1 className="text-white mb-6" style={{ fontSize: "var(--theme-heading-size)" }}>
+          <h1 className="!text-white mb-6 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]">
             {settings.header.title}
           </h1>
-          <p className="text-zinc-200 font-oklean text-lg md:text-xl max-w-2xl mx-auto font-light">
+          <p className="!text-white/80 font-oklean text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)] max-w-2xl mx-auto font-light text-center">
             {settings.header.subtitle}
           </p>
         </div>
@@ -41,8 +41,8 @@ export default async function ContactPage() {
           {/* Contact Details (Left side) */}
           <div className="lg:col-span-2 space-y-12">
             <div>
-              <h2 className="font-argine text-4xl text-zinc-900 mb-6">{settings.contactInfo.title}</h2>
-              <p className="text-zinc-600 font-oklean leading-relaxed whitespace-pre-line">
+              <h2 className="font-argine text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]text-zinc-900 mb-6">{settings.contactInfo.title}</h2>
+              <p className="text-zinc-600 font-oklean leading-relaxed whitespace-pre-line text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]">
                 {settings.contactInfo.description}
               </p>
             </div>
@@ -53,8 +53,8 @@ export default async function ContactPage() {
                   <MapPin className="w-5 h-5 text-zinc-900" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-bold text-zinc-900 mb-2">{settings.location.title}</h4>
-                  <p className="text-zinc-600 font-oklean whitespace-pre-line">{settings.location.address}</p>
+                  <h4 className="text-lg font-bold text-zinc-900 mb-2 font-[var(--theme-heading-font)]">{settings.location.title}</h4>
+                  <p className="text-zinc-600 font-oklean whitespace-pre-line font-[var(--theme-body-font)]">{settings.location.address}</p>
                 </div>
               </div>
 
@@ -63,9 +63,9 @@ export default async function ContactPage() {
                   <Phone className="w-5 h-5 text-zinc-900" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-bold text-zinc-900 mb-2">{settings.phone.title}</h4>
-                  <p className="text-zinc-600 font-oklean">{settings.phone.number}</p>
-                  <p className="text-sm text-zinc-500 mt-1">{settings.phone.availability}</p>
+                  <h4 className="text-lg font-bold text-zinc-900 mb-2 font-[var(--theme-heading-font)]">{settings.phone.title}</h4>
+                  <p className="text-zinc-600 font-oklean font-[var(--theme-body-font)]">{settings.phone.number}</p>
+                  <p className="text-sm text-zinc-500 mt-1 font-[var(--theme-body-font)]">{settings.phone.availability}</p>
                 </div>
               </div>
 
@@ -74,8 +74,8 @@ export default async function ContactPage() {
                   <Mail className="w-5 h-5 text-zinc-900" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-bold text-zinc-900 mb-2">{settings.email.title}</h4>
-                  <p className="text-zinc-600 font-oklean">{settings.email.address}</p>
+                  <h4 className="text-lg font-bold text-zinc-900 mb-2 font-[var(--theme-heading-font)]">{settings.email.title}</h4>
+                  <p className="text-zinc-600 font-oklean font-[var(--theme-body-font)]">{settings.email.address}</p>
                 </div>
               </div>
             </div>

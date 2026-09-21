@@ -28,8 +28,7 @@ export function AboutHero({ settings }: AboutHeroProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-white mb-6 tracking-tight leading-tight"
-          style={{ fontSize: "var(--theme-heading-size)", textTransform: "uppercase" }}
+          className="!text-white mb-6 tracking-tight leading-tight text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"          
         >
           {settings.title}
         </motion.h1>
@@ -38,7 +37,7 @@ export function AboutHero({ settings }: AboutHeroProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="text-white/90 text-lg md:text-2xl font-light"
+          className="!text-white/90 text-lg md:text-2xl font-light text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"
         >
           {settings.subtitle}
         </motion.p>

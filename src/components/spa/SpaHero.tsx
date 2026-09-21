@@ -32,11 +32,7 @@ export function SpaHero({ settings }: SpaHeroProps) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-          className="text-white font-medium uppercase mb-6"
-          style={{
-            fontFamily: "var(--theme-heading-font)",
-            fontSize: "var(--theme-heading-size)",
-          }}
+          className="text-white font-medium uppercase mb-6 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"
         >
           {settings.title}
         </motion.h1>
@@ -45,8 +41,7 @@ export function SpaHero({ settings }: SpaHeroProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
-          className="text-white/90 font-light tracking-wide max-w-2xl"
-          style={{ fontSize: "var(--theme-body-size)" }}
+          className="text-white/90 font-light tracking-wide max-w-2xl text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"          
         >
           {settings.subtitle}
         </motion.p>

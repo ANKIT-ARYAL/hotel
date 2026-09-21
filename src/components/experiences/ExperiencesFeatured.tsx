@@ -17,15 +17,14 @@ export function ExperiencesFeatured({ settings }: ExperiencesFeaturedProps) {
   if (!settings.isVisible) return null;
 
   return (
-    <section className="py-32 px-6 md:px-12 lg:px-24 w-full bg-transparent text-zinc-900 overflow-hidden">
+    <section className="py-16 md:py-32 px-6 md:px-12 lg:px-24 w-full bg-transparent text-zinc-900 overflow-hidden">
       <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 mb-20 items-end">
         <div className="lg:w-1/2">
           <motion.h2
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="font-medium tracking-tighter mb-6"
-            style={{ fontSize: "var(--theme-heading-size)" }}
+            className="font-medium tracking-tighter mb-6 text-5xl md:text-[length:var(--theme-heading-size)]"            
           >
             {settings.title}
           </motion.h2>
@@ -34,8 +33,7 @@ export function ExperiencesFeatured({ settings }: ExperiencesFeaturedProps) {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-zinc-500 font-light text-justify tracking-tighter rich-text"
-            style={{ fontSize: "var(--theme-body-size)" }}
+            className="text-zinc-500 font-light text-justify tracking-tighter rich-text text-lg md:text-[length:var(--theme-body-size)]"            
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
           />
         </div>
@@ -67,8 +65,8 @@ export function ExperiencesFeatured({ settings }: ExperiencesFeaturedProps) {
               <h3 className="text-3xl md:text-4xl font-medium tracking-tight mb-3 text-zinc-900">
                 {item.name}
               </h3>
-              <p className="text-zinc-600 font-light leading-relaxed line-clamp-2 md:line-clamp-none text-justify tracking-tighter"
-              style={{ fontSize: "var(--theme-body-size)" }}>
+              <p className="text-zinc-600 font-light leading-relaxed line-clamp-3 md:line-clamp-none text-justify tracking-tighter text-lg md:text-[length:var(--theme-body-size)]"
+              >
                 {item.description}
               </p>
             </div>

@@ -43,8 +43,7 @@ export function BookingCtaSection({ settings }: BookingCtaSectionProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-white leading-[0.85] tracking-tighter"
-          style={{ fontSize: "var(--theme-heading-size)" }}
+          className="text-white leading-[0.85] tracking-tighter text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"          
         >
           {settings.title}
         </motion.h2>
@@ -57,14 +56,13 @@ export function BookingCtaSection({ settings }: BookingCtaSectionProps) {
           className="flex flex-col items-center gap-12"
         >
           <div
-            className="text-white/80 max-w-2xl font-light prose prose-invert  text-center rich-text"
-            style={{ fontSize: "var(--theme-body-size)" }}
+            className="text-white/80 max-w-2xl font-light prose prose-invert  text-center rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"            
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
           />
           <Link href="/contact">
             <Button
               size="lg"
-              className="group bg-white text-black hover:bg-zinc-200 h-20 px-12 text-lg rounded-full font-medium tracking-wide transition-all duration-500 w-fit mt-4"
+              className="group bg-white text-black hover:bg-zinc-200 h-20 px-12 text-lg rounded-full font-medium tracking-wide transition-all duration-500 w-fit mt-4 font-[var(--theme-body-font)]"
             >
               {settings.buttonLabel}
               <ArrowRight className="w-5 h-5 ml-4 transition-transform duration-500 group-hover:translate-x-3" />

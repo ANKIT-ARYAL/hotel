@@ -46,8 +46,7 @@ export function DiningHero({ settings }: DiningHeroProps) {
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="font-medium tracking-tighter mb-6"
-          style={{ fontSize: "var(--theme-heading-size)" }}
+          className="font-medium tracking-tighter mb-6 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]"          
         >
           {settings.title}
         </motion.h1>
@@ -56,8 +55,7 @@ export function DiningHero({ settings }: DiningHeroProps) {
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-            className="text-white/80 font-light tracking-wide max-w-2xl mx-auto rich-text"
-            style={{ fontSize: "var(--theme-body-size)" }}
+            className="text-white/80 font-light tracking-wide max-w-2xl mx-auto rich-text text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]"            
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.subtitle) }}
           />
         )}

@@ -83,7 +83,7 @@ export function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-white p-8 md:p-10 rounded-3xl shadow-xl shadow-zinc-200/50 space-y-6"
+      className="bg-white border-[0.5px] border-zinc-300 p-8 md:p-10 rounded-3xl shadow-xl shadow-zinc-200/50 space-y-6"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
