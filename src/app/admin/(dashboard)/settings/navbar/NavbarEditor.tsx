@@ -107,7 +107,7 @@ export function NavbarEditor({ initialSettings }: { initialSettings: NavbarSetti
 
   return (
     <div className="space-y-6 max-w-5xl">
-      <div className="flex justify-between items-center bg-white p-4 rounded-lg border border-zinc-200">
+      <div className="flex flex-col gap-4 justify-between items-stretch sm:flex-row sm:items-center bg-white p-4 rounded-lg border border-zinc-200">
         <div>
           <h2 className="text-lg font-medium">Save Changes</h2>
           <p className="text-sm text-zinc-500">Don't forget to save your changes to make them public.</p>
@@ -120,7 +120,7 @@ export function NavbarEditor({ initialSettings }: { initialSettings: NavbarSetti
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-6">
           <Card>
-            <CardHeader className="flex flex-row justify-between items-center">
+            <CardHeader className="flex flex-col gap-4 justify-between items-stretch sm:flex-row sm:items-center">
               <div>
                 <CardTitle>Navigation Links</CardTitle>
                 <CardDescription>Manage the main navigation structure</CardDescription>
@@ -132,7 +132,7 @@ export function NavbarEditor({ initialSettings }: { initialSettings: NavbarSetti
             <CardContent className="space-y-6">
               {settings.links.map((link, index) => (
                 <div key={link.id} className="border border-zinc-200 rounded-lg p-4 bg-zinc-50">
-                  <div className="flex items-start gap-4">
+                  <div className="flex flex-col items-stretch gap-4 sm:flex-row sm:items-start">
                     <div className="flex flex-col gap-1 mt-1">
                       <button
                         onClick={() => moveParentLink(index, "up")}
@@ -151,7 +151,7 @@ export function NavbarEditor({ initialSettings }: { initialSettings: NavbarSetti
                     </div>
 
                     <div className="flex-1 space-y-4">
-                      <div className="flex gap-4">
+                      <div className="flex flex-col gap-4 sm:flex-row">
                         <div className="flex-1">
                           <label className="text-xs font-medium text-zinc-500 uppercase tracking-wider mb-1 block">
                             Label
@@ -212,7 +212,7 @@ export function NavbarEditor({ initialSettings }: { initialSettings: NavbarSetti
                         {(link.children || []).map((child) => (
                           <div
                             key={child.id}
-                            className="flex gap-3 items-end bg-white p-3 rounded border border-zinc-100"
+                            className="flex flex-col gap-3 items-stretch sm:flex-row sm:items-end bg-white p-3 rounded border border-zinc-100"
                           >
                             <div className="flex-1">
                               <label className="text-[10px] font-medium text-zinc-400 uppercase tracking-wider mb-1 block">

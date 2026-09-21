@@ -140,22 +140,23 @@ export function UsersClientView({ initialUsers, roles }: { initialUsers: any[]; 
                 {users.map((u) => (
                   <TableRow
                     key={u.id}
+                    data-hide-actions="true"
                     className="cursor-pointer hover:bg-gray-50 transition-colors"
                     onClick={() => openDialog(u)}
                   >
-                    <TableCell className="font-medium flex items-center">
+                    <TableCell data-label="User" className="font-medium flex items-center">
                       <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center mr-3 text-gray-500">
                         <Users className="h-4 w-4" />
                       </div>
                       {u.name || "No Name"}
                     </TableCell>
-                    <TableCell className="text-gray-500">{u.email}</TableCell>
-                    <TableCell>
+                    <TableCell data-label="Email" className="text-gray-500">{u.email}</TableCell>
+                    <TableCell data-label="Role">
                       <span className="px-2 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700">
                         {u.role?.name || "No Role"}
                       </span>
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell data-label="Actions" className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger
                           onClick={(e) => e.stopPropagation()}

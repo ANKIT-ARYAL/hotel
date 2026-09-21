@@ -141,22 +141,23 @@ export function PromotionsClientView({ initialPromotions }: { initialPromotions:
                   return (
                     <TableRow
                       key={p.id}
+                      data-hide-actions="true"
                       className="cursor-pointer hover:bg-gray-50 transition-colors"
                       onClick={() => openDialog(p)}
                     >
-                      <TableCell className="font-medium flex items-center">
+                      <TableCell data-label="Promo Code" className="font-medium flex items-center">
                         <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center mr-3 text-gray-500">
                           <Tag className="h-4 w-4" />
                         </div>
                         {p.code}
                       </TableCell>
-                      <TableCell className="font-semibold text-gray-900">
+                      <TableCell data-label="Discount" className="font-semibold text-gray-900">
                         {p.isPercentage ? `${p.discountValue}% OFF` : `$${p.discountValue} OFF`}
                       </TableCell>
-                      <TableCell className="text-gray-500">
+                      <TableCell data-label="Usage Limits" className="text-gray-500">
                         {p.usageCount} / {p.usageLimit || "∞"} used
                       </TableCell>
-                      <TableCell>
+                      <TableCell data-label="Status">
                         <span
                           className={`px-2 py-1 rounded-full text-sm font-semibold ${
                             isExpired || isMaxedOut ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"
@@ -165,7 +166,7 @@ export function PromotionsClientView({ initialPromotions }: { initialPromotions:
                           {isExpired ? "Expired" : isMaxedOut ? "Limit Reached" : "Active"}
                         </span>
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell data-label="Actions" className="text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger
                             onClick={(e) => e.stopPropagation()}

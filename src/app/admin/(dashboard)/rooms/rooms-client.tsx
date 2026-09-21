@@ -174,7 +174,7 @@ export function RoomsClientView({
       </div>
 
       {/* Children: Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-base font-medium text-gray-500 font-normal">Total Rooms</CardTitle>
@@ -227,7 +227,7 @@ export function RoomsClientView({
                 <TableRow>
                   <TableHead className="w-[100px]">Room</TableHead>
                   <TableHead>Category</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead className="!hidden md:!table-cell">Status</TableHead>
                   <TableHead>Price/Night</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
@@ -236,10 +236,11 @@ export function RoomsClientView({
                 {rooms.map((room, idx) => (
                   <TableRow
                     key={room.id || `room-${idx}`}
+                    data-has-image="true"
                     className="cursor-pointer hover:bg-gray-50 transition-colors"
                     onClick={() => openDialog(room)}
                   >
-                    <TableCell className="font-medium flex items-center">
+                    <TableCell data-label="Room" className="font-medium flex items-center">
                       {room.image ? (
                         <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
                           <img src={room.image} alt={room.number} className="w-full h-full object-cover" />
@@ -249,8 +250,8 @@ export function RoomsClientView({
                       )}
                       {room.number}
                     </TableCell>
-                    <TableCell>{room.category?.name || "Unknown"}</TableCell>
-                    <TableCell>
+                    <TableCell data-label="Category">{room.category?.name || "Unknown"}</TableCell>
+                    <TableCell data-label="Status" className="!hidden md:!table-cell">
                       <span
                         className={`px-2 py-1 rounded-full text-sm font-semibold ${
                           room.status === "AVAILABLE"
@@ -263,8 +264,8 @@ export function RoomsClientView({
                         {room.status}
                       </span>
                     </TableCell>
-                    <TableCell>{formatCurrency(room.price)}</TableCell>
-                    <TableCell className="text-right">
+                    <TableCell data-label="Price/Night">{formatCurrency(room.price)}</TableCell>
+                    <TableCell data-label="Actions" className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger
                           onClick={(e) => e.stopPropagation()}

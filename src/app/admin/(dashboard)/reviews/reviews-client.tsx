@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +17,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 export function ReviewsClientView({ initialReviews }: { initialReviews: any[] }) {
   const [reviews, setReviews] = useState(initialReviews);
+  const [selectedReview, setSelectedReview] = useState<any | null>(null);
 
   const handleApprove = async (id: string) => {
     try {
@@ -101,14 +103,21 @@ export function ReviewsClientView({ initialReviews }: { initialReviews: any[] })
               </TableHeader>
               <TableBody>
                 {reviews.map((r) => (
-                  <TableRow key={r.id}>
-                    <TableCell>
+                  <TableRow
+                    key={r.id}
+                    data-hide-actions="true"
+                    onClick={() => {
+                      if (window.matchMedia("(max-width: 1023px)").matches) setSelectedReview(r);
+                    }}
+                    className="cursor-pointer"
+                  >
+                    <TableCell data-label="Guest & Room">
                       <div className="font-semibold text-gray-900">{r.guest?.name || "Unknown"}</div>
                       <div className="text-sm text-gray-500">
                         Room {r.booking?.room?.number} ({r.booking?.room?.category?.name})
                       </div>
                     </TableCell>
-                    <TableCell>
+                    <TableCell data-label="Rating">
                       <div className="flex items-center space-x-1">
                         {[...Array(5)].map((_, i) => (
                           <Star
@@ -118,10 +127,10 @@ export function ReviewsClientView({ initialReviews }: { initialReviews: any[] })
                         ))}
                       </div>
                     </TableCell>
-                    <TableCell className="text-gray-700 max-w-md italic">
+                    <TableCell data-label="Comment" className="text-gray-700 max-w-md italic">
                       "{r.comment || "No written feedback provided."}"
                     </TableCell>
-                    <TableCell>
+                    <TableCell data-label="Status">
                       {r.isApproved ? (
                         <span className="px-2 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-700">
                           Public
@@ -132,7 +141,7 @@ export function ReviewsClientView({ initialReviews }: { initialReviews: any[] })
                         </span>
                       )}
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell data-label="Actions" className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger className="h-8 w-8 p-0 inline-flex items-center justify-center rounded-md hover:bg-gray-100 transition-colors">
                           <span className="sr-only">Open menu</span>
@@ -164,6 +173,45 @@ export function ReviewsClientView({ initialReviews }: { initialReviews: any[] })
           </div>
         </CardContent>
       </Card>
+
+      <Dialog open={!!selectedReview} onOpenChange={(open) => !open && setSelectedReview(null)}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Review Actions</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-muted-foreground">
+            Choose an action for this guest review.
+          </p>
+          <DialogFooter className="flex-col gap-2 sm:flex-row">
+            {selectedReview && !selectedReview.isApproved && (
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full text-green-600 sm:w-auto"
+                onClick={() => {
+                  void handleApprove(selectedReview.id);
+                  setSelectedReview(null);
+                }}
+              >
+                Approve
+              </Button>
+            )}
+            {selectedReview && (
+              <Button
+                type="button"
+                variant="destructive"
+                className="w-full sm:w-auto"
+                onClick={() => {
+                  void handleDelete(selectedReview.id);
+                  setSelectedReview(null);
+                }}
+              >
+                Reject & Delete
+              </Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

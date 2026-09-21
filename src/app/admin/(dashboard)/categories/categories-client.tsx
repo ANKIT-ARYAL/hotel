@@ -170,10 +170,12 @@ export function CategoriesClientView({
                 {categories.map((c) => (
                   <TableRow
                     key={c.id}
+                    data-has-image="true"
+                    data-hide-actions="true"
                     className="cursor-pointer hover:bg-gray-50 transition-colors"
                     onClick={() => openDialog(c)}
                   >
-                    <TableCell className="font-medium flex items-center">
+                    <TableCell data-label="Category Name" className="font-medium flex items-center">
                       <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center mr-3 text-gray-500 overflow-hidden">
                         {c.images && c.images.length > 0 ? (
                           <img src={c.images[0].url} alt={c.name} className="w-full h-full object-cover" />
@@ -183,9 +185,9 @@ export function CategoriesClientView({
                       </div>
                       {c.name}
                     </TableCell>
-                    <TableCell className="text-gray-900 font-semibold">${c.basePrice}</TableCell>
-                    <TableCell className="text-gray-500">{c._count?.rooms || 0} Units</TableCell>
-                    <TableCell className="text-right">
+                    <TableCell data-label="Base Price" className="text-gray-900 font-semibold">${c.basePrice}</TableCell>
+                    <TableCell data-label="Rooms" className="text-gray-500">{c._count?.rooms || 0} Units</TableCell>
+                    <TableCell data-label="Actions" className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger
                           onClick={(e) => e.stopPropagation()}

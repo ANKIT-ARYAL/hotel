@@ -167,17 +167,18 @@ export function AmenitiesClientView({ initialAmenities }: { initialAmenities: an
                   return (
                     <TableRow
                       key={a.id}
+                      data-hide-actions="true"
                       className="cursor-pointer hover:bg-gray-50 transition-colors"
                       onClick={() => openDialog(a)}
                     >
-                      <TableCell className="font-medium flex items-center">
+                      <TableCell data-label="Name" className="font-medium flex items-center">
                         <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center mr-3 text-gray-500">
                           <IconComp className="h-4 w-4" />
                         </div>
                         {a.name}
                       </TableCell>
-                      <TableCell className="text-gray-500">{a.icon || "None"}</TableCell>
-                      <TableCell className="text-right">
+                      <TableCell data-label="Icon Name" className="text-gray-500">{a.icon || "None"}</TableCell>
+                      <TableCell data-label="Actions" className="text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger
                             onClick={(e) => e.stopPropagation()}

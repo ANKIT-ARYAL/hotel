@@ -138,10 +138,10 @@ export function BookingForm({ roomId, roomNumber, price, paymentSettings }: Book
       onSubmit={handleSubmit((data) => onSubmit(data))}
       className="bg-white p-8 border border-zinc-100 rounded-sm shadow-xl shadow-zinc-200/50 flex flex-col gap-6"
     >
-      <div className="flex justify-between items-end border-b border-zinc-100 pb-4">
+      <div className="flex justify-between items-center md:items-end border-b border-zinc-100 pb-4">
         <h3 className="text-3xl font-semibold text-zinc-900">Reserve Room {roomNumber}</h3>
-        <div className="flex flex-col items-end gap-1">
-          <span className="text-xs uppercase tracking-widest text-zinc-400 font-medium leading-none">Rate</span>
+        <div className="flex flex-col md:items-end gap-1">
+          <span className="hidden md:text-xs uppercase tracking-widest text-zinc-400 font-medium leading-none">Rate</span>
           <span className="text-2xl font-medium text-zinc-900 leading-none">
             ${price} <span className="text-sm text-zinc-500 font-light">/ Night</span>
           </span>

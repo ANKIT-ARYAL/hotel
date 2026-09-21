@@ -102,19 +102,20 @@ export function GuestsClientView({ initialGuests }: { initialGuests: any[] }) {
                 {guests.map((guest) => (
                   <TableRow
                     key={guest.id}
+                    data-hide-actions="true"
                     className="cursor-pointer hover:bg-gray-50 transition-colors"
                     onClick={() => openDialog(guest)}
                   >
-                    <TableCell className="font-medium flex items-center">
+                    <TableCell data-label="Name" className="font-medium flex items-center">
                       <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center mr-3 text-gray-500">
                         <User className="h-4 w-4" />
                       </div>
                       {guest.name}
                     </TableCell>
-                    <TableCell>{guest.email}</TableCell>
-                    <TableCell>{guest.phone || "N/A"}</TableCell>
-                    <TableCell>{guest.bookings?.length || 0} stays</TableCell>
-                    <TableCell className="text-right">
+                    <TableCell data-label="Email">{guest.email}</TableCell>
+                    <TableCell data-label="Phone">{guest.phone || "N/A"}</TableCell>
+                    <TableCell data-label="Total Bookings">{guest.bookings?.length || 0} stays</TableCell>
+                    <TableCell data-label="Actions" className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger
                           onClick={(e) => e.stopPropagation()}

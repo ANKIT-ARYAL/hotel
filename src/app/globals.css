@@ -128,6 +128,12 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
   body {
     @apply bg-background text-foreground;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23000' fill-opacity='0.08' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
@@ -144,6 +150,28 @@
     font-family: var(--theme-heading-font);
   }
   p {
+  }
+}
+
+/* Keep existing public and admin layouts usable at narrow effective viewports,
+   including when the browser is zoomed in. */
+@layer utilities {
+  img,
+  video,
+  iframe,
+  svg {
+    max-width: 100%;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    max-width: 100%;
+  }
+
+  table {
+    max-width: 100%;
   }
 }
 
@@ -207,6 +235,31 @@
   overflow-x: hidden;
 }
 
+[data-admin-shell] .overflow-x-auto,
+[data-admin-shell] .overflow-x-scroll,
+[data-admin-shell] [data-slot="table-container"] {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+[data-admin-shell] table {
+  width: 100%;
+  table-layout: auto;
+}
+
+[data-admin-shell] th,
+[data-admin-shell] td {
+  max-width: none;
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: normal;
+}
+
+[data-admin-shell] table th,
+[data-admin-shell] table td {
+  display: table-cell !important;
+}
+
 [data-admin-shell] main,
 [data-admin-shell] main > *,
 [data-admin-shell] form > *,
@@ -234,6 +287,237 @@
   [data-admin-shell] select,
   [data-admin-shell] button {
     max-width: 100%;
+  }
+
+  [data-admin-shell] .grid {
+    min-width: 0;
+  }
+
+  [data-admin-shell] [data-slot="card-header"],
+  [data-admin-shell] [data-slot="card-content"],
+  [data-admin-shell] [data-slot="card-footer"] {
+    min-width: 0;
+  }
+
+  [data-admin-shell] [role="dialog"] {
+    width: calc(100% - 1rem);
+    max-height: calc(100dvh - 1rem);
+    overflow-y: auto;
+  }
+
+  [data-admin-pages] main > * {
+    padding: 0 !important;
+  }
+
+  [data-admin-pages] main > * form,
+  [data-admin-pages] main > * [data-slot="card-content"] {
+    padding: 1rem;
+  }
+
+  [data-admin-shell] h1 {
+    font-size: clamp(2rem, 9vw, 3.75rem) !important;
+    line-height: 1.05 !important;
+  }
+
+  [data-admin-shell] h2 {
+    font-size: clamp(1.5rem, 6vw, 2.25rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  [data-admin-shell] table {
+    font-size: 0.875rem;
+  }
+
+  [data-admin-shell] th,
+  [data-admin-shell] td {
+    padding: 0.625rem 0.5rem;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  [data-admin-pages] main > * {
+    padding: 0 !important;
+  }
+
+  [data-admin-pages] main > * form,
+  [data-admin-pages] main > * [data-slot="card-content"] {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  [data-admin-shell] main {
+    padding: 0.75rem;
+  }
+
+  [data-admin-shell] .grid {
+    gap: 1rem;
+  }
+
+  [data-admin-shell] [data-slot="card-header"],
+  [data-admin-shell] [data-slot="card-content"],
+  [data-admin-shell] [data-slot="card-footer"] {
+    padding-inline: 0.875rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  [data-admin-operations] table {
+    display: block;
+    width: 100%;
+  }
+
+  [data-admin-operations] table thead {
+    display: none;
+  }
+
+  [data-admin-operations] table tbody,
+  [data-admin-operations] table tr,
+  [data-admin-operations] table td {
+    display: block !important;
+    width: 100%;
+  }
+
+  [data-admin-operations] table tr {
+    margin-bottom: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--card);
+  }
+
+  [data-admin-operations] table tr:last-child {
+    margin-bottom: 0;
+  }
+
+  [data-admin-operations] table td {
+    min-height: 2.5rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 0;
+  }
+
+  [data-admin-operations] table td[data-label]::before {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--muted-foreground);
+    content: attr(data-label);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1rem;
+    text-transform: uppercase;
+  }
+
+  [data-admin-operations] table td[data-label="Actions"] {
+    text-align: left;
+  }
+
+  [data-admin-operations] table tr[data-has-image] td[data-label="Actions"] {
+    display: none !important;
+  }
+
+  [data-admin-operations] table tr[data-has-image] td:first-child > div:first-child {
+    float: right;
+    margin-right: 0;
+    margin-left: 0.75rem;
+  }
+
+  [data-admin-operations] table tr[data-has-image]::after {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: var(--primary);
+    content: "Tap to edit";
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  [data-admin-operations] table tr[data-hide-actions] td[data-label="Actions"] {
+    display: none !important;
+  }
+
+  [data-admin-operations] table tr[data-hide-actions]::after {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: var(--primary);
+    content: "Tap to edit";
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+}
+
+@media (max-width: 1023px) {
+  [data-admin-system] main > * {
+    padding: 0 !important;
+  }
+
+  [data-admin-system] h1 {
+    font-size: clamp(2rem, 9vw, 3.75rem) !important;
+    line-height: 1.05 !important;
+  }
+
+  [data-admin-system] table {
+    display: block;
+    width: 100%;
+  }
+
+  [data-admin-system] table thead {
+    display: none;
+  }
+
+  [data-admin-system] table tbody,
+  [data-admin-system] table tr,
+  [data-admin-system] table td {
+    display: block !important;
+    width: 100%;
+  }
+
+  [data-admin-system] table tr {
+    margin-bottom: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background: var(--card);
+  }
+
+  [data-admin-system] table tr:last-child {
+    margin-bottom: 0;
+  }
+
+  [data-admin-system] table td {
+    min-height: 2.5rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 0;
+  }
+
+  [data-admin-system] table td[data-label]::before {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--muted-foreground);
+    content: attr(data-label);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1rem;
+    text-transform: uppercase;
+  }
+
+  [data-admin-system] table tr[data-hide-actions] td[data-label="Actions"] {
+    display: none !important;
+  }
+
+  [data-admin-system] table tr[data-hide-actions]::after {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: var(--primary);
+    content: "Tap to edit";
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  [data-admin-system] main > * form,
+  [data-admin-system] main > * [data-slot="card-content"] {
+    padding: 1rem;
   }
 }
 

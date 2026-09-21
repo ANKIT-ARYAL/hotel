@@ -152,16 +152,17 @@ export function RolesClientView({ initialRoles }: { initialRoles: any[] }) {
                 {roles.map((r) => (
                   <TableRow
                     key={r.id}
+                    data-hide-actions="true"
                     className="cursor-pointer hover:bg-gray-50 transition-colors"
                     onClick={() => openDialog(r)}
                   >
-                    <TableCell className="font-medium flex items-center">
+                    <TableCell data-label="Role Name" className="font-medium flex items-center">
                       <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center mr-3 text-gray-500">
                         <Shield className="h-4 w-4" />
                       </div>
                       {r.name}
                     </TableCell>
-                    <TableCell className="text-gray-500 max-w-xs truncate">
+                    <TableCell data-label="Permissions" className="text-gray-500 max-w-xs truncate">
                       {r.permissions.length > 0 ? (
                         r.permissions.map((p: string, i: number) => (
                           <span
@@ -175,8 +176,8 @@ export function RolesClientView({ initialRoles }: { initialRoles: any[] }) {
                         <span className="text-gray-400">None</span>
                       )}
                     </TableCell>
-                    <TableCell className="text-base text-gray-700 font-medium">{r._count?.users || 0}</TableCell>
-                    <TableCell className="text-right">
+                    <TableCell data-label="Assigned Users" className="text-base text-gray-700 font-medium">{r._count?.users || 0}</TableCell>
+                    <TableCell data-label="Actions" className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger
                           onClick={(e) => e.stopPropagation()}

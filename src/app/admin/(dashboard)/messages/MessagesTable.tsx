@@ -75,22 +75,22 @@ export function MessagesTable({ initialMessages }: { initialMessages: Message[] 
                   onClick={() => handleRowClick(msg)}
                   className={`cursor-pointer hover:bg-gray-50 transition-colors ${!msg.isRead ? "bg-gray-50/80 font-medium" : ""}`}
                 >
-                  <TableCell>{!msg.isRead && <div className="w-2 h-2 rounded-full bg-blue-600 mx-auto" />}</TableCell>
-                  <TableCell>
+                  <TableCell data-label="Status">{!msg.isRead && <div className="w-2 h-2 rounded-full bg-blue-600 mx-auto" />}</TableCell>
+                  <TableCell data-label="Sender">
                     <div className="flex flex-col">
                       <span className={!msg.isRead ? "text-gray-900 font-semibold" : "text-gray-900"}>{msg.name}</span>
                       <span className="text-sm text-gray-500 font-normal">{msg.email}</span>
                     </div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell data-label="Subject">
                     <span className="truncate max-w-[250px] block">
                       {msg.subject || <span className="text-gray-400 italic">No subject</span>}
                     </span>
                   </TableCell>
-                  <TableCell className="text-gray-500 whitespace-nowrap">
+                  <TableCell data-label="Date" className="text-gray-500 whitespace-nowrap">
                     {format(new Date(msg.createdAt), "MMM d, yyyy h:mm a")}
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell data-label="Actions" className="text-right">
                     <Button
                       variant="ghost"
                       size="icon"
