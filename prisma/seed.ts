@@ -34,7 +34,7 @@ async function main() {
     { name: 'Geyser', icon: 'droplets' },
     { name: 'Parking', icon: 'car' }
   ]
-  const amenities = []
+  const amenities: any[] = []
   for (const a of amenitiesData) {
     const am = await prisma.amenity.upsert({
       where: { name: a.name },
@@ -51,7 +51,7 @@ async function main() {
     { name: 'Townhouse', basePrice: 200, description: 'Luxurious townhouse experience.' },
     { name: 'Flagship', basePrice: 250, description: 'Our top tier flagship offering.' }
   ]
-  const categories = []
+  const categories: any[] = []
   for (const c of categoryData) {
     const cat = await prisma.roomCategory.upsert({
       where: { name: c.name },
@@ -67,7 +67,7 @@ async function main() {
   }
   
   // 4. Rooms
-  const rooms = []
+  const rooms: any[] = []
   for (let i = 101; i <= 120; i++) {
     const cat = categories[Math.floor(Math.random() * categories.length)]
     const r = Math.random()
@@ -94,7 +94,7 @@ async function main() {
     { name: 'Robert Johnson', email: 'robert@example.com', phone: '345-678-9012' },
   ]
   
-  const guests = []
+  const guests: any[] = []
   for (const g of guestsData) {
     const guest = await prisma.guest.upsert({
       where: { email: g.email },
