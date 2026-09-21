@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React, { useRef } from "react";
 
@@ -57,7 +58,7 @@ export function DiningHero({ settings }: DiningHeroProps) {
             transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
             className="text-white/80 font-light tracking-wide max-w-2xl mx-auto rich-text"
             style={{ fontSize: "var(--theme-body-size)" }}
-            dangerouslySetInnerHTML={{ __html: settings.subtitle }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.subtitle) }}
           />
         )}
       </div>

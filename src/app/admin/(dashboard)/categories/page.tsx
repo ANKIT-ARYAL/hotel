@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/db";
 
 import { CategoriesClientView } from "./categories-client";
 
-const prisma = new PrismaClient();
 
 export default async function CategoriesPage() {
   const categories = await prisma.roomCategory.findMany({

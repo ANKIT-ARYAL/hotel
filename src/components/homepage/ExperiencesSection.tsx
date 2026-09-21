@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React from "react";
 
@@ -45,7 +46,7 @@ export function ExperiencesSection({ settings }: ExperiencesSectionProps) {
               <div
                 className="text-zinc-500 font-light text-justify tracking-tighter mb-10 max-w-md prose prose-zinc rich-text"
                 style={{ fontSize: "var(--theme-body-size)" }}
-                dangerouslySetInnerHTML={{ __html: settings.description }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
               />
               <Link href="/experiences">
                 <Button

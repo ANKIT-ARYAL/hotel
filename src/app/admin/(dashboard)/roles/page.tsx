@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/db";
 
 import { RolesClientView } from "./roles-client";
 
-const prisma = new PrismaClient();
 
 export default async function RolesPage() {
   const roles = await prisma.role.findMany({

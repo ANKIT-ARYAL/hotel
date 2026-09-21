@@ -1,11 +1,13 @@
+import { requireApiAuth } from "@/lib/api-auth";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/db";
 
-const prisma = new PrismaClient();
 
 export async function GET(request: Request) {
   try {
+    const authResult = await requireApiAuth();
+    if (authResult instanceof Response) return authResult;
     const data = await prisma.user.findMany();
     return NextResponse.json(data);
   } catch (error) {
@@ -15,6 +17,8 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const authResult = await requireApiAuth();
+    if (authResult instanceof Response) return authResult;
     const body = await request.json();
     if (body.password) {
       body.password = await bcrypt.hash(body.password, 10);

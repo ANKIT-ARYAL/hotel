@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/db";
 
 import { PromotionsClientView } from "./promotions-client";
 
-const prisma = new PrismaClient();
 
 export default async function PromotionsPage() {
   const promotions = await prisma.promotion.findMany({

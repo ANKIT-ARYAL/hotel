@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React, { useState } from "react";
 
@@ -84,7 +85,7 @@ export function HeroSection({ settings }: HeroSectionProps) {
             <div
               className="text-white/90 max-w-xl font-light mb-12 text-justify tracking-tighter [&_strong]:font-bold [&_b]:font-bold rich-text"
               style={{ fontSize: "var(--theme-body-size)" }}
-              dangerouslySetInnerHTML={{ __html: settings.subtitle }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.subtitle) }}
             />
           </motion.div>
 

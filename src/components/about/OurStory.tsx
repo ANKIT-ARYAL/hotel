@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React from "react";
 
@@ -33,7 +34,7 @@ export function OurStory({ settings }: OurStoryProps) {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-zinc-600 prose prose-lg prose-zinc font-light leading-relaxed rich-text"
             style={{ fontSize: "var(--theme-body-size)" }}
-            dangerouslySetInnerHTML={{ __html: settings.content }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.content) }}
           />
         </div>
 

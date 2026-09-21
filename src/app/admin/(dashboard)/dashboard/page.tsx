@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/db";
 
 import { DashboardClientView } from "./dashboard-client";
 
-const prisma = new PrismaClient();
 
 export default async function DashboardPage() {
   // 1. Top Stats

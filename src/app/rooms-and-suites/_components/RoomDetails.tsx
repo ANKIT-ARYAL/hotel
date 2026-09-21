@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React, { useEffect, useRef, useState } from "react";
 
@@ -350,7 +351,7 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
               className="text-lg text-zinc-300 mb-10 font-light rich-text"
-              dangerouslySetInnerHTML={{ __html: settings.bookingCta.description }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.bookingCta.description) }}
             />
             <motion.div
               initial={{ opacity: 0, y: 20 }}

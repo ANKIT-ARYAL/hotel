@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React, { useEffect, useState } from "react";
 
@@ -48,7 +49,7 @@ export function DiningSliderSection({ section }: DiningSliderSectionProps) {
           <div
             className="prose prose-zinc max-w-none text-zinc-600 tracking-tighter text-justify rich-text"
             style={{ fontSize: "var(--theme-body-size)" }}
-            dangerouslySetInnerHTML={{ __html: section.description }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(section.description) }}
           />
         </div>
 

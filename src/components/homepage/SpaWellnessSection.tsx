@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React from "react";
 
@@ -56,7 +57,7 @@ export function SpaWellnessSection({ settings }: SpaWellnessSectionProps) {
           <div
             className="text-white/80 w-full font-light  text-center rich-text"
             style={{ fontSize: "var(--theme-body-size)" }}
-            dangerouslySetInnerHTML={{ __html: settings.description }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
           />
           <Link href="/spa">
             <Button

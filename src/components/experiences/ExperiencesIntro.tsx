@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React from "react";
 
@@ -34,7 +35,7 @@ export function ExperiencesIntro({ settings }: ExperiencesIntroProps) {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-zinc-600 font-light text-center tracking-tighter md:text-xl mx-auto rich-text"
           style={{ fontSize:"var(--theme-body-size)" }}
-          dangerouslySetInnerHTML={{ __html: settings.description }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
         />
       </div>
     </section>

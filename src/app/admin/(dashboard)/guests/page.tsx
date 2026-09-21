@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/db";
 
 import { GuestsClientView } from "./guests-client";
 
-const prisma = new PrismaClient();
 
 export default async function GuestsPage() {
   const guests = await prisma.guest.findMany({

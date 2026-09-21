@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import prisma from "@/lib/db";
 import { sendBookingConfirmationEmail } from "@/lib/email";
+import { rateLimit } from "@/lib/rate-limit";
 
 const createBookingSchema = z.object({
   name: z.string(),
@@ -20,6 +21,10 @@ const createBookingSchema = z.object({
 
 export async function POST(req: Request) {
   try {
+    // Rate limit: 5 booking attempts per minute per IP
+    const rateLimited = rateLimit(req, { limit: 5, windowSeconds: 60 });
+    if (rateLimited) return rateLimited;
+
     const json = await req.json();
     const body = createBookingSchema.parse(json);
 

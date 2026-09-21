@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React from "react";
 
@@ -42,7 +43,7 @@ export function DiningFeatureSection({ section, reverse = false }: DiningFeature
             transition={{ delay: 0.2 }}
             className="prose prose-zinc max-w-none text-justify text-zinc-600 tracking-tighter rich-text"
             style={{ fontSize: "var(--theme-body-size)" }}
-            dangerouslySetInnerHTML={{ __html: section.description }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(section.description) }}
           />
         </div>
 

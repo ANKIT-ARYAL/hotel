@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React, { useState } from "react";
 
@@ -36,7 +37,7 @@ export function SpaTreatmentsList({ settings }: SpaTreatmentsListProps) {
               transition={{ delay: 0.1 }}
               className="text-zinc-500 font-light leading-relaxed prose prose-zinc rich-text"
               style={{ fontSize: "var(--theme-body-size)" }}
-              dangerouslySetInnerHTML={{ __html: settings.description }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
             />
           </div>
         </div>

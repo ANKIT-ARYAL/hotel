@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React from "react";
 
@@ -58,7 +59,7 @@ export function BookingCtaSection({ settings }: BookingCtaSectionProps) {
           <div
             className="text-white/80 max-w-2xl font-light prose prose-invert  text-center rich-text"
             style={{ fontSize: "var(--theme-body-size)" }}
-            dangerouslySetInnerHTML={{ __html: settings.description }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
           />
           <Link href="/contact">
             <Button

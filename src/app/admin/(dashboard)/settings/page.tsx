@@ -1,11 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/db";
 
 import { getHomepageSettings } from "@/app/actions/homepage-settings";
 import { getPaymentSettings } from "@/app/actions/payment-settings";
 
 import { SettingsClientView } from "./settings-client";
 
-const prisma = new PrismaClient();
 
 export default async function SettingsPage() {
   const settings = await prisma.setting.findMany({

@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/db";
 
 import { ReviewsClientView } from "./reviews-client";
 
-const prisma = new PrismaClient();
 
 export default async function ReviewsPage() {
   const reviews = await prisma.review.findMany({

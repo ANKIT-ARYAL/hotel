@@ -1,8 +1,8 @@
+import { requireApiAuth } from "@/lib/api-auth";
 import { NextResponse } from "next/server";
 
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/db";
 
-const prisma = new PrismaClient();
 
 export async function GET(request: Request) {
   try {
@@ -15,6 +15,8 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const authResult = await requireApiAuth();
+    if (authResult instanceof Response) return authResult;
     const body = await request.json();
     const { amenities, ...rest } = body;
     const data = await prisma.room.create({ 

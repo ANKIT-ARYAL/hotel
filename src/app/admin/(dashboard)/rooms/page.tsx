@@ -1,8 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/db";
 
 import { RoomsClientView } from "./rooms-client";
 
-const prisma = new PrismaClient();
 
 export default async function RoomsPage() {
   const rooms = await prisma.room.findMany({

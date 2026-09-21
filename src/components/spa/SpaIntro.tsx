@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React from "react";
 
@@ -41,7 +42,7 @@ export function SpaIntro({ settings }: SpaIntroProps) {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-zinc-500 font-light text-justify tracking-tighter rich-text"
           style={{ fontSize: "var(--theme-body-size)" }}
-          dangerouslySetInnerHTML={{ __html: settings.description }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
         />
       </div>
     </section>

@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React from "react";
 
@@ -34,7 +35,7 @@ export function RestaurantsList({ settings }: RestaurantsListProps) {
             transition={{ delay: 0.1 }}
             className="text-zinc-600 font-light leading-relaxed max-w-2xl mx-auto text-center tracking-tight prose prose-zinc rich-text"
             style={{ fontSize: "var(--theme-body-size)" }}
-            dangerouslySetInnerHTML={{ __html: settings.description }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
           />
         </div>
 

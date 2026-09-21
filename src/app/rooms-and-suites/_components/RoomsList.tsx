@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React, { useRef } from "react";
 
@@ -56,7 +57,7 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
               className="text-lg md:text-xl font-light tracking-wide max-w-2xl text-zinc-200 rich-text"
-              dangerouslySetInnerHTML={{ __html: settings.hero.subtitle }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.hero.subtitle) }}
             />
           </div>
         </section>
@@ -80,7 +81,7 @@ export function RoomsList({ categories, settings = defaultRoomsPageSettings }: R
             transition={{ delay: 0.1 }}
             className="text-zinc-600 text-lg font-light leading-relaxed rich-text"
             style={{ fontSize: "var(--theme-body-size)" }}
-            dangerouslySetInnerHTML={{ __html: settings.listSection.description }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.listSection.description) }}
           />
         </section>
       )}

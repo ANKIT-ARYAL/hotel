@@ -1,4 +1,5 @@
 "use client";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 import React from "react";
 
@@ -91,7 +92,7 @@ export function OurStorySection({ settings }: OurStorySectionProps) {
             <div
               className="text-zinc-600 font-light text-justify tracking-tighter prose prose-zinc rich-text"
               style={{ fontSize: "var(--theme-body-size)" }}
-              dangerouslySetInnerHTML={{ __html: settings.description }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(settings.description) }}
             />
           </motion.div>
         </div>

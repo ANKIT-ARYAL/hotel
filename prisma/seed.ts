@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PrismaClient, RoomStatus, BookingStatus, TransactionType } from '@prisma/client'
 import bcrypt from 'bcrypt'
 
