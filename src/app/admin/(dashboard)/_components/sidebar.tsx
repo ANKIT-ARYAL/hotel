@@ -63,6 +63,7 @@ const settings = [
   { name: "Users", href: "/admin/users", icon: Users },
   { name: "Roles", href: "/admin/roles", icon: Shield },
   { name: "Navbar", href: "/admin/settings/navbar", icon: Menu },
+  { name: "Footer", href: "/admin/settings/footer", icon: Layers },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
