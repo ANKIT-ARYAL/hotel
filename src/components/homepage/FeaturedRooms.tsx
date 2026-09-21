@@ -54,7 +54,7 @@ export function FeaturedRooms({
           <h1 className="text-black leading-[1] tracking-tighter mb-8 pr-4 w-1/2 text-5xl md:text-[length:var(--theme-heading-size)] font-[var(--theme-heading-font)]">
             {settings.title}
           </h1>
-          <p className="text-black/80 mb-6 text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)]">
+          <p className="text-black/80 mb-6 text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)] ">
             {settings.description}
           </p>
 
@@ -197,7 +197,7 @@ export function FeaturedRooms({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-6"
             onClick={() => setSelectedRoom(null)}
           >
             <motion.div
@@ -205,12 +205,22 @@ export function FeaturedRooms({
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white max-w-6xl w-full rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh]"
+              className="bg-white max-w-5xl w-full rounded-2xl shadow-2xl flex flex-col md:flex-row max-h-[92vh] overflow-y-auto md:overflow-hidden relative"
             >
-              <div className="w-full md:w-1/2 aspect-square md:aspect-auto relative bg-zinc-100">
+              {/* Floating Close Button for Mobile & Desktop */}
+              <button
+                onClick={() => setSelectedRoom(null)}
+                aria-label="Close dialog"
+                className="absolute top-3 right-3 md:top-6 md:right-6 z-20 p-2 rounded-full bg-white/80 md:bg-transparent backdrop-blur-sm hover:bg-zinc-100 transition-colors shadow-sm md:shadow-none"
+              >
+                <X className="w-5 h-5 md:w-6 md:h-6 text-zinc-700" />
+              </button>
+
+              {/* Media Section */}
+              <div className="w-full md:w-1/2 h-56 sm:h-72 md:h-auto shrink-0 relative bg-zinc-100">
                 <Swiper
                   modules={[Autoplay, Navigation]}
-                  autoplay={{ delay: 2000, disableOnInteraction: false }}
+                  autoplay={{ delay: 2500, disableOnInteraction: false }}
                   loop={true}
                   className="w-full h-full"
                 >
@@ -235,47 +245,44 @@ export function FeaturedRooms({
                   )}
                 </Swiper>
               </div>
-              <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col relative overflow-hidden">
-                <button
-                  onClick={() => setSelectedRoom(null)}
-                  className="absolute top-6 right-6 p-2 rounded-full hover:bg-zinc-100 transition-colors"
-                >
-                  <X className="w-6 h-6 text-zinc-500" />
-                </button>
 
-                <h2 className="text-3xl font-medium tracking-wide text-zinc-900 uppercase mb-4 mt-4 md:mt-0 font-[var(--theme-heading-font)]">
+              {/* Content Section */}
+              <div className="w-full md:w-1/2 p-5 sm:p-8 md:p-10 flex flex-col md:overflow-y-auto">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-medium tracking-wide text-zinc-900 uppercase mb-2 sm:mb-3 font-[var(--theme-heading-font)] pr-8">
                   {selectedRoom.name}
                 </h2>
 
-                <div className="text-2xl font-light text-zinc-600 mb-6 font-[var(--theme-body-font)]">
+                <div className="text-lg sm:text-xl font-light text-zinc-600 mb-4 font-[var(--theme-body-font)]">
                   From ${selectedRoom.basePrice}{" "}
-                  <span className="text-sm uppercase tracking-widest text-zinc-400">
+                  <span className="text-xs sm:text-sm uppercase tracking-widest text-zinc-400">
                     / Night
                   </span>
                 </div>
 
-                <p className="text-zinc-600 mb-8 text-justify tracking-[-0.075rem] line-clamp-[7] font-[var(--theme-body-font)] text-lg md:text-[length:var(--theme-body-size)]">
+                <p className="text-zinc-600 mb-6 text-lg md:text-[length:var(--theme-body-size)] font-[var(--theme-body-font)] text-justify tracking-tighter line-clamp-4 md:line-clamp-8">
                   {selectedRoom.description}
                 </p>
 
-                <div className="mb-8">
-                  <h4 className="text-sm uppercase tracking-widest font-bold text-zinc-900 mb-4  font-[var(--theme-heading-font)]">
-                    Room Amenities
-                  </h4>
-                  <ul className="grid grid-cols-2 gap-y-3 text-zinc-600">
-                    {selectedRoom.amenities?.map((amenity: any) => (
-                      <li key={amenity.id} className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#a8824f] font-[var(--theme-body-font)]" />
-                        {amenity.name}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {selectedRoom.amenities?.length > 0 && (
+                  <div className="mb-6">
+                    <h4 className="text-xs sm:text-sm uppercase tracking-widest font-bold text-zinc-900 mb-3 font-[var(--theme-heading-font)]">
+                      Room Amenities
+                    </h4>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-y-3 text-sm text-zinc-600">
+                      {selectedRoom.amenities.map((amenity: any) => (
+                        <li key={amenity.id} className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#a8824f] shrink-0" />
+                          <span className="truncate">{amenity.name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
-                <div className="mt-auto pt-8 flex flex-col gap-4">
+                <div className="mt-auto pt-4 sm:pt-6">
                   <Link
                     href={`/rooms-and-suites/${selectedRoom.slug || selectedRoom.id}`}
-                    className="w-full inline-flex items-center justify-center bg-black hover:bg-zinc-800 text-white px-6 py-4 text-base font-medium transition-colors font-[var(--theme-body-font)]"
+                    className="w-full inline-flex items-center justify-center bg-black hover:bg-zinc-800 text-white px-5 py-3.5 text-sm sm:text-base font-medium transition-colors font-[var(--theme-body-font)]"
                   >
                     View more details
                   </Link>
