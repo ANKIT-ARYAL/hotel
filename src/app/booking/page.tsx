@@ -15,9 +15,9 @@ export const metadata = {
 export default async function BookingPage({
   searchParams,
 }: {
-  searchParams: { roomId?: string; arrival?: string; departure?: string; guests?: string };
+  searchParams: Promise<{ roomId?: string; arrival?: string; departure?: string; guests?: string }>;
 }) {
-  const { roomId, arrival, departure, guests } = searchParams;
+  const { roomId, arrival, departure, guests } = await searchParams;
 
   if (!roomId || !arrival || !departure) {
     redirect("/search");

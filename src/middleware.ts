@@ -8,6 +8,7 @@ import { authConfig } from "@/lib/auth.config";
 const { auth } = NextAuth(authConfig);
 
 const permissionMap: Record<string, string> = {
+  "/admin/reception": "Reception",
   "/admin/dashboard": "Dashboard",
   "/admin/bookings": "Bookings",
   "/admin/messages": "Messages",
@@ -26,9 +27,11 @@ const permissionMap: Record<string, string> = {
   "/admin/pages/gallery": "Gallery",
   "/admin/pages/faq": "FAQs",
   "/admin/pages/contact": "Contact",
+  "/admin/pages/user-dashboard": "User Dashboard",
   "/admin/users": "Users",
   "/admin/roles": "Roles",
   "/admin/settings/navbar": "Navbar",
+  "/admin/settings/footer": "Footer",
   "/admin/settings": "Settings",
 };
 
@@ -45,20 +48,29 @@ export default auth((req) => {
 
   if (nextUrl.pathname === "/admin") {
     if (isAuthenticated) {
-      return NextResponse.redirect(new URL("/admin/dashboard", nextUrl));
+      const roleName = (req.auth?.user?.role as any)?.name;
+      return NextResponse.redirect(new URL(roleName === "USER" ? "/account" : "/admin/dashboard", nextUrl));
     }
     return NextResponse.redirect(new URL("/admin/login", nextUrl));
   }
 
   if (isAuthRoute) {
     if (isAuthenticated) {
-      return NextResponse.redirect(new URL("/admin/dashboard", nextUrl));
+      const roleName = (req.auth?.user?.role as any)?.name;
+      return NextResponse.redirect(new URL(roleName === "USER" ? "/account" : "/admin/dashboard", nextUrl));
     }
     return NextResponse.next({ request: { headers: requestHeaders } });
   }
 
   if (isAdminRoute && !isAuthenticated) {
     return NextResponse.redirect(new URL("/admin/login", nextUrl));
+  }
+
+  if (isAdminRoute && isAuthenticated) {
+    const roleName = (req.auth?.user?.role as any)?.name;
+    if (roleName === "USER") {
+      return NextResponse.redirect(new URL("/account", nextUrl));
+    }
   }
 
   // RBAC check
@@ -91,4 +103,3 @@ export default auth((req) => {
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
-

@@ -2,6 +2,7 @@
 import bcrypt from "bcrypt";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
 import { authConfig } from "./auth.config";
 import db from "./db";
@@ -52,7 +53,55 @@ export const {
         };
       },
     }),
+    ...(process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET
+      ? [
+          GoogleProvider({
+            clientId: process.env.AUTH_GOOGLE_ID,
+            clientSecret: process.env.AUTH_GOOGLE_SECRET,
+          }),
+        ]
+      : []),
   ],
+  callbacks: {
+    ...authConfig.callbacks,
+    async signIn({ user, account }) {
+      if (account?.provider !== "google" || !user.email) return true;
+
+      const guestRole = await db.role.upsert({
+        where: { name: "USER" },
+        update: {},
+        create: { name: "USER", permissions: [] },
+      });
+
+      await db.user.upsert({
+        where: { email: user.email },
+        update: { name: user.name || undefined },
+        create: {
+          email: user.email,
+          name: user.name || "Guest",
+          password: await bcrypt.hash(crypto.randomUUID(), 10),
+          roleId: guestRole.id,
+        },
+      });
+
+      return true;
+    },
+    async jwt({ token, user }) {
+      if (user?.email) {
+        const dbUser = await db.user.findUnique({ where: { email: user.email }, include: { role: true } });
+        token.id = dbUser?.id || user.id;
+        token.role = (dbUser?.role || user.role) as any;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string;
+        session.user.role = token.role as string;
+      }
+      return session;
+    },
+  },
   session: {
     strategy: "jwt",
   },

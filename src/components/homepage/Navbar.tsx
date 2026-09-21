@@ -6,15 +6,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { ChevronDown, Menu, UserRound, X } from "lucide-react";
 
 import type { NavbarSettings } from "./NavbarManagerTypes";
 
 interface NavbarProps {
   settings: NavbarSettings;
+  isLoggedIn: boolean;
 }
 
-export function Navbar({ settings }: NavbarProps) {
+export function Navbar({ settings, isLoggedIn }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -33,6 +35,11 @@ export function Navbar({ settings }: NavbarProps) {
 
   const visibleLinks = settings.links.filter((link) => link.isVisible);
 
+  async function openLogin() {
+    const result = await signIn("google", { redirect: false, callbackUrl: `${window.location.origin}/login/popup-complete` });
+    if (result?.url) window.open(result.url, "hotel-google-login", "popup,width=520,height=680");
+  }
+
   return (
     <motion.header
       initial={{ y: -100 }}
@@ -47,9 +54,10 @@ export function Navbar({ settings }: NavbarProps) {
       <div className="px-6 md:px-12 lg:px-24 flex items-center justify-between">
         <Link
           href="/"
-          className={`font-nove text-xl md:text-3xl font-bold transition-colors ${
-            effectiveScrolled || isMobileMenuOpen ? "text-zinc-900" : "text-white"
-          }`}
+          className={`text-xl font-bold transition-colors md:text-3xl ${effectiveScrolled || isMobileMenuOpen ? "text-zinc-900" : "text-white"}`}
+          style={{ fontFamily: "var(--theme-logo-font)" }}
+          data-logo="true"
+          aria-label="Hotel Luxury"
         >
           HOTEL LUXURY
         </Link>
@@ -117,6 +125,7 @@ export function Navbar({ settings }: NavbarProps) {
               {settings.ctaButton.label}
             </Link>
           )}
+          {isLoggedIn ? <Link href="/account" aria-label="Open account" className={`flex items-center gap-2 font-medium tracking-wide transition-opacity ${effectiveScrolled ? "text-zinc-600 hover:text-zinc-900" : "text-white/90 hover:text-white"}`}><UserRound className="h-4 w-4" /></Link> : <button type="button" onClick={openLogin} aria-label="Login" className={`flex items-center gap-2 font-medium tracking-wide transition-opacity ${effectiveScrolled ? "text-zinc-600 hover:text-zinc-900" : "text-white/90 hover:text-white"}`}><UserRound className="h-4 w-4" />Login</button>}
         </nav>
 
         {/* Mobile Toggle */}
@@ -196,6 +205,7 @@ export function Navbar({ settings }: NavbarProps) {
                   {settings.ctaButton.label}
                 </Link>
               )}
+              {isLoggedIn ? <Link href="/account" className="mt-4 flex w-full items-center justify-center gap-2 rounded-sm border border-zinc-200 py-3 text-center font-medium text-zinc-900" onClick={() => setIsMobileMenuOpen(false)}><UserRound className="h-4 w-4" /></Link> : <button type="button" className="mt-4 flex w-full items-center justify-center gap-2 rounded-sm border border-zinc-200 py-3 text-center font-medium text-zinc-900" onClick={() => { setIsMobileMenuOpen(false); openLogin(); }}><UserRound className="h-4 w-4" />Login</button>}
             </div>
           </motion.div>
         )}

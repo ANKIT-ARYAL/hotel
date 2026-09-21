@@ -14,6 +14,18 @@ async function main() {
     update: {},
     create: { name: 'ADMIN', permissions: ['ALL'] },
   })
+
+  await prisma.role.upsert({
+    where: { name: 'RECEPTIONIST' },
+    update: { permissions: ['Reception', 'Dashboard', 'Bookings', 'Messages', 'Rooms', 'Guests', 'Reviews'] },
+    create: { name: 'RECEPTIONIST', permissions: ['Reception', 'Dashboard', 'Bookings', 'Messages', 'Rooms', 'Guests', 'Reviews'] },
+  })
+
+  await prisma.role.upsert({
+    where: { name: 'USER' },
+    update: { permissions: [] },
+    create: { name: 'USER', permissions: [] },
+  })
   
   await prisma.user.upsert({
     where: { email: 'admin@hotel.com' },

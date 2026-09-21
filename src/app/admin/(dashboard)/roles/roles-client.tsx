@@ -26,6 +26,7 @@ export function RolesClientView({ initialRoles }: { initialRoles: any[] }) {
   const [permissions, setPermissions] = useState<string[]>([]);
 
   const AVAILABLE_TABS = [
+    "Reception",
     "Dashboard",
     "Bookings",
     "Rooms",
@@ -42,6 +43,7 @@ export function RolesClientView({ initialRoles }: { initialRoles: any[] }) {
     "Experiences",
     "Gallery",
     "Navbar",
+    "Footer",
     "Settings",
   ];
 

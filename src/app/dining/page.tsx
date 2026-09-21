@@ -1,6 +1,7 @@
 import React from "react";
 
 import { getDiningPageSettings } from "@/app/actions/dining-page-settings";
+import { auth } from "@/lib/auth";
 import { DiningFeatureSection } from "@/components/dining/DiningFeatureSection";
 import { DiningGridSection } from "@/components/dining/DiningGridSection";
 import { DiningHero } from "@/components/dining/DiningHero";
@@ -16,12 +17,13 @@ export const metadata = {
 
 export default async function DiningPage() {
   const settings = await getDiningPageSettings();
+  const session = await auth();
 
   return (
     <main className="min-h-screen text-foreground">
       <DiningHero settings={settings.hero} />
       <DiningIntro settings={settings.intro} />
-      <RestaurantsList settings={settings.restaurantsList} />
+      <RestaurantsList settings={settings.restaurantsList} isLoggedIn={Boolean(session?.user)} />
 
       {settings.menus?.isVisible && <DiningMenuSection section={settings.menus} />}
 

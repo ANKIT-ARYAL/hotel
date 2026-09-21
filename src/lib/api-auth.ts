@@ -35,3 +35,11 @@ export async function requireApiAuth() {
     });
   }
 }
+
+export async function requireAdminApiAuth() {
+  const session = await requireApiAuth();
+  if (session instanceof Response) return session;
+  const roleName = (session.user?.role as { name?: string } | undefined)?.name;
+  if (roleName !== "ADMIN") return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { "Content-Type": "application/json" } });
+  return session;
+}

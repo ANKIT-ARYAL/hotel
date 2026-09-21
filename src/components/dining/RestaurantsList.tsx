@@ -6,12 +6,14 @@ import React from "react";
 import { motion } from "framer-motion";
 
 import type { DiningPageSettings } from "./types";
+import { ServiceReservationForm } from "@/components/guest/ServiceReservationForm";
 
 interface RestaurantsListProps {
   settings: DiningPageSettings["restaurantsList"];
+  isLoggedIn?: boolean;
 }
 
-export function RestaurantsList({ settings }: RestaurantsListProps) {
+export function RestaurantsList({ settings, isLoggedIn = false }: RestaurantsListProps) {
   if (!settings.isVisible) return null;
 
   return (
@@ -58,6 +60,7 @@ export function RestaurantsList({ settings }: RestaurantsListProps) {
             <p className="text-zinc-500 font-light italic col-span-full text-center font-[var(--theme-body-font)]">No venues added yet.</p>
           )}
         </div>
+        {settings.venues?.length > 0 && <div className="mt-20 rounded-2xl bg-zinc-50 p-8 text-center md:p-14"><h3 className="text-3xl font-medium text-zinc-900">Reserve your dining experience</h3><p className="mx-auto mt-3 max-w-xl text-zinc-500">Choose one of our current venues and send your reservation request to the hotel team.</p><ServiceReservationForm type="dining" options={settings.venues.map((venue) => venue.name)} isLoggedIn={isLoggedIn} trigger={<button type="button" className="mt-8 rounded-md bg-zinc-900 px-7 py-3 font-medium text-white">Reserve a table</button>} /></div>}
       </div>
     </section>
   );

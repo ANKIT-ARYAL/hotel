@@ -5,3 +5,7 @@ import { signOut } from "@/lib/auth";
 export async function handleSignOut() {
   await signOut({ redirectTo: "/admin/login" });
 }
+
+export async function handleGuestSignOut() {
+  await signOut({ redirectTo: "/" });
+}

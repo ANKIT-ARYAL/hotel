@@ -7,7 +7,7 @@ import { format } from "date-fns";
 import { Calendar, Check, Mail, Phone, Trash2, User } from "lucide-react";
 import { toast } from "sonner";
 
-import { deleteMessage, markMessageAsRead } from "@/app/actions/messages";
+import { deleteMessage, markMessageAsRead, resolveCancellationMessage } from "@/app/actions/messages";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -46,6 +46,11 @@ export function MessagesTable({ initialMessages }: { initialMessages: Message[] 
         toast.error("Failed to delete message");
       }
     }
+  };
+
+  const handleCancellation = async (approve: boolean) => {
+    if (!selectedMessage) return;
+    try { await resolveCancellationMessage(selectedMessage.id, approve); setMessages(messages.map((item) => item.id === selectedMessage.id ? { ...item, isRead: true, subject: `${approve ? "[Cancellation Approved]" : "[Cancellation Declined]"} ${item.subject?.replace(/^\[Cancellation Request\]\s*/, "") || ""}` } : item)); setSelectedMessage(null); toast.success(approve ? "Cancellation approved" : "Cancellation declined"); } catch (error) { toast.error(error instanceof Error ? error.message : "Unable to resolve cancellation"); }
   };
 
   return (
@@ -117,6 +122,7 @@ export function MessagesTable({ initialMessages }: { initialMessages: Message[] 
                 </DialogHeader>
               </div>
               <div className="p-6 space-y-6">
+                {selectedMessage.subject?.startsWith("[Cancellation Request]") && <div className="flex flex-wrap gap-3 rounded-md border border-amber-200 bg-amber-50 p-4"><span className="mr-auto text-sm font-medium text-amber-900">Guest cancellation request</span><Button onClick={() => handleCancellation(true)}>Confirm cancellation</Button><Button variant="outline" onClick={() => handleCancellation(false)}>Decline</Button></div>}
                 <div className="flex flex-wrap gap-4 items-center text-sm text-gray-600">
                   <div className="flex items-center gap-2">
                     <User className="w-4 h-4 text-gray-400" />

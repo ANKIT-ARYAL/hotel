@@ -4,6 +4,7 @@ export interface HomepageSettings {
     secondaryColor: string;
     fontFamily: string;
     headingFontFamily: string;
+    logoFontFamily?: string;
     headingFontSize?: string;
     adminHeadingFontSize?: string;
     bodyFontSize?: string;
@@ -129,6 +130,7 @@ export const defaultHomepageSettings: HomepageSettings = {
     secondaryColor: "bg-zinc-100",
     fontFamily: "font-sans",
     headingFontFamily: "font-argine",
+    logoFontFamily: "font-nove",
     headingFontSize: "1rem",
     adminHeadingFontSize: "1.875rem",
     bodyFontSize: "16px",

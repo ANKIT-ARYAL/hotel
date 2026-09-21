@@ -169,6 +169,13 @@ export function GuestsClientView({ initialGuests }: { initialGuests: any[] }) {
 
           {selectedGuest && (
             <div className="space-y-6 py-4">
+              {(() => {
+                const roomCount = selectedGuest.bookings?.length || 0;
+                const spaCount = selectedGuest.spaReservations?.length || 0;
+                const diningCount = selectedGuest.diningReservations?.length || 0;
+                const types = [roomCount && "Room guest", spaCount && "Spa guest", diningCount && "Dining guest"].filter(Boolean);
+                return <div className="rounded-md border border-gray-100 bg-gray-50 p-4"><h4 className="text-sm font-semibold text-gray-900">Guest activity</h4><div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3"><div><p className="text-xs uppercase tracking-wide text-gray-500">Room bookings</p><p className="mt-1 text-2xl font-semibold">{roomCount}</p></div><div><p className="text-xs uppercase tracking-wide text-gray-500">Spa reservations</p><p className="mt-1 text-2xl font-semibold">{spaCount}</p></div><div><p className="text-xs uppercase tracking-wide text-gray-500">Dining reservations</p><p className="mt-1 text-2xl font-semibold">{diningCount}</p></div></div><p className="mt-4 text-sm text-gray-600"><span className="font-semibold text-gray-900">Guest type:</span> {types.length ? types.join(" · ") : "Registered guest — no activity yet"}</p></div>;
+              })()}
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <h4 className="text-sm font-semibold text-gray-900 mb-1">Personal Information</h4>
@@ -205,6 +212,10 @@ export function GuestsClientView({ initialGuests }: { initialGuests: any[] }) {
                 ) : (
                   <p className="text-sm text-gray-500 italic">No previous bookings found.</p>
                 )}
+              </div>
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="rounded-md border border-gray-100 bg-gray-50 p-4"><h4 className="mb-3 text-sm font-semibold text-gray-900">Spa reservations</h4>{selectedGuest.spaReservations?.length ? selectedGuest.spaReservations.map((item: any) => <div key={item.id} className="border-b py-2 text-sm last:border-0"><p className="font-medium">{item.service}</p><p className="text-xs text-gray-500">{new Date(item.scheduledAt).toLocaleString()} · {item.status}</p></div>) : <p className="text-sm italic text-gray-500">No spa reservations found.</p>}</div>
+                <div className="rounded-md border border-gray-100 bg-gray-50 p-4"><h4 className="mb-3 text-sm font-semibold text-gray-900">Dining reservations</h4>{selectedGuest.diningReservations?.length ? selectedGuest.diningReservations.map((item: any) => <div key={item.id} className="border-b py-2 text-sm last:border-0"><p className="font-medium">{item.restaurant}</p><p className="text-xs text-gray-500">{new Date(item.scheduledAt).toLocaleString()} · {item.status}</p></div>) : <p className="text-sm italic text-gray-500">No dining reservations found.</p>}</div>
               </div>
             </div>
           )}

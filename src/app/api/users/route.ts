@@ -1,4 +1,4 @@
-import { requireApiAuth } from "@/lib/api-auth";
+import { requireAdminApiAuth } from "@/lib/api-auth";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import prisma from "@/lib/db";
@@ -6,7 +6,7 @@ import prisma from "@/lib/db";
 
 export async function GET(request: Request) {
   try {
-    const authResult = await requireApiAuth();
+    const authResult = await requireAdminApiAuth();
     if (authResult instanceof Response) return authResult;
     const data = await prisma.user.findMany();
     return NextResponse.json(data);
@@ -17,7 +17,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const authResult = await requireApiAuth();
+    const authResult = await requireAdminApiAuth();
     if (authResult instanceof Response) return authResult;
     const body = await request.json();
     if (body.password) {

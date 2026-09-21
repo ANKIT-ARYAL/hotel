@@ -7,13 +7,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Minus, Plus } from "lucide-react";
 
 import type { SpaPageSettings } from "./types";
+import { ServiceReservationForm } from "@/components/guest/ServiceReservationForm";
 
 interface SpaTreatmentsListProps {
   settings: SpaPageSettings["treatments"];
 }
 
-export function SpaTreatmentsList({ settings }: SpaTreatmentsListProps) {
+export function SpaTreatmentsList({ settings, isLoggedIn = false }: SpaTreatmentsListProps & { isLoggedIn?: boolean }) {
   if (!settings.isVisible) return null;
+  const treatmentOptions = settings.categories.flatMap((category) => category.treatments.map((treatment) => treatment.name));
 
   return (
     <section className="py-24 px-6 md:px-12 lg:px-24 w-full bg-zinc-50">
@@ -55,7 +57,7 @@ export function SpaTreatmentsList({ settings }: SpaTreatmentsListProps) {
               </h3>
               <div className="space-y-4">
                 {category.treatments.map((treatment) => (
-                  <TreatmentAccordion key={treatment.id} treatment={treatment} />
+                  <TreatmentAccordion key={treatment.id} treatment={treatment} options={treatmentOptions} isLoggedIn={isLoggedIn} />
                 ))}
               </div>
             </motion.div>
@@ -68,8 +70,12 @@ export function SpaTreatmentsList({ settings }: SpaTreatmentsListProps) {
 
 function TreatmentAccordion({
   treatment,
+  options,
+  isLoggedIn,
 }: {
   treatment: SpaPageSettings["treatments"]["categories"][0]["treatments"][0];
+  options: string[];
+  isLoggedIn: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -108,6 +114,7 @@ function TreatmentAccordion({
           </motion.div>
         )}
       </AnimatePresence>
+      <ServiceReservationForm type="spa" options={options} initialOption={treatment.name} isLoggedIn={isLoggedIn} trigger={<button type="button" className="mx-8 mb-6 rounded-md bg-zinc-900 px-5 py-3 text-sm font-medium text-white">Book this treatment</button>} />
     </div>
   );
 }

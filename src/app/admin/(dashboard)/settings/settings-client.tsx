@@ -21,6 +21,8 @@ const HEADING_FONTS = [
   { value: "font-playfair", label: "Playfair Display", preview: "The quick brown fox jumps over the lazy dog" },
   { value: "font-cinzel", label: "Cinzel", preview: "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG" },
   { value: "font-prata", label: "Prata", preview: "The quick brown fox jumps over the lazy dog" },
+  { value: "font-lora", label: "Lora", preview: "The quick brown fox jumps over the lazy dog" },
+  { value: "font-nove", label: "Syne", preview: "The quick brown fox jumps over the lazy dog" },
 ];
 
 const BODY_FONTS = [
@@ -28,6 +30,19 @@ const BODY_FONTS = [
   { value: "font-sans", label: "Inter", preview: "The quick brown fox jumps over the lazy dog" },
   { value: "font-nove", label: "Syne", preview: "The quick brown fox jumps over the lazy dog" },
   { value: "font-lora", label: "Lora", preview: "The quick brown fox jumps over the lazy dog" },
+  { value: "font-playfair", label: "Playfair Display", preview: "The quick brown fox jumps over the lazy dog" },
+  { value: "font-prata", label: "Prata", preview: "The quick brown fox jumps over the lazy dog" },
+  { value: "font-cinzel", label: "Cinzel", preview: "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG" },
+];
+
+const LOGO_FONTS = [
+  { value: "font-nove", label: "Syne" },
+  { value: "font-argine", label: "Cormorant Garamond" },
+  { value: "font-playfair", label: "Playfair Display" },
+  { value: "font-sans", label: "Inter" },
+  { value: "font-cinzel", label: "Cinzel" },
+  { value: "font-prata", label: "Prata" },
+  { value: "font-lora", label: "Lora" },
 ];
 
 export function SettingsClientView({
@@ -233,6 +248,20 @@ export function SettingsClientView({
                 <h3 className="mb-2">Heading Preview</h3>
                 <h4 className="">Subtitle Preview</h4>
               </div>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-sm">
+            <CardHeader>
+              <CardTitle>Logo Typography</CardTitle>
+              <CardDescription>Separate font family used by the frontend logo</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <Select value={hpSettings.theme.logoFontFamily || "font-nove"} onValueChange={(value) => updateThemeField("logoFontFamily", value)}>
+                <SelectTrigger><SelectValue placeholder="Select a logo font" /></SelectTrigger>
+                <SelectContent>{LOGO_FONTS.map((font) => <SelectItem key={font.value} value={font.value}>{font.label}</SelectItem>)}</SelectContent>
+              </Select>
+              <div className="rounded-md border bg-zinc-50 p-6 text-center text-2xl" style={{ fontFamily: "var(--theme-logo-font)" }}>HOTEL LUXURY</div>
             </CardContent>
           </Card>
 

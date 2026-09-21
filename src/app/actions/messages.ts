@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import prisma from "@/lib/db";
+import { auth } from "@/lib/auth";
 
 export async function getMessages() {
   try {
@@ -41,4 +42,22 @@ export async function deleteMessage(id: string) {
     console.error("Failed to delete message:", error);
     return { success: false };
   }
+}
+
+export async function resolveCancellationMessage(id: string, approve: boolean) {
+  const session = await auth();
+  const role = (session?.user?.role as { name?: string } | undefined)?.name;
+  if (role !== "ADMIN" && role !== "RECEPTIONIST") throw new Error("Staff access required");
+  const message = await prisma.contactMessage.findUniqueOrThrow({ where: { id } });
+  if (!message.subject?.startsWith("[Cancellation Request]")) throw new Error("Not a cancellation request");
+  const metadata = message.message.match(/^CANCELLATION_META:(\{[\s\S]*\})/)?.[1];
+  if (approve && metadata) {
+    const request = JSON.parse(metadata) as { type: "booking" | "spa" | "dining"; id: string };
+    if (request.type === "booking") await prisma.booking.update({ where: { id: request.id }, data: { status: "CANCELLED" } });
+    if (request.type === "spa") await prisma.spaReservation.update({ where: { id: request.id }, data: { status: "CANCELLED" } });
+    if (request.type === "dining") await prisma.diningReservation.update({ where: { id: request.id }, data: { status: "CANCELLED" } });
+  }
+  await prisma.contactMessage.update({ where: { id }, data: { isRead: true, subject: `${approve ? "[Cancellation Approved]" : "[Cancellation Declined]"} ${message.subject.replace(/^\[Cancellation Request\]\s*/, "")}` } });
+  revalidatePath("/admin/messages");
+  return { success: true };
 }

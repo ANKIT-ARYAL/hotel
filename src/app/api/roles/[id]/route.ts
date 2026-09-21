@@ -1,4 +1,4 @@
-import { requireApiAuth } from "@/lib/api-auth";
+import { requireAdminApiAuth } from "@/lib/api-auth";
 import { NextResponse } from "next/server";
 
 import prisma from "@/lib/db";
@@ -6,7 +6,7 @@ import prisma from "@/lib/db";
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const authResult = await requireApiAuth();
+    const authResult = await requireAdminApiAuth();
     if (authResult instanceof Response) return authResult;
     const { id } = await params;
     const data = await prisma.role.findUnique({
@@ -25,7 +25,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const authResult = await requireApiAuth();
+    const authResult = await requireAdminApiAuth();
     if (authResult instanceof Response) return authResult;
     const { id } = await params;
     const body = await request.json();
@@ -41,7 +41,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const authResult = await requireApiAuth();
+    const authResult = await requireAdminApiAuth();
     if (authResult instanceof Response) return authResult;
     const { id } = await params;
     await prisma.role.delete({

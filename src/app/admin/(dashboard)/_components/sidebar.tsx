@@ -28,6 +28,7 @@ import {
   Star,
   Tag,
   Users,
+  User,
   Utensils,
 } from "lucide-react";
 
@@ -36,6 +37,7 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 const navigation = [
+  { name: "Reception", href: "/admin/reception", icon: Building2 },
   { name: "Dashboard", href: "/admin/dashboard", icon: Home },
   { name: "Bookings", href: "/admin/bookings", icon: CalendarDays },
   { name: "Messages", href: "/admin/messages", icon: MessageSquare },
@@ -57,6 +59,7 @@ const pages = [
   { name: "Gallery", href: "/admin/pages/gallery", icon: Image },
   { name: "FAQs", href: "/admin/pages/faq", icon: HelpCircle },
   { name: "Contact", href: "/admin/pages/contact", icon: Phone },
+  { name: "User Dashboard", href: "/admin/pages/user-dashboard", icon: User },
 ];
 
 const settings = [

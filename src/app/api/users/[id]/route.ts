@@ -1,12 +1,13 @@
-import { requireApiAuth } from "@/lib/api-auth";
+import { requireAdminApiAuth } from "@/lib/api-auth";
 import { NextResponse } from "next/server";
+import bcrypt from "bcrypt";
 
 import prisma from "@/lib/db";
 
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const authResult = await requireApiAuth();
+    const authResult = await requireAdminApiAuth();
     if (authResult instanceof Response) return authResult;
     const { id } = await params;
     const data = await prisma.user.findUnique({
@@ -25,13 +26,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const authResult = await requireApiAuth();
+    const authResult = await requireAdminApiAuth();
     if (authResult instanceof Response) return authResult;
     const { id } = await params;
     const body = await request.json();
     
     if (body.password) {
-      const bcrypt = require("bcrypt");
       body.password = await bcrypt.hash(body.password, 10);
     }
     
@@ -47,7 +47,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const authResult = await requireApiAuth();
+    const authResult = await requireAdminApiAuth();
     if (authResult instanceof Response) return authResult;
     const { id } = await params;
     await prisma.user.delete({
