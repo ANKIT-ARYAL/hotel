@@ -4,10 +4,13 @@ import { NextResponse } from "next/server";
 // Initialize Supabase Client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function POST(request: Request) {
   try {
+    if (!supabaseUrl || !supabaseKey) {
+      return NextResponse.json({ success: false, error: "Supabase credentials missing" }, { status: 500 });
+    }
+    const supabase = createClient(supabaseUrl, supabaseKey);
     const data = await request.formData();
     const file: File | null = data.get("file") as unknown as File;
 
