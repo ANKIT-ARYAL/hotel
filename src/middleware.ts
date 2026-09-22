@@ -11,6 +11,7 @@ const permissionMap: Record<string, string> = {
   "/admin/reception": "Reception",
   "/admin/dashboard": "Dashboard",
   "/admin/bookings": "Bookings",
+  "/admin/reservations": "Reservations",
   "/admin/messages": "Messages",
   "/admin/rooms": "Rooms",
   "/admin/categories": "Categories",

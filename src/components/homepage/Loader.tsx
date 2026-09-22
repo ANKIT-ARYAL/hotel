@@ -40,7 +40,7 @@ export function Loader({ settings }: LoaderProps) {
           >
             {settings.iconUrl && <img src={settings.iconUrl} alt="Loading" className="h-16 w-auto invert" />}
             {!settings.iconUrl && (
-              <div className="font-nove text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-widest animate-pulse">
+              <div className="font-argine text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-widest animate-pulse">
                 HOTEL LUXURY
               </div>
             )}

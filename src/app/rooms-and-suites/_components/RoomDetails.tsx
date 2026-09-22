@@ -358,7 +358,7 @@ export function RoomDetails({ room, settings = defaultRoomsPageSettings }: RoomD
             >
               <Link
                 href="/book"
-                className="inline-flex h-14 items-center justify-center bg-white px-10 text-sm font-medium text-black transition-colors hover:bg-zinc-200 font-[var(--theme-body-font)]"
+                className="inline-flex h-14 items-center justify-center bg-white px-10 text-lg font-medium text-black transition-colors hover:bg-zinc-200 font-[var(--theme-body-font)]"
               >
                 {settings.bookingCta.buttonLabel}
               </Link>

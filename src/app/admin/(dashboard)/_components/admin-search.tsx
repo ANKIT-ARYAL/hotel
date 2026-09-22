@@ -55,7 +55,14 @@ export function AdminSearch() {
           <CommandGroup heading="Quick Links">
             <CommandItem onSelect={() => runCommand(() => router.push("/admin/dashboard"))}>Dashboard</CommandItem>
             <CommandItem onSelect={() => runCommand(() => router.push("/admin/bookings"))}>Bookings</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/reservations"))}>Reservations</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/reception"))}>Reception</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/messages"))}>Messages</CommandItem>
             <CommandItem onSelect={() => runCommand(() => router.push("/admin/rooms"))}>Rooms</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/categories"))}>Room Categories</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/amenities"))}>Amenities</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/promotions"))}>Promotions</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/reviews"))}>Reviews</CommandItem>
             <CommandItem onSelect={() => runCommand(() => router.push("/admin/guests"))}>Guests</CommandItem>
           </CommandGroup>
           <CommandGroup heading="Settings">
@@ -63,6 +70,16 @@ export function AdminSearch() {
             <CommandItem onSelect={() => runCommand(() => router.push("/admin/pages/homepage"))}>
               Homepage Editor
             </CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/pages/about"))}>About Us</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/pages/rooms"))}>Rooms &amp; Suites Page</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/pages/dining"))}>Dining Page</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/pages/spa"))}>Spa Page</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/pages/experiences"))}>Experiences Page</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/pages/user-dashboard"))}>User Dashboard Page</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/users"))}>Users</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/roles"))}>Roles</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/settings/navbar"))}>Navbar Settings</CommandItem>
+            <CommandItem onSelect={() => runCommand(() => router.push("/admin/settings/footer"))}>Footer Settings</CommandItem>
           </CommandGroup>
         </CommandList>
       </CommandDialog>

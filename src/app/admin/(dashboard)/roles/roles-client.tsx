@@ -29,6 +29,7 @@ export function RolesClientView({ initialRoles }: { initialRoles: any[] }) {
     "Reception",
     "Dashboard",
     "Bookings",
+    "Reservations",
     "Rooms",
     "Guests",
     "Amenities",

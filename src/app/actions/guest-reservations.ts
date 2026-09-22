@@ -34,11 +34,12 @@ async function requireStaff() {
   if (role !== "ADMIN" && role !== "RECEPTIONIST") throw new Error("Staff access required");
 }
 
-export async function updateServiceReservation(input: { type: "spa" | "dining"; id: string; status: "PENDING" | "CONFIRMED" | "CANCELLED" | "COMPLETED" }) {
-  const data = z.object({ type: z.enum(["spa", "dining"]), id: z.string().uuid(), status: z.enum(["PENDING", "CONFIRMED", "CANCELLED", "COMPLETED"]) }).parse(input);
+export async function updateServiceReservation(input: { type: "spa" | "dining" | "experience"; id: string; status: "PENDING" | "CONFIRMED" | "CANCELLED" | "COMPLETED" }) {
+  const data = z.object({ type: z.enum(["spa", "dining", "experience"]), id: z.string().uuid(), status: z.enum(["PENDING", "CONFIRMED", "CANCELLED", "COMPLETED"]) }).parse(input);
   await requireStaff();
   if (data.type === "spa") return db.spaReservation.update({ where: { id: data.id }, data: { status: data.status } });
-  return db.diningReservation.update({ where: { id: data.id }, data: { status: data.status } });
+  if (data.type === "dining") return db.diningReservation.update({ where: { id: data.id }, data: { status: data.status } });
+  return db.experienceReservation.update({ where: { id: data.id }, data: { status: data.status } });
 }
 
 export async function createSpaReservation(input: z.input<typeof reservationSchema> & { service: string }) {
@@ -53,12 +54,19 @@ export async function createDiningReservation(input: z.input<typeof reservationS
   return db.diningReservation.create({ data: { ...data, scheduledAt: new Date(data.scheduledAt), guestId: guest.id } });
 }
 
-export async function requestCancellation(input: { type: "booking" | "spa" | "dining"; id: string }) {
-  const data = z.object({ type: z.enum(["booking", "spa", "dining"]), id: z.string().uuid() }).parse(input);
+export async function createExperienceReservation(input: z.input<typeof reservationSchema> & { experience: string }) {
+  const data = reservationSchema.extend({ experience: z.string().trim().min(1).max(120) }).parse(input);
+  const guest = await getGuestFromSession();
+  return db.experienceReservation.create({ data: { ...data, scheduledAt: new Date(data.scheduledAt), guestId: guest.id } });
+}
+
+export async function requestCancellation(input: { type: "booking" | "spa" | "dining" | "experience"; id: string }) {
+  const data = z.object({ type: z.enum(["booking", "spa", "dining", "experience"]), id: z.string().uuid() }).parse(input);
   const guest = await getGuestFromSession();
   if (data.type === "booking") await db.booking.findFirstOrThrow({ where: { id: data.id, guestId: guest.id } });
   if (data.type === "spa") await db.spaReservation.findFirstOrThrow({ where: { id: data.id, guestId: guest.id } });
   if (data.type === "dining") await db.diningReservation.findFirstOrThrow({ where: { id: data.id, guestId: guest.id } });
+  if (data.type === "experience") await db.experienceReservation.findFirstOrThrow({ where: { id: data.id, guestId: guest.id } });
   await db.contactMessage.create({ data: { name: guest.name, email: guest.email, subject: `[Cancellation Request] ${data.type}`, message: `CANCELLATION_META:${JSON.stringify(data)}\nGuest requested cancellation for ${data.type}.` } });
   return { success: true };
 }

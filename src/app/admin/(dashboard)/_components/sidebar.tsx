@@ -40,6 +40,7 @@ const navigation = [
   { name: "Reception", href: "/admin/reception", icon: Building2 },
   { name: "Dashboard", href: "/admin/dashboard", icon: Home },
   { name: "Bookings", href: "/admin/bookings", icon: CalendarDays },
+  { name: "Reservations", href: "/admin/reservations", icon: Compass },
   { name: "Messages", href: "/admin/messages", icon: MessageSquare },
   { name: "Rooms", href: "/admin/rooms", icon: BedDouble },
   { name: "Categories", href: "/admin/categories", icon: CalendarDays },
@@ -85,6 +86,7 @@ export function SidebarContent({
   const router = useRouter();
   const [unreadBookings, setUnreadBookings] = React.useState(0);
   const [unreadMessages, setUnreadMessages] = React.useState(0);
+  const [pendingReservations, setPendingReservations] = React.useState(0);
 
   React.useEffect(() => {
     const fetchCounts = async () => {
@@ -94,6 +96,7 @@ export function SidebarContent({
           const data = await res.json();
           setUnreadBookings(data.bookings);
           setUnreadMessages(data.messages);
+          setPendingReservations(data.reservations);
         }
       } catch (e) {
         console.error(e);
@@ -173,6 +176,9 @@ export function SidebarContent({
                     <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
                       {unreadMessages}
                     </span>
+                  )}
+                  {!isCollapsed && item.name === "Reservations" && pendingReservations > 0 && (
+                    <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{pendingReservations}</span>
                   )}
                 </Link>
               );

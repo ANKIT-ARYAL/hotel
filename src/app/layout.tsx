@@ -6,6 +6,18 @@
  */
 
 import { headers } from "next/headers";
+import {
+  Cinzel,
+  Cormorant_Garamond,
+  Inter,
+  Lora,
+  Montserrat,
+  Outfit,
+  Playfair_Display,
+  Prata,
+  Roboto,
+  Syne,
+} from "next/font/google";
 
 import type { Metadata } from "next";
 import "./globals.css";
@@ -16,16 +28,16 @@ import { getHomepageSettings } from "@/app/actions/homepage-settings";
 import { FooterSection } from "@/components/homepage/FooterSection";
 import { NavbarContainer } from "@/components/homepage/NavbarContainer";
 
-const fontStacks: Record<string, string> = {
-  "font-argine": 'Georgia, "Times New Roman", serif',
-  "font-playfair": 'Georgia, "Times New Roman", serif',
-  "font-cinzel": 'Georgia, "Times New Roman", serif',
-  "font-prata": 'Georgia, "Times New Roman", serif',
-  "font-lora": 'Georgia, "Times New Roman", serif',
-  "font-nove": '"Avenir Next", Futura, "Trebuchet MS", Arial, sans-serif',
-  "font-oklean": '"Avenir Next", "Helvetica Neue", Arial, sans-serif',
-  "font-sans": '"Helvetica Neue", Arial, sans-serif',
-};
+const cormorant = Cormorant_Garamond({ weight: ["300", "400", "500", "600", "700"], variable: "--font-argine", subsets: ["latin"] });
+const syne = Syne({ weight: ["400", "500", "600", "700", "800"], variable: "--font-nove", subsets: ["latin"] });
+const outfit = Outfit({ variable: "--font-oklean", subsets: ["latin"] });
+const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"] });
+const cinzel = Cinzel({ variable: "--font-cinzel", subsets: ["latin"] });
+const prata = Prata({ weight: ["400"], variable: "--font-prata", subsets: ["latin"] });
+const lora = Lora({ variable: "--font-lora", subsets: ["latin"] });
+const inter = Inter({ variable: "--font-sans", subsets: ["latin"] });
+const roboto = Roboto({ weight: ["300", "400", "500", "700"], variable: "--font-roboto", subsets: ["latin"] });
+const montserrat = Montserrat({ variable: "--font-montserrat", subsets: ["latin"] });
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getHomepageSettings();
@@ -44,14 +56,16 @@ export default async function RootLayout({
   const headersList = await headers();
   const isAdmin = headersList.get("x-is-admin") === "true";
 
-  const headingFont = fontStacks[settings.theme.headingFontFamily] || fontStacks["font-argine"];
-  const bodyFont = fontStacks[settings.theme.fontFamily] || fontStacks["font-sans"];
-  const logoFont = fontStacks[settings.theme.logoFontFamily || "font-nove"] || fontStacks["font-nove"];
+  // Preserve the original public brand pairing. The admin setting still controls
+  // other typography choices, but these are the original header/logo defaults.
+  const headingFont = "var(--font-argine)";
+  const bodyFont = `var(--${settings.theme.fontFamily || "font-sans"})`;
+  const logoFont = `var(--${settings.theme.logoFontFamily || "font-nove"})`;
 
   return (
     <html
       lang="en"
-      className="h-full antialiased bg-white"
+      className={`${cormorant.variable} ${syne.variable} ${outfit.variable} ${playfair.variable} ${cinzel.variable} ${prata.variable} ${lora.variable} ${inter.variable} ${roboto.variable} ${montserrat.variable} h-full antialiased bg-white`}
     >
       <body
         className={`min-h-full flex flex-col ${settings.theme.fontFamily} max-w-[1920px] mx-auto w-full relative shadow-2xl overflow-x-hidden`}

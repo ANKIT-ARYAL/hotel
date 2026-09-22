@@ -13,6 +13,8 @@ The main demo story is: a guest discovers the property, explores rooms and exper
 
 ## 2. Public website
 
+The public website is database-driven and responsive across desktop, tablet, and mobile layouts. Public content, navigation, footer links, homepage sections, typography settings, and account-dashboard presentation can be changed from the admin panel.
+
 ### Homepage — `/`
 
 The homepage is assembled from configurable sections:
@@ -82,6 +84,19 @@ The UI supports a success state with a booking reference after a successful subm
 
 The public navbar and footer are database-backed and editable from the admin panel. Link visibility, labels, URLs, dropdown links, footer link groups, contact information, branding, and social links can be maintained without changing frontend code.
 
+### Guest login and account
+
+- `/login` — guest sign-in screen with Google authentication.
+- The navbar includes a `Login` option with a user icon and opens Google sign-in in a popup.
+- After Google authentication, the guest is sent to `/account`, never to the admin dashboard.
+- A signed-in guest sees a user icon linking directly to the account dashboard; Google sign-in controls are hidden.
+- `/account` provides room bookings, spa requests, dining reservations, service shortcuts, statuses, and sign-out.
+- Guest accounts are separate from admin and receptionist credentials. Public Google authentication creates a `USER` account.
+
+### Spa and dining reservations
+
+The spa page provides a `Book Spa` action under each configured signature treatment and opens a larger popup form with the selected treatment prefilled. The dining page provides a reservation section and popup form. Treatment and venue options are loaded from database-backed content, not static values. Both forms validate their inputs before creating pending reservations.
+
 ## 3. Admin panel
 
 Admin entry point:
@@ -91,6 +106,10 @@ Admin entry point:
 The dashboard shell includes a responsive sidebar, mobile navigation sheet, top bar, admin search, user identity area, unread notifications, and protected admin routes.
 
 ## 4. Admin sidebar — Operations
+
+### Reception — `/admin/reception`
+
+The reception workspace is the front-desk queue for arrivals, departures, guest details, payment follow-up, room allocation, and booking status updates. Receptionists use individual credentials created by an administrator from Users/Roles and receive permission-based access to the operational areas assigned to them.
 
 ### Dashboard — `/admin/dashboard`
 
@@ -169,8 +188,19 @@ Booking management includes:
 - Open guest details.
 - Edit or delete guest records.
 - Guest records are automatically created or updated during booking submission.
+- Guest profiles identify the guest type from actual activity: room guest, spa guest, dining guest, or any combination, and show the related histories and statuses.
 
 ## 5. Admin sidebar — Pages
+
+### User Dashboard — `/admin/pages/user-dashboard`
+
+Administrators can customize the guest-facing account dashboard without editing code:
+
+- Upload a hero image directly from the device; no image URL is required.
+- Edit the hero title and supporting text.
+- Show or hide bookings, hotel services, and activity sections.
+- Change section titles and descriptions.
+- Save changes and reflect them on `/account`.
 
 The Pages section manages public content without direct code changes.
 
@@ -357,4 +387,3 @@ The admin panel has responsive behavior for mobile, tablet, laptop, desktop, and
 - Recharts for dashboard visualizations.
 - TipTap for rich text editing.
 - Sonner for in-app notifications.
-

@@ -40,6 +40,7 @@ model Guest {
   user      User?
   spaReservations    SpaReservation[]
   diningReservations DiningReservation[]
+  experienceReservations ExperienceReservation[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
@@ -64,6 +65,19 @@ model DiningReservation {
   restaurant  String
   scheduledAt DateTime
   guests      Int      @default(2)
+  notes       String?
+  status      ReservationStatus @default(PENDING)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ExperienceReservation {
+  id          String   @id @default(uuid())
+  guestId     String
+  guest       Guest    @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  experience  String
+  scheduledAt DateTime
+  guests      Int      @default(1)
   notes       String?
   status      ReservationStatus @default(PENDING)
   createdAt   DateTime @default(now())

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { signIn } from "next-auth/react";
@@ -20,7 +20,9 @@ export function Navbar({ settings, isLoggedIn }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [loggedIn, setLoggedIn] = useState(isLoggedIn);
   const pathname = usePathname();
+  const router = useRouter();
 
   const forceScrolled = pathname === "/terms" || pathname === "/privacy";
   const effectiveScrolled = isScrolled || forceScrolled;
@@ -33,11 +35,33 @@ export function Navbar({ settings, isLoggedIn }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    setLoggedIn(isLoggedIn);
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    const handleLoginComplete = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin || event.data?.type !== "hotel-google-login-complete") return;
+      setLoggedIn(true);
+      router.refresh();
+    };
+    window.addEventListener("message", handleLoginComplete);
+    return () => window.removeEventListener("message", handleLoginComplete);
+  }, [router]);
+
   const visibleLinks = settings.links.filter((link) => link.isVisible);
 
   async function openLogin() {
-    const result = await signIn("google", { redirect: false, callbackUrl: `${window.location.origin}/login/popup-complete` });
-    if (result?.url) window.open(result.url, "hotel-google-login", "popup,width=520,height=680");
+    const result = await signIn("google", {
+      redirect: false,
+      callbackUrl: `${window.location.origin}/login/popup-complete`,
+    });
+    if (result?.url)
+      window.open(
+        result.url,
+        "hotel-google-login",
+        "popup,width=520,height=680",
+      );
   }
 
   return (
@@ -54,8 +78,7 @@ export function Navbar({ settings, isLoggedIn }: NavbarProps) {
       <div className="px-6 md:px-12 lg:px-24 flex items-center justify-between">
         <Link
           href="/"
-          className={`text-xl font-bold transition-colors md:text-3xl ${effectiveScrolled || isMobileMenuOpen ? "text-zinc-900" : "text-white"}`}
-          style={{ fontFamily: "var(--theme-logo-font)" }}
+          className={`font-argine text-xl font-bold transition-colors md:text-3xl ${effectiveScrolled || isMobileMenuOpen ? "text-zinc-900" : "text-white"}`}
           data-logo="true"
           aria-label="Hotel Luxury"
         >
@@ -74,7 +97,9 @@ export function Navbar({ settings, isLoggedIn }: NavbarProps) {
               <Link
                 href={item.href}
                 className={`flex items-center font-medium tracking-wide transition-opacity ${
-                  effectiveScrolled ? "text-zinc-600 hover:text-zinc-900" : "text-white/90 hover:text-white"
+                  effectiveScrolled
+                    ? "text-zinc-600 hover:text-zinc-900"
+                    : "text-white/90 hover:text-white"
                 }`}
                 style={{ fontSize: "var(--theme-body-size)" }}
               >
@@ -116,7 +141,7 @@ export function Navbar({ settings, isLoggedIn }: NavbarProps) {
           {settings.ctaButton.isVisible && (
             <Link
               href={settings.ctaButton.href}
-              className={`px-6 py-2.5 rounded-sm font-medium text-sm transition-colors ${
+              className={`px-6 py-2.5 rounded-sm font-medium text-md transition-colors ${
                 effectiveScrolled
                   ? "bg-zinc-900 text-white hover:bg-zinc-800"
                   : "bg-white text-zinc-900 hover:bg-zinc-100"
@@ -125,15 +150,40 @@ export function Navbar({ settings, isLoggedIn }: NavbarProps) {
               {settings.ctaButton.label}
             </Link>
           )}
-          {isLoggedIn ? <Link href="/account" aria-label="Open account" className={`flex items-center gap-2 font-medium tracking-wide transition-opacity ${effectiveScrolled ? "text-zinc-600 hover:text-zinc-900" : "text-white/90 hover:text-white"}`}><UserRound className="h-4 w-4" /></Link> : <button type="button" onClick={openLogin} aria-label="Login" className={`flex items-center gap-2 font-medium tracking-wide transition-opacity ${effectiveScrolled ? "text-zinc-600 hover:text-zinc-900" : "text-white/90 hover:text-white"}`}><UserRound className="h-4 w-4" />Login</button>}
+          {loggedIn ? (
+            <Link
+              href="/account"
+              aria-label="Open account"
+              className={`flex items-center gap-2 font-medium tracking-wide transition-opacity ${effectiveScrolled ? "text-zinc-600 hover:text-zinc-900" : "text-white/90 hover:text-white"}`}
+            >
+              <UserRound className="h-8 w-8" />
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={openLogin}
+              aria-label="Login"
+              className={`flex items-center gap-2 font-medium tracking-wide transition-opacity ${effectiveScrolled ? "text-zinc-600 hover:text-zinc-900" : "text-white/90 hover:text-white"}`}
+            >
+              <UserRound className="h-8 w-8" />
+              Login
+            </button>
+          )}
         </nav>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+        <button
+          className="md:hidden"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
           {isMobileMenuOpen ? (
-            <X className={`w-6 h-6 ${effectiveScrolled || isMobileMenuOpen ? "text-zinc-900" : "text-white"}`} />
+            <X
+              className={`w-6 h-6 ${effectiveScrolled || isMobileMenuOpen ? "text-zinc-900" : "text-white"}`}
+            />
           ) : (
-            <Menu className={`w-6 h-6 ${effectiveScrolled ? "text-zinc-900" : "text-white"}`} />
+            <Menu
+              className={`w-6 h-6 ${effectiveScrolled ? "text-zinc-900" : "text-white"}`}
+            />
           )}
         </button>
       </div>
@@ -154,12 +204,20 @@ export function Navbar({ settings, isLoggedIn }: NavbarProps) {
                     <Link
                       href={item.href}
                       className="text-zinc-900 font-medium text-lg"
-                      onClick={() => !item.children?.length && setIsMobileMenuOpen(false)}
+                      onClick={() =>
+                        !item.children?.length && setIsMobileMenuOpen(false)
+                      }
                     >
                       {item.label}
                     </Link>
                     {item.children && item.children.length > 0 && (
-                      <button onClick={() => setActiveDropdown(activeDropdown === item.id ? null : item.id)}>
+                      <button
+                        onClick={() =>
+                          setActiveDropdown(
+                            activeDropdown === item.id ? null : item.id,
+                          )
+                        }
+                      >
                         <ChevronDown
                           className={`w-5 h-5 transition-transform ${activeDropdown === item.id ? "rotate-180" : ""}`}
                         />
@@ -205,7 +263,27 @@ export function Navbar({ settings, isLoggedIn }: NavbarProps) {
                   {settings.ctaButton.label}
                 </Link>
               )}
-              {isLoggedIn ? <Link href="/account" className="mt-4 flex w-full items-center justify-center gap-2 rounded-sm border border-zinc-200 py-3 text-center font-medium text-zinc-900" onClick={() => setIsMobileMenuOpen(false)}><UserRound className="h-4 w-4" /></Link> : <button type="button" className="mt-4 flex w-full items-center justify-center gap-2 rounded-sm border border-zinc-200 py-3 text-center font-medium text-zinc-900" onClick={() => { setIsMobileMenuOpen(false); openLogin(); }}><UserRound className="h-4 w-4" />Login</button>}
+              {loggedIn ? (
+                <Link
+                  href="/account"
+                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-sm border border-zinc-200 py-3 text-center font-medium text-zinc-900"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <UserRound className="h-4 w-4" />
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-sm border border-zinc-200 py-3 text-center font-medium text-zinc-900"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    openLogin();
+                  }}
+                >
+                  <UserRound className="h-4 w-4" />
+                  Login
+                </button>
+              )}
             </div>
           </motion.div>
         )}

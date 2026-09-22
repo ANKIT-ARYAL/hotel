@@ -18,7 +18,6 @@ import {
   Wallet,
   Zap,
 } from "lucide-react";
-import { Cell, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -151,38 +150,20 @@ export function DashboardClientView({ data }: { data: DashboardData }) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column (Spans 2) */}
         <div className="lg:col-span-2 space-y-6">
-          <Card className="shadow-sm h-full">
+          <Card className="min-w-0 shadow-sm h-full">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-lg font-semibold">Revenue Overview (Last 7 Days)</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-[250px] mt-4 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={data.chartData}>
-                    <XAxis
-                      dataKey="date"
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fontSize: 12, fill: "#9ca3af" }}
-                      dy={10}
-                    />
-                    <Tooltip
-                      contentStyle={{
-                        borderRadius: "8px",
-                        border: "none",
-                        boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
-                      }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="income"
-                      stroke="#1f2937"
-                      strokeWidth={2}
-                      dot={false}
-                      activeDot={{ r: 4 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+              <div className="mt-4 h-[250px] min-h-[250px] min-w-0 w-full">
+                <svg viewBox="0 0 700 250" className="h-full w-full" role="img" aria-label="Revenue over the last seven days">
+                  <line x1="20" y1="210" x2="680" y2="210" stroke="#e5e7eb" />
+                  {(() => {
+                    const max = Math.max(...data.chartData.map((item) => item.income), 1);
+                    const points = data.chartData.map((item, index) => `${20 + index * (660 / Math.max(data.chartData.length - 1, 1))},${210 - (item.income / max) * 170}`).join(" ");
+                    return <><polyline points={points} fill="none" stroke="#1f2937" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />{data.chartData.map((item, index) => { const x = 20 + index * (660 / Math.max(data.chartData.length - 1, 1)); const y = 210 - (item.income / max) * 170; return <g key={item.date}><circle cx={x} cy={y} r="5" fill="#1f2937" /><text x={x} y="238" textAnchor="middle" fontSize="12" fill="#9ca3af">{item.date}</text></g>; })}</>;
+                  })()}
+                </svg>
               </div>
             </CardContent>
           </Card>
@@ -190,31 +171,16 @@ export function DashboardClientView({ data }: { data: DashboardData }) {
 
         {/* Right Column (Spans 1) */}
         <div className="space-y-6">
-          <Card className="shadow-sm h-full flex flex-col justify-between">
+          <Card className="min-w-0 shadow-sm h-full flex flex-col justify-between">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-lg font-semibold">Room Allocation</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col items-center h-[250px] justify-between">
-                <div className="w-full h-[150px] relative">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={data.roomAllocation}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={50}
-                        outerRadius={70}
-                        paddingAngle={5}
-                        dataKey="value"
-                        stroke="none"
-                      >
-                        {data.roomAllocation.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.fill} />
-                        ))}
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
+                <div className="relative flex h-[150px] min-h-[150px] min-w-0 w-full items-center justify-center">
+                  <div className="relative h-32 w-32 rounded-full" style={{ background: `conic-gradient(${(() => { const total = data.roomAllocation.reduce((sum, item) => sum + item.value, 0) || 1; let start = 0; return data.roomAllocation.map((item) => { const end = start + (item.value / total) * 360; const segment = `${item.fill} ${start}deg ${end}deg`; start = end; return segment; }).join(", "); })()})` }}>
+                    <div className="absolute inset-7 rounded-full bg-card" />
+                  </div>
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
                     <span className="text-sm text-gray-400">Total</span>
                     <span className="text-lg font-bold">{data.totalRooms}</span>
@@ -319,4 +285,3 @@ export function DashboardClientView({ data }: { data: DashboardData }) {
     </div>
   );
 }
-

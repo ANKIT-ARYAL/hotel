@@ -10,6 +10,7 @@ export default async function GuestsPage() {
       bookings: true,
       spaReservations: { orderBy: { scheduledAt: "desc" } },
       diningReservations: { orderBy: { scheduledAt: "desc" } },
+      experienceReservations: { orderBy: { scheduledAt: "desc" } },
     },
   });
 

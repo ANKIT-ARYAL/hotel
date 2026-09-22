@@ -10,6 +10,9 @@ import { CancelRequestButton } from "@/components/guest/CancelRequestButton";
 export default async function GuestAccountPage() {
   const session = await auth();
   if (!session?.user?.email) redirect("/login");
+  const sessionRole = session.user.role as unknown as string | { name?: string } | undefined;
+  const roleName = typeof sessionRole === "string" ? sessionRole : sessionRole?.name;
+  if (roleName !== "USER") redirect("/admin/dashboard");
   const homepage = await getHomepageSettings();
   const dashboard = await getUserDashboardSettings();
 
@@ -22,6 +25,7 @@ export default async function GuestAccountPage() {
       },
       spaReservations: { orderBy: { scheduledAt: "desc" } },
       diningReservations: { orderBy: { scheduledAt: "desc" } },
+      experienceReservations: { orderBy: { scheduledAt: "desc" } },
     },
   });
   const spaReservations = (guest?.spaReservations ?? []) as Array<{
@@ -35,6 +39,9 @@ export default async function GuestAccountPage() {
     restaurant: string;
     scheduledAt: Date;
     status: string;
+  }>;
+  const experienceReservations = (guest?.experienceReservations ?? []) as Array<{
+    id: string; experience: string; scheduledAt: Date; guests: number; status: string;
   }>;
 
   return (
@@ -137,6 +144,12 @@ export default async function GuestAccountPage() {
                 >
                   Reserve dining
                 </a>
+                <a
+                  className="rounded-sm border border-zinc-200 p-4 hover:bg-zinc-50"
+                  href="/experiences"
+                >
+                  Book an experience
+                </a>
               </div>
             </section>
           )}
@@ -189,6 +202,19 @@ export default async function GuestAccountPage() {
                     No dining requests yet.
                   </p>
                 )}
+              </div>
+            </section>
+            <section className="rounded-sm border border-zinc-200 bg-[#fffdfa] p-6 md:p-8">
+              <h2 className="text-xl font-semibold">Experience bookings</h2>
+              <div className="mt-4 grid gap-3">
+                {experienceReservations.map((item) => (
+                  <div key={item.id} className="rounded-sm border border-zinc-200 p-3">
+                    <p className="font-medium">{item.experience}</p>
+                    <p className="text-sm text-muted-foreground">{item.scheduledAt.toLocaleString()} · {item.status}</p>
+                    {!['CANCELLED', 'COMPLETED'].includes(item.status) && <CancelRequestButton type="experience" id={item.id} />}
+                  </div>
+                ))}
+                {!experienceReservations.length && <p className="text-sm text-muted-foreground">No experience bookings yet.</p>}
               </div>
             </section>
           </div>

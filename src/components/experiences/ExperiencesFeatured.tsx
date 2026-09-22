@@ -8,12 +8,13 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 import type { ExperiencesPageSettings } from "./types";
+import { ServiceReservationForm } from "@/components/guest/ServiceReservationForm";
 
 interface ExperiencesFeaturedProps {
   settings: ExperiencesPageSettings["featured"];
 }
 
-export function ExperiencesFeatured({ settings }: ExperiencesFeaturedProps) {
+export function ExperiencesFeatured({ settings, isLoggedIn = false }: ExperiencesFeaturedProps & { isLoggedIn?: boolean }) {
   if (!settings.isVisible) return null;
 
   return (
@@ -69,6 +70,13 @@ export function ExperiencesFeatured({ settings }: ExperiencesFeaturedProps) {
               >
                 {item.description}
               </p>
+              <ServiceReservationForm
+                type="experience"
+                options={settings.items.map((experience) => experience.name)}
+                initialOption={item.name}
+                isLoggedIn={isLoggedIn}
+                trigger={<button type="button" className="mt-5 w-fit rounded-md bg-zinc-900 px-5 py-3 text-sm font-medium text-white">Book experience</button>}
+              />
             </div>
           </motion.div>
         ))}

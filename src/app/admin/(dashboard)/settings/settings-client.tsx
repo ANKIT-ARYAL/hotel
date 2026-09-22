@@ -261,7 +261,7 @@ export function SettingsClientView({
                 <SelectTrigger><SelectValue placeholder="Select a logo font" /></SelectTrigger>
                 <SelectContent>{LOGO_FONTS.map((font) => <SelectItem key={font.value} value={font.value}>{font.label}</SelectItem>)}</SelectContent>
               </Select>
-              <div className="rounded-md border bg-zinc-50 p-6 text-center text-2xl" style={{ fontFamily: "var(--theme-logo-font)" }}>HOTEL LUXURY</div>
+              <div className="rounded-md border bg-zinc-50 p-6 text-center text-2xl" style={{ fontFamily: `var(--${hpSettings.theme.logoFontFamily || "font-nove"})` }}>HOTEL LUXURY</div>
             </CardContent>
           </Card>
 

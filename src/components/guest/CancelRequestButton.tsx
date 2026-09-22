@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { requestCancellation } from "@/app/actions/guest-reservations";
 
-export function CancelRequestButton({ type, id }: { type: "booking" | "spa" | "dining"; id: string }) {
+export function CancelRequestButton({ type, id }: { type: "booking" | "spa" | "dining" | "experience"; id: string }) {
   const [saving, setSaving] = useState(false);
   async function cancel() {
     if (!confirm("Send a cancellation request to the hotel team?")) return;

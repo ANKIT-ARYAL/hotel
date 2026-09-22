@@ -7,7 +7,7 @@ export default async function RolesPage() {
   await prisma.role.upsert({
     where: { name: "RECEPTIONIST" },
     update: {},
-    create: { name: "RECEPTIONIST", permissions: ["Reception", "Dashboard", "Bookings", "Messages", "Rooms", "Guests", "Reviews"] },
+    create: { name: "RECEPTIONIST", permissions: ["Reception", "Dashboard", "Bookings", "Reservations", "Messages", "Rooms", "Guests", "Reviews"] },
   });
   await prisma.role.upsert({ where: { name: "USER" }, update: {}, create: { name: "USER", permissions: [] } });
   const roles = await prisma.role.findMany({
