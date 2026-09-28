@@ -18,6 +18,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 export function ReviewsClientView({ initialReviews }: { initialReviews: any[] }) {
   const [reviews, setReviews] = useState(initialReviews);
   const [selectedReview, setSelectedReview] = useState<any | null>(null);
+  const [reviewFilter, setReviewFilter] = useState<"ALL" | "PENDING" | "APPROVED">("ALL");
 
   const handleApprove = async (id: string) => {
     try {
@@ -50,6 +51,12 @@ export function ReviewsClientView({ initialReviews }: { initialReviews: any[] })
   const pendingReviews = reviews.filter((r) => !r.isApproved).length;
   const approvedReviews = reviews.filter((r) => r.isApproved).length;
 
+  const filteredReviews = reviews.filter((r) => {
+    if (reviewFilter === "PENDING") return !r.isApproved;
+    if (reviewFilter === "APPROVED") return r.isApproved;
+    return true;
+  });
+
   return (
     <div className="max-w-7xl mx-auto space-y-6 pb-12">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-gray-200 pb-4">
@@ -66,28 +73,94 @@ export function ReviewsClientView({ initialReviews }: { initialReviews: any[] })
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="shadow-sm border-orange-100 bg-orange-50/30">
+      {/* Top Filter Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <Card
+          onClick={() => setReviewFilter("ALL")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            reviewFilter === "ALL"
+              ? "border-primary ring-2 ring-primary/20 bg-primary/5"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-orange-600 font-normal">Pending Approval</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">All Reviews</CardTitle>
+              {reviewFilter === "ALL" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                  Active
+                </span>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold text-orange-600">{pendingReviews}</div>
+            <div className="text-2xl sm:text-3xl font-semibold text-gray-900">{reviews.length}</div>
           </CardContent>
         </Card>
-        <Card className="shadow-sm border-green-100 bg-green-50/30">
+
+        <Card
+          onClick={() => setReviewFilter(reviewFilter === "PENDING" ? "ALL" : "PENDING")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            reviewFilter === "PENDING"
+              ? "border-orange-500 ring-2 ring-orange-500/20 bg-orange-50/50"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-green-600 font-normal">Approved & Public</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-orange-600 font-normal">Pending Approval</CardTitle>
+              {reviewFilter === "PENDING" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-orange-100 text-orange-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold text-green-600">{approvedReviews}</div>
+            <div className="text-2xl sm:text-3xl font-semibold text-orange-600">{pendingReviews}</div>
+          </CardContent>
+        </Card>
+
+        <Card
+          onClick={() => setReviewFilter(reviewFilter === "APPROVED" ? "ALL" : "APPROVED")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            reviewFilter === "APPROVED"
+              ? "border-green-500 ring-2 ring-green-500/20 bg-green-50/50"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-green-600 font-normal">Approved & Public</CardTitle>
+              {reviewFilter === "APPROVED" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl sm:text-3xl font-semibold text-green-600">{approvedReviews}</div>
           </CardContent>
         </Card>
       </div>
 
       <Card className="shadow-sm">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-lg font-semibold">Moderation Queue</CardTitle>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-500">
+              Showing {filteredReviews.length} of {reviews.length}
+            </span>
+            {reviewFilter !== "ALL" && (
+              <button
+                onClick={() => setReviewFilter("ALL")}
+                className="text-xs text-primary underline underline-offset-4 hover:opacity-80"
+              >
+                Clear filter
+              </button>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           <div className="rounded-md border overflow-x-auto">
@@ -102,7 +175,14 @@ export function ReviewsClientView({ initialReviews }: { initialReviews: any[] })
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {reviews.map((r) => (
+                {filteredReviews.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="py-12 text-center text-gray-400">
+                      No reviews match this filter.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredReviews.map((r) => (
                   <TableRow
                     key={r.id}
                     data-hide-actions="true"
@@ -160,14 +240,7 @@ export function ReviewsClientView({ initialReviews }: { initialReviews: any[] })
                       </DropdownMenu>
                     </TableCell>
                   </TableRow>
-                ))}
-                {reviews.length === 0 && (
-                  <TableRow>
-                    <TableCell colSpan={5} className="h-24 text-center text-gray-500">
-                      No guest reviews found.
-                    </TableCell>
-                  </TableRow>
-                )}
+                )))}
               </TableBody>
             </Table>
           </div>

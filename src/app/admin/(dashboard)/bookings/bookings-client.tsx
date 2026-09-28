@@ -20,7 +20,19 @@ export function BookingsClient({ initialBookings }: { initialBookings: Booking[]
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const router = useRouter();
+
+  const pendingCount = bookings.filter((b) => b.status === "PENDING" || b.status === "PENDING_PAYMENT").length;
+  const confirmedCount = bookings.filter((b) => b.status === "CONFIRMED" || b.status === "CHECKED_IN").length;
+  const cancelledCount = bookings.filter((b) => b.status === "CANCELLED").length;
+
+  const filteredBookings = bookings.filter((b) => {
+    if (statusFilter === "PENDING") return b.status === "PENDING" || b.status === "PENDING_PAYMENT";
+    if (statusFilter === "CONFIRMED") return b.status === "CONFIRMED" || b.status === "CHECKED_IN";
+    if (statusFilter === "CANCELLED") return b.status === "CANCELLED";
+    return true;
+  });
 
   const handleUpdateStatus = async (id: string, newStatus: string) => {
     setIsUpdating(true);
@@ -71,15 +83,22 @@ export function BookingsClient({ initialBookings }: { initialBookings: Booking[]
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "PENDING":
+      case "PENDING_PAYMENT":
         return (
           <span className="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-semibold flex items-center gap-1">
-            <Clock className="w-3 h-3" /> Pending
+            <Clock className="w-3 h-3" /> {status === "PENDING_PAYMENT" ? "Payment Due" : "Pending"}
           </span>
         );
       case "CONFIRMED":
         return (
           <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold flex items-center gap-1">
             <CheckCircle2 className="w-3 h-3" /> Confirmed
+          </span>
+        );
+      case "CHECKED_IN":
+        return (
+          <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold flex items-center gap-1">
+            <CheckCircle2 className="w-3 h-3" /> Checked In
           </span>
         );
       case "CANCELLED":
@@ -95,20 +114,115 @@ export function BookingsClient({ initialBookings }: { initialBookings: Booking[]
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1
-          className="text-3xl font-bold text-gray-900 tracking-tight"
-          style={{ fontSize: "var(--admin-heading-size)" }}
-        >
-          Bookings
-        </h1>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 pb-4">
+        <div>
+          <h1
+            className="text-3xl font-bold text-gray-900 tracking-tight"
+            style={{ fontSize: "var(--admin-heading-size)" }}
+          >
+            Bookings
+          </h1>
+          <p className="text-base text-gray-500 mt-1">Manage guest reservations, check-ins, and statuses.</p>
+        </div>
         <button className="bg-primary text-white px-4 py-2 rounded-md font-medium text-sm flex items-center gap-2 hover:bg-primary/90 transition-colors">
           <CalendarDays className="w-4 h-4" />
           Export Schedule
         </button>
       </div>
 
+      {/* Top Filter Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div
+          onClick={() => setStatusFilter(statusFilter === "ALL" ? "ALL" : "ALL")}
+          className={`p-4 sm:p-5 rounded-xl border bg-white cursor-pointer select-none transition-all shadow-sm ${
+            statusFilter === "ALL"
+              ? "border-primary ring-2 ring-primary/20 bg-primary/5"
+              : "border-gray-200 hover:border-gray-300"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-gray-500">Total Bookings</span>
+            {statusFilter === "ALL" && (
+              <span className="text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                Active
+              </span>
+            )}
+          </div>
+          <p className="text-2xl sm:text-3xl font-bold text-gray-900 mt-2">{bookings.length}</p>
+        </div>
+
+        <div
+          onClick={() => setStatusFilter(statusFilter === "PENDING" ? "ALL" : "PENDING")}
+          className={`p-4 sm:p-5 rounded-xl border bg-white cursor-pointer select-none transition-all shadow-sm ${
+            statusFilter === "PENDING"
+              ? "border-amber-500 ring-2 ring-amber-500/20 bg-amber-50/40"
+              : "border-gray-200 hover:border-gray-300"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-gray-500">Pending / Unpaid</span>
+            {statusFilter === "PENDING" && (
+              <span className="text-[10px] font-semibold uppercase tracking-wider bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">
+                Filtered
+              </span>
+            )}
+          </div>
+          <p className="text-2xl sm:text-3xl font-bold text-amber-600 mt-2">{pendingCount}</p>
+        </div>
+
+        <div
+          onClick={() => setStatusFilter(statusFilter === "CONFIRMED" ? "ALL" : "CONFIRMED")}
+          className={`p-4 sm:p-5 rounded-xl border bg-white cursor-pointer select-none transition-all shadow-sm ${
+            statusFilter === "CONFIRMED"
+              ? "border-green-500 ring-2 ring-green-500/20 bg-green-50/40"
+              : "border-gray-200 hover:border-gray-300"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-gray-500">Confirmed</span>
+            {statusFilter === "CONFIRMED" && (
+              <span className="text-[10px] font-semibold uppercase tracking-wider bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                Filtered
+              </span>
+            )}
+          </div>
+          <p className="text-2xl sm:text-3xl font-bold text-green-600 mt-2">{confirmedCount}</p>
+        </div>
+
+        <div
+          onClick={() => setStatusFilter(statusFilter === "CANCELLED" ? "ALL" : "CANCELLED")}
+          className={`p-4 sm:p-5 rounded-xl border bg-white cursor-pointer select-none transition-all shadow-sm ${
+            statusFilter === "CANCELLED"
+              ? "border-red-500 ring-2 ring-red-500/20 bg-red-50/40"
+              : "border-gray-200 hover:border-gray-300"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-gray-500">Cancelled</span>
+            {statusFilter === "CANCELLED" && (
+              <span className="text-[10px] font-semibold uppercase tracking-wider bg-red-100 text-red-800 px-2 py-0.5 rounded-full">
+                Filtered
+              </span>
+            )}
+          </div>
+          <p className="text-2xl sm:text-3xl font-bold text-red-600 mt-2">{cancelledCount}</p>
+        </div>
+      </div>
+
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div className="p-4 bg-gray-50/50 border-b border-gray-200 flex items-center justify-between">
+          <span className="text-xs text-gray-500">
+            Showing {filteredBookings.length} of {bookings.length} bookings
+          </span>
+          {statusFilter !== "ALL" && (
+            <button
+              onClick={() => setStatusFilter("ALL")}
+              className="text-xs text-primary underline underline-offset-4 hover:opacity-80"
+            >
+              Clear filter
+            </button>
+          )}
+        </div>
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left text-sm text-gray-500">
             <thead className="bg-gray-50 text-xs text-gray-700 uppercase border-b border-gray-200">
@@ -123,8 +237,8 @@ export function BookingsClient({ initialBookings }: { initialBookings: Booking[]
               </tr>
             </thead>
             <tbody>
-              {bookings.length > 0 ? (
-                bookings.map((booking) => (
+              {filteredBookings.length > 0 ? (
+                filteredBookings.map((booking) => (
                   <tr
                     key={booking.id}
                     className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors cursor-pointer"
@@ -184,8 +298,8 @@ export function BookingsClient({ initialBookings }: { initialBookings: Booking[]
         </div>
 
         <div className="md:hidden divide-y divide-gray-100">
-          {bookings.length > 0 ? (
-            bookings.map((booking) => (
+          {filteredBookings.length > 0 ? (
+            filteredBookings.map((booking) => (
               <button
                 key={booking.id}
                 type="button"

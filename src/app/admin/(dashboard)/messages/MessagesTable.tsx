@@ -26,6 +26,16 @@ type Message = {
 export function MessagesTable({ initialMessages }: { initialMessages: Message[] }) {
   const [messages, setMessages] = useState(initialMessages);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
+  const [readFilter, setReadFilter] = useState<"ALL" | "UNREAD" | "READ">("ALL");
+
+  const unreadCount = messages.filter((m) => !m.isRead).length;
+  const readCount = messages.filter((m) => m.isRead).length;
+
+  const filteredMessages = messages.filter((m) => {
+    if (readFilter === "UNREAD") return !m.isRead;
+    if (readFilter === "READ") return m.isRead;
+    return true;
+  });
 
   const handleRowClick = async (message: Message) => {
     setSelectedMessage(message);
@@ -54,8 +64,81 @@ export function MessagesTable({ initialMessages }: { initialMessages: Message[] 
   };
 
   return (
-    <>
+    <div className="space-y-6">
+      {/* Top Filter Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div
+          onClick={() => setReadFilter("ALL")}
+          className={`p-4 sm:p-5 rounded-xl border bg-white cursor-pointer select-none transition-all shadow-sm ${
+            readFilter === "ALL"
+              ? "border-primary ring-2 ring-primary/20 bg-primary/5"
+              : "border-gray-200 hover:border-gray-300"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-gray-500">All Messages</span>
+            {readFilter === "ALL" && (
+              <span className="text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                Active
+              </span>
+            )}
+          </div>
+          <p className="text-2xl sm:text-3xl font-bold text-gray-900 mt-2">{messages.length}</p>
+        </div>
+
+        <div
+          onClick={() => setReadFilter(readFilter === "UNREAD" ? "ALL" : "UNREAD")}
+          className={`p-4 sm:p-5 rounded-xl border bg-white cursor-pointer select-none transition-all shadow-sm ${
+            readFilter === "UNREAD"
+              ? "border-blue-500 ring-2 ring-blue-500/20 bg-blue-50/40"
+              : "border-gray-200 hover:border-gray-300"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-gray-500">Unread</span>
+            {readFilter === "UNREAD" && (
+              <span className="text-[10px] font-semibold uppercase tracking-wider bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                Filtered
+              </span>
+            )}
+          </div>
+          <p className="text-2xl sm:text-3xl font-bold text-blue-600 mt-2">{unreadCount}</p>
+        </div>
+
+        <div
+          onClick={() => setReadFilter(readFilter === "READ" ? "ALL" : "READ")}
+          className={`p-4 sm:p-5 rounded-xl border bg-white cursor-pointer select-none transition-all shadow-sm ${
+            readFilter === "READ"
+              ? "border-green-500 ring-2 ring-green-500/20 bg-green-50/40"
+              : "border-gray-200 hover:border-gray-300"
+          }`}
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-gray-500">Read</span>
+            {readFilter === "READ" && (
+              <span className="text-[10px] font-semibold uppercase tracking-wider bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                Filtered
+              </span>
+            )}
+          </div>
+          <p className="text-2xl sm:text-3xl font-bold text-gray-600 mt-2">{readCount}</p>
+        </div>
+      </div>
+
       <div className="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+        <div className="p-4 bg-gray-50/50 border-b border-gray-200 flex items-center justify-between">
+          <span className="text-xs text-gray-500">
+            Showing {filteredMessages.length} of {messages.length} messages
+          </span>
+          {readFilter !== "ALL" && (
+            <button
+              onClick={() => setReadFilter("ALL")}
+              className="text-xs text-primary underline underline-offset-4 hover:opacity-80"
+            >
+              Clear filter
+            </button>
+          )}
+        </div>
         <Table>
           <TableHeader className="bg-gray-50/50">
             <TableRow>
@@ -67,14 +150,14 @@ export function MessagesTable({ initialMessages }: { initialMessages: Message[] 
             </TableRow>
           </TableHeader>
           <TableBody>
-            {messages.length === 0 ? (
+            {filteredMessages.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={5} className="h-32 text-center text-gray-500">
-                  No messages found.
+                  No messages match this filter.
                 </TableCell>
               </TableRow>
             ) : (
-              messages.map((msg) => (
+              filteredMessages.map((msg) => (
                 <TableRow
                   key={msg.id}
                   onClick={() => handleRowClick(msg)}
@@ -164,6 +247,6 @@ export function MessagesTable({ initialMessages }: { initialMessages: Message[] 
           )}
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }

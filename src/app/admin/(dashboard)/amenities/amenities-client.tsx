@@ -61,8 +61,18 @@ const AMENITY_ICONS = [
 
 export function AmenitiesClientView({ initialAmenities }: { initialAmenities: any[] }) {
   const [amenities, setAmenities] = useState(initialAmenities);
+  const [amenityFilter, setAmenityFilter] = useState<"ALL" | "WITH_ICON" | "WITHOUT_ICON">("ALL");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingAmenity, setEditingAmenity] = useState<any>(null);
+
+  const withIconCount = amenities.filter((a) => a.icon && a.icon !== "").length;
+  const withoutIconCount = amenities.filter((a) => !a.icon || a.icon === "").length;
+
+  const filteredAmenities = amenities.filter((a) => {
+    if (amenityFilter === "WITH_ICON") return a.icon && a.icon !== "";
+    if (amenityFilter === "WITHOUT_ICON") return !a.icon || a.icon === "";
+    return true;
+  });
 
   const [name, setName] = useState("");
   const [icon, setIcon] = useState("");
@@ -136,20 +146,94 @@ export function AmenitiesClientView({ initialAmenities }: { initialAmenities: an
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="shadow-sm">
+      {/* Top Filter Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <Card
+          onClick={() => setAmenityFilter("ALL")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            amenityFilter === "ALL"
+              ? "border-primary ring-2 ring-primary/20 bg-primary/5"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Total Amenities</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">All Amenities</CardTitle>
+              {amenityFilter === "ALL" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                  Active
+                </span>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold text-gray-900">{amenities.length}</div>
+            <div className="text-2xl sm:text-3xl font-semibold text-gray-900">{amenities.length}</div>
+          </CardContent>
+        </Card>
+
+        <Card
+          onClick={() => setAmenityFilter(amenityFilter === "WITH_ICON" ? "ALL" : "WITH_ICON")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            amenityFilter === "WITH_ICON"
+              ? "border-purple-500 ring-2 ring-purple-500/20 bg-purple-50/40"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">With Custom Icon</CardTitle>
+              {amenityFilter === "WITH_ICON" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl sm:text-3xl font-semibold text-purple-600">{withIconCount}</div>
+          </CardContent>
+        </Card>
+
+        <Card
+          onClick={() => setAmenityFilter(amenityFilter === "WITHOUT_ICON" ? "ALL" : "WITHOUT_ICON")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            amenityFilter === "WITHOUT_ICON"
+              ? "border-gray-500 ring-2 ring-gray-500/20 bg-gray-50"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">Standard / No Icon</CardTitle>
+              {amenityFilter === "WITHOUT_ICON" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-gray-200 text-gray-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl sm:text-3xl font-semibold text-gray-600">{withoutIconCount}</div>
           </CardContent>
         </Card>
       </div>
 
       <Card className="shadow-sm">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-lg font-semibold">Amenities List</CardTitle>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-500">
+              Showing {filteredAmenities.length} of {amenities.length}
+            </span>
+            {amenityFilter !== "ALL" && (
+              <button
+                onClick={() => setAmenityFilter("ALL")}
+                className="text-xs text-primary underline underline-offset-4 hover:opacity-80"
+              >
+                Clear filter
+              </button>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           <div className="rounded-md border overflow-x-auto">
@@ -162,7 +246,14 @@ export function AmenitiesClientView({ initialAmenities }: { initialAmenities: an
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {amenities.map((a) => {
+                {filteredAmenities.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={3} className="py-12 text-center text-gray-400">
+                      No amenities match this filter.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredAmenities.map((a) => {
                   const IconComp = AMENITY_ICONS.find((i) => i.id === a.icon)?.icon || Sparkles;
                   return (
                     <TableRow
@@ -210,7 +301,7 @@ export function AmenitiesClientView({ initialAmenities }: { initialAmenities: an
                       </TableCell>
                     </TableRow>
                   );
-                })}
+                }))}
               </TableBody>
             </Table>
           </div>

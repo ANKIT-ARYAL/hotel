@@ -46,7 +46,17 @@ const bookingSchema = z
 
 type BookingFormData = z.infer<typeof bookingSchema>;
 
-export function BookingForm({ roomId, arrival, departure }: { roomId: string; arrival: string; departure: string }) {
+export function BookingForm({
+  roomId,
+  arrival,
+  departure,
+  onSuccess,
+}: {
+  roomId: string;
+  arrival: string;
+  departure: string;
+  onSuccess?: (bookingId: string) => void;
+}) {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingId, setBookingId] = useState<string | null>(null);
@@ -80,6 +90,13 @@ export function BookingForm({ roomId, arrival, departure }: { roomId: string; ar
       if (res.success) {
         setIsSuccess(true);
         setBookingId(res.bookingId || null);
+        if (typeof window !== "undefined") {
+          const isMobile = window.innerWidth < 768;
+          if (isMobile) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        }
+        onSuccess?.(res.bookingId || "");
       } else {
         toast.error(res.error || "Failed to process booking.");
       }

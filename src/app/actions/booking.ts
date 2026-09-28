@@ -34,6 +34,17 @@ export async function submitBooking(formData: z.infer<typeof bookingSchema>) {
 
     const arrival = new Date(data.arrival);
     const departure = new Date(data.departure);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const [arrY, arrM, arrD] = data.arrival.split("-").map(Number);
+    const arrivalCheck = arrY && arrM && arrD ? new Date(arrY, arrM - 1, arrD) : arrival;
+    if (arrivalCheck < today) {
+      return { success: false, error: "Arrival date cannot be in the past" };
+    }
+    if (departure <= arrival) {
+      return { success: false, error: "Departure date must be after arrival date" };
+    }
 
     // Calculate total
     const nights = Math.ceil((departure.getTime() - arrival.getTime()) / (1000 * 60 * 60 * 24));

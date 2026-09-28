@@ -9,6 +9,8 @@ import { Calendar, Filter, Search, User } from "lucide-react";
 
 import { getSearchFilterOptions } from "@/app/actions/search";
 import { Button } from "@/components/ui/button";
+import { BookingDatePicker } from "@/components/ui/booking-date-picker";
+import { toast } from "sonner";
 
 export function AdvancedSearchSidebar() {
   const router = useRouter();
@@ -95,49 +97,64 @@ export function AdvancedSearchSidebar() {
           <div className="space-y-4">
             <h3 className="font-bold text-zinc-900 tracking-wide">Dates</h3>
             <div className="space-y-2">
-              <div className="relative">
-                <input
-                  type="date"
-                  value={arrivalDate}
-                  onChange={(e) => {
-                    const newArrival = e.target.value;
-                    setArrivalDate(newArrival);
-                    if (newArrival && departureDate) {
-                      const arrivalD = new Date(newArrival);
-                      const departureD = new Date(departureDate);
-                      if (arrivalD >= departureD) {
-                        const nextDay = new Date(arrivalD);
-                        nextDay.setDate(nextDay.getDate() + 1);
-                        setDepartureDate(nextDay.toISOString().split("T")[0]);
-                      }
-                    } else if (newArrival && !departureDate) {
-                      const arrivalD = new Date(newArrival);
-                      const nextDay = new Date(arrivalD);
-                      nextDay.setDate(nextDay.getDate() + 1);
-                      setDepartureDate(nextDay.toISOString().split("T")[0]);
-                    }
-                  }}
-                  className="w-full bg-zinc-50 border border-zinc-200 rounded-lg pl-10 pr-4 py-2.5 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-shadow appearance-none text-sm"
-                  min={new Date().toISOString().split("T")[0]}
-                  required
-                />
-                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
-              </div>
-              <div className="relative">
-                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 pointer-events-none" />
-                <input
-                  type="date"
-                  value={departureDate}
-                  onChange={(e) => setDepartureDate(e.target.value)}
-                  className="w-full bg-zinc-50 border border-zinc-200 rounded-lg pl-10 pr-4 py-2.5 text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-shadow appearance-none text-sm"
-                  min={
-                    arrivalDate
-                      ? new Date(new Date(arrivalDate).getTime() + 86400000).toISOString().split("T")[0]
-                      : new Date(new Date().getTime() + 86400000).toISOString().split("T")[0]
+              <BookingDatePicker
+                label="Arrival"
+                value={arrivalDate}
+                onChange={(newArrival) => {
+                  if (!newArrival) {
+                    setArrivalDate("");
+                    return;
                   }
-                  required
-                />
-              </div>
+                  if (departureDate && newArrival >= departureDate) {
+                    toast.error("Arrival date cannot be on or later than departure date.");
+                    return;
+                  }
+                  setArrivalDate(newArrival);
+                }}
+                onClear={() => setArrivalDate("")}
+                minDate={new Date().toISOString().split("T")[0]}
+                maxDate={
+                  departureDate
+                    ? (() => {
+                        const [y, m, d] = departureDate.split("-").map(Number);
+                        const prev = new Date(y, m - 1, d - 1);
+                        return `${prev.getFullYear()}-${String(prev.getMonth() + 1).padStart(2, "0")}-${String(prev.getDate()).padStart(2, "0")}`;
+                      })()
+                    : undefined
+                }
+                minDateError="Arrival date cannot be in the past."
+                maxDateError="Arrival date cannot be on or later than departure date."
+                theme="light"
+                className="w-full bg-zinc-50 border-zinc-200 rounded-lg py-2.5 text-zinc-900 text-sm"
+              />
+              <BookingDatePicker
+                label="Departure"
+                value={departureDate}
+                onChange={(newDeparture) => {
+                  if (!newDeparture) {
+                    setDepartureDate("");
+                    return;
+                  }
+                  if (arrivalDate && newDeparture <= arrivalDate) {
+                    toast.error("Departure date must be after arrival date.");
+                    return;
+                  }
+                  setDepartureDate(newDeparture);
+                }}
+                onClear={() => setDepartureDate("")}
+                minDate={
+                  arrivalDate
+                    ? (() => {
+                        const [y, m, d] = arrivalDate.split("-").map(Number);
+                        const next = new Date(y, m - 1, d + 1);
+                        return `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, "0")}-${String(next.getDate()).padStart(2, "0")}`;
+                      })()
+                    : new Date().toISOString().split("T")[0]
+                }
+                minDateError="Departure date must be after arrival date."
+                theme="light"
+                className="w-full bg-zinc-50 border-zinc-200 rounded-lg py-2.5 text-zinc-900 text-sm"
+              />
             </div>
           </div>
 

@@ -9,6 +9,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Calendar, ChevronDown, Search, User } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { BookingDatePicker } from "@/components/ui/booking-date-picker";
+import { toast } from "sonner";
 
 import type { HomepageSettings } from "./types";
 
@@ -140,63 +142,68 @@ export function HeroSection({ settings }: HeroSectionProps) {
                         <label className="text-md uppercase font-bold tracking-[0.2em] text-white/50 font-[var(--theme-body-font)]">
                           Arrival
                         </label>
-                        <div className="relative">
-                          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" />
-                          <input
-                            type="date"
-                            value={arrivalDate}
-                            onChange={(e) => {
-                              const newArrival = e.target.value;
-                              setArrivalDate(newArrival);
-                              if (newArrival && departureDate) {
-                                const arrivalD = new Date(newArrival);
-                                const departureD = new Date(departureDate);
-                                if (arrivalD >= departureD) {
-                                  const nextDay = new Date(arrivalD);
-                                  nextDay.setDate(nextDay.getDate() + 1);
-                                  setDepartureDate(
-                                    nextDay.toISOString().split("T")[0],
-                                  );
-                                }
-                              } else if (newArrival && !departureDate) {
-                                const arrivalD = new Date(newArrival);
-                                const nextDay = new Date(arrivalD);
-                                nextDay.setDate(nextDay.getDate() + 1);
-                                setDepartureDate(
-                                  nextDay.toISOString().split("T")[0],
-                                );
-                              }
-                            }}
-                            className="w-full bg-white/5 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-white/50 transition-colors placeholder:text-white/30 [color-scheme:dark]"
-                            min={new Date().toISOString().split("T")[0]}
-                          />
-                        </div>
+                        <BookingDatePicker
+                          value={arrivalDate}
+                          onChange={(newArrival) => {
+                            if (!newArrival) {
+                              setArrivalDate("");
+                              return;
+                            }
+                            if (departureDate && newArrival >= departureDate) {
+                              toast.error("Arrival date cannot be on or later than departure date.");
+                              return;
+                            }
+                            setArrivalDate(newArrival);
+                          }}
+                          onClear={() => setArrivalDate("")}
+                          minDate={new Date().toISOString().split("T")[0]}
+                          maxDate={
+                            departureDate
+                              ? (() => {
+                                  const [y, m, d] = departureDate.split("-").map(Number);
+                                  const prev = new Date(y, m - 1, d - 1);
+                                  return `${prev.getFullYear()}-${String(prev.getMonth() + 1).padStart(2, "0")}-${String(prev.getDate()).padStart(2, "0")}`;
+                                })()
+                              : undefined
+                          }
+                          minDateError="Arrival date cannot be in the past."
+                          maxDateError="Arrival date cannot be on or later than departure date."
+                          theme="dark"
+                          className="w-full bg-white/5 border-white/20 rounded-lg py-3 text-white focus:outline-none"
+                        />
                       </div>
 
                       <div className="flex flex-col gap-2 w-full lg:w-auto flex-1">
                         <label className="text-sm uppercase font-bold tracking-[0.2em] text-white/50 font-[var(--theme-body-font)]">
                           Departure
                         </label>
-                        <div className="relative">
-                          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" />
-                          <input
-                            type="date"
-                            value={departureDate}
-                            onChange={(e) => setDepartureDate(e.target.value)}
-                            className="w-full bg-white/5 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-white/50 transition-colors placeholder:text-white/30 [color-scheme:dark]"
-                            min={
-                              arrivalDate
-                                ? new Date(
-                                    new Date(arrivalDate).getTime() + 86400000,
-                                  )
-                                    .toISOString()
-                                    .split("T")[0]
-                                : new Date(new Date().getTime() + 86400000)
-                                    .toISOString()
-                                    .split("T")[0]
+                        <BookingDatePicker
+                          value={departureDate}
+                          onChange={(newDeparture) => {
+                            if (!newDeparture) {
+                              setDepartureDate("");
+                              return;
                             }
-                          />
-                        </div>
+                            if (arrivalDate && newDeparture <= arrivalDate) {
+                              toast.error("Departure date must be after arrival date.");
+                              return;
+                            }
+                            setDepartureDate(newDeparture);
+                          }}
+                          onClear={() => setDepartureDate("")}
+                          minDate={
+                            arrivalDate
+                              ? (() => {
+                                  const [y, m, d] = arrivalDate.split("-").map(Number);
+                                  const next = new Date(y, m - 1, d + 1);
+                                  return `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, "0")}-${String(next.getDate()).padStart(2, "0")}`;
+                                })()
+                              : new Date().toISOString().split("T")[0]
+                          }
+                          minDateError="Departure date must be after arrival date."
+                          theme="dark"
+                          className="w-full bg-white/5 border-white/20 rounded-lg py-3 text-white focus:outline-none"
+                        />
                       </div>
 
                       <div className="flex flex-col gap-2 w-full lg:w-auto flex-1">

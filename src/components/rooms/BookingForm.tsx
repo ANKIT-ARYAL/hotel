@@ -1,7 +1,6 @@
 "use client";
 
-import type React from "react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
@@ -11,6 +10,7 @@ import * as z from "zod";
 
 import type { PaymentSettings } from "@/lib/payment-settings-types";
 
+import { BookingDatePicker } from "@/components/ui/booking-date-picker";
 import { StripePaymentProvider } from "./StripePaymentForm";
 
 const bookingSchema = z
@@ -21,6 +21,19 @@ const bookingSchema = z
     checkIn: z.string().min(1, "Check-in date is required"),
     checkOut: z.string().min(1, "Check-out date is required"),
   })
+  .refine(
+    (data) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const [y, m, d] = data.checkIn.split("-").map(Number);
+      const start = y && m && d ? new Date(y, m - 1, d) : new Date(data.checkIn);
+      return start >= today;
+    },
+    {
+      message: "Check-in date cannot be in the past",
+      path: ["checkIn"],
+    },
+  )
   .refine(
     (data) => {
       const start = new Date(data.checkIn);
@@ -47,6 +60,7 @@ export function BookingForm({ roomId, roomNumber, price, paymentSettings }: Book
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<"QR" | "CREDIT_CARD">("CREDIT_CARD");
   const [qrRefId, setQrRefId] = useState("");
+  const confirmationRef = useRef<HTMLDivElement>(null);
 
   const {
     register,
@@ -55,12 +69,61 @@ export function BookingForm({ roomId, roomNumber, price, paymentSettings }: Book
     formState: { errors },
     reset,
     trigger,
+    setValue,
   } = useForm<BookingFormValues>({
     resolver: zodResolver(bookingSchema),
   });
 
   const checkIn = watch("checkIn");
   const checkOut = watch("checkOut");
+
+  useEffect(() => {
+    register("checkIn");
+    register("checkOut");
+  }, [register]);
+
+  const getTodayStr = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  };
+
+  const getNextDayStr = (dateStr: string) => {
+    const [y, m, d] = dateStr.split("-").map(Number);
+    if (!y || !m || !d) return dateStr;
+    const next = new Date(y, m - 1, d + 1);
+    return `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, "0")}-${String(next.getDate()).padStart(2, "0")}`;
+  };
+
+  const getPrevDayStr = (dateStr: string) => {
+    const [y, m, d] = dateStr.split("-").map(Number);
+    if (!y || !m || !d) return dateStr;
+    const prev = new Date(y, m - 1, d - 1);
+    return `${prev.getFullYear()}-${String(prev.getMonth() + 1).padStart(2, "0")}-${String(prev.getDate()).padStart(2, "0")}`;
+  };
+
+  const handleCheckInChange = (newCheckIn: string) => {
+    if (!newCheckIn) {
+      setValue("checkIn", "", { shouldValidate: true });
+      return;
+    }
+    if (checkOut && newCheckIn >= checkOut) {
+      toast.error("You cannot select a check-in date that is on or later than the check-out date.");
+      return;
+    }
+    setValue("checkIn", newCheckIn, { shouldValidate: true });
+  };
+
+  const handleCheckOutChange = (newCheckOut: string) => {
+    if (!newCheckOut) {
+      setValue("checkOut", "", { shouldValidate: true });
+      return;
+    }
+    if (checkIn && newCheckOut <= checkIn) {
+      toast.error("Check-out date must be after your check-in date.");
+      return;
+    }
+    setValue("checkOut", newCheckOut, { shouldValidate: true });
+  };
 
   let days = 0;
   if (checkIn && checkOut) {
@@ -111,6 +174,14 @@ export function BookingForm({ roomId, roomNumber, price, paymentSettings }: Book
       }
 
       setStep(3);
+      if (typeof window !== "undefined") {
+        const isMobile = window.innerWidth < 768;
+        if (isMobile) {
+          setTimeout(() => {
+            confirmationRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 80);
+        }
+      }
     } catch {
       toast.error("An error occurred. Please try again.");
     } finally {
@@ -191,26 +262,32 @@ export function BookingForm({ roomId, roomNumber, price, paymentSettings }: Book
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex flex-col gap-2">
-                <label className="text-xs uppercase tracking-widest text-zinc-500 font-medium">Check-In *</label>
-                <input
-                  {...register("checkIn")}
-                  type="date"
-                  min={new Date().toISOString().split("T")[0]}
-                  className="h-12 px-4 border border-zinc-200 focus:border-zinc-900 outline-none transition-colors"
+              <div className="flex flex-col gap-1">
+                <BookingDatePicker
+                  label="Check-In *"
+                  value={checkIn}
+                  onChange={handleCheckInChange}
+                  onClear={() => setValue("checkIn", "", { shouldValidate: true })}
+                  minDate={getTodayStr()}
+                  maxDate={checkOut ? getPrevDayStr(checkOut) : undefined}
+                  minDateError="Check-in date cannot be in the past."
+                  maxDateError="You cannot select a check-in date that is on or later than the check-out date."
+                  className="h-12 border-zinc-200 focus-within:border-zinc-900"
                 />
-                {errors.checkIn && <span className="text-xs text-red-500">{errors.checkIn.message}</span>}
+                {errors.checkIn && <span className="text-xs text-red-500 mt-1">{errors.checkIn.message}</span>}
               </div>
 
-              <div className="flex flex-col gap-2">
-                <label className="text-xs uppercase tracking-widest text-zinc-500 font-medium">Check-Out *</label>
-                <input
-                  {...register("checkOut")}
-                  type="date"
-                  min={checkIn || new Date().toISOString().split("T")[0]}
-                  className="h-12 px-4 border border-zinc-200 focus:border-zinc-900 outline-none transition-colors"
+              <div className="flex flex-col gap-1">
+                <BookingDatePicker
+                  label="Check-Out *"
+                  value={checkOut}
+                  onChange={handleCheckOutChange}
+                  onClear={() => setValue("checkOut", "", { shouldValidate: true })}
+                  minDate={checkIn ? getNextDayStr(checkIn) : getNextDayStr(getTodayStr())}
+                  minDateError="Check-out date must be after your check-in date."
+                  className="h-12 border-zinc-200 focus-within:border-zinc-900"
                 />
-                {errors.checkOut && <span className="text-xs text-red-500">{errors.checkOut.message}</span>}
+                {errors.checkOut && <span className="text-xs text-red-500 mt-1">{errors.checkOut.message}</span>}
               </div>
             </div>
 
@@ -343,10 +420,11 @@ export function BookingForm({ roomId, roomNumber, price, paymentSettings }: Book
 
         {step === 3 && (
           <motion.div
+            ref={confirmationRef}
             key="step3"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="flex flex-col items-center justify-center py-12 text-center gap-4"
+            className="scroll-mt-24 flex flex-col items-center justify-center py-12 text-center gap-4"
           >
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-2">
               <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">

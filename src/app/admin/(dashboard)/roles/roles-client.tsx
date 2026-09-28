@@ -18,9 +18,19 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 export function RolesClientView({ initialRoles }: { initialRoles: any[] }) {
   const [roles, setRoles] = useState(initialRoles);
+  const [roleTypeFilter, setRoleTypeFilter] = useState<"ALL" | "WITH_USERS" | "NO_USERS">("ALL");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingRole, setEditingRole] = useState<any>(null);
   const [name, setName] = useState("");
+
+  const withUsersCount = roles.filter((r) => (r._count?.users || 0) > 0).length;
+  const noUsersCount = roles.filter((r) => (r._count?.users || 0) === 0).length;
+
+  const filteredRoles = roles.filter((r) => {
+    if (roleTypeFilter === "WITH_USERS") return (r._count?.users || 0) > 0;
+    if (roleTypeFilter === "NO_USERS") return (r._count?.users || 0) === 0;
+    return true;
+  });
 
   // Form state
   const [permissions, setPermissions] = useState<string[]>([]);
@@ -125,20 +135,94 @@ export function RolesClientView({ initialRoles }: { initialRoles: any[] }) {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="shadow-sm">
+      {/* Top Filter Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <Card
+          onClick={() => setRoleTypeFilter("ALL")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            roleTypeFilter === "ALL"
+              ? "border-primary ring-2 ring-primary/20 bg-primary/5"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Total Roles</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">All Roles</CardTitle>
+              {roleTypeFilter === "ALL" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                  Active
+                </span>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold text-gray-900">{roles.length}</div>
+            <div className="text-2xl sm:text-3xl font-semibold text-gray-900">{roles.length}</div>
+          </CardContent>
+        </Card>
+
+        <Card
+          onClick={() => setRoleTypeFilter(roleTypeFilter === "WITH_USERS" ? "ALL" : "WITH_USERS")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            roleTypeFilter === "WITH_USERS"
+              ? "border-blue-500 ring-2 ring-blue-500/20 bg-blue-50/40"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">Assigned to Staff</CardTitle>
+              {roleTypeFilter === "WITH_USERS" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl sm:text-3xl font-semibold text-blue-600">{withUsersCount}</div>
+          </CardContent>
+        </Card>
+
+        <Card
+          onClick={() => setRoleTypeFilter(roleTypeFilter === "NO_USERS" ? "ALL" : "NO_USERS")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            roleTypeFilter === "NO_USERS"
+              ? "border-gray-500 ring-2 ring-gray-500/20 bg-gray-50"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">Unassigned Roles</CardTitle>
+              {roleTypeFilter === "NO_USERS" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-gray-200 text-gray-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl sm:text-3xl font-semibold text-gray-600">{noUsersCount}</div>
           </CardContent>
         </Card>
       </div>
 
       <Card className="shadow-sm">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-lg font-semibold">Roles Configuration</CardTitle>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-500">
+              Showing {filteredRoles.length} of {roles.length}
+            </span>
+            {roleTypeFilter !== "ALL" && (
+              <button
+                onClick={() => setRoleTypeFilter("ALL")}
+                className="text-xs text-primary underline underline-offset-4 hover:opacity-80"
+              >
+                Clear filter
+              </button>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           <div className="rounded-md border overflow-x-auto">
@@ -152,7 +236,14 @@ export function RolesClientView({ initialRoles }: { initialRoles: any[] }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {roles.map((r) => (
+                {filteredRoles.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={4} className="py-12 text-center text-gray-400">
+                      No roles match this filter.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredRoles.map((r) => (
                   <TableRow
                     key={r.id}
                     data-hide-actions="true"
@@ -211,7 +302,7 @@ export function RolesClientView({ initialRoles }: { initialRoles: any[] }) {
                       </DropdownMenu>
                     </TableCell>
                   </TableRow>
-                ))}
+                )))}
               </TableBody>
             </Table>
           </div>

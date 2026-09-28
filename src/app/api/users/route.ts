@@ -8,7 +8,18 @@ export async function GET(request: Request) {
   try {
     const authResult = await requireAdminApiAuth();
     if (authResult instanceof Response) return authResult;
-    const data = await prisma.user.findMany();
+    const data = await prisma.user.findMany({
+      where: {
+        guestId: null,
+        NOT: {
+          role: {
+            name: "USER",
+          },
+        },
+      },
+      include: { role: true },
+      orderBy: { createdAt: "desc" },
+    });
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch data" }, { status: 500 });

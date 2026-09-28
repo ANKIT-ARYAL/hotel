@@ -24,8 +24,19 @@ export function CategoriesClientView({
   allAmenities: any[];
 }) {
   const [categories, setCategories] = useState(initialCategories);
+  const [categoryFilter, setCategoryFilter] = useState<"ALL" | "WITH_ROOMS" | "EMPTY">("ALL");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<any>(null);
+
+  const withRoomsCount = categories.filter((c) => (c._count?.rooms || c.rooms?.length || 0) > 0).length;
+  const emptyRoomsCount = categories.filter((c) => (c._count?.rooms || c.rooms?.length || 0) === 0).length;
+
+  const filteredCategories = categories.filter((c) => {
+    const roomCount = c._count?.rooms || c.rooms?.length || 0;
+    if (categoryFilter === "WITH_ROOMS") return roomCount > 0;
+    if (categoryFilter === "EMPTY") return roomCount === 0;
+    return true;
+  });
 
   // Form state
   const [name, setName] = useState("");
@@ -140,20 +151,94 @@ export function CategoriesClientView({
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="shadow-sm">
+      {/* Top Filter Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <Card
+          onClick={() => setCategoryFilter("ALL")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            categoryFilter === "ALL"
+              ? "border-primary ring-2 ring-primary/20 bg-primary/5"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Active Categories</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">All Categories</CardTitle>
+              {categoryFilter === "ALL" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                  Active
+                </span>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold text-gray-900">{categories.length}</div>
+            <div className="text-2xl sm:text-3xl font-semibold text-gray-900">{categories.length}</div>
+          </CardContent>
+        </Card>
+
+        <Card
+          onClick={() => setCategoryFilter(categoryFilter === "WITH_ROOMS" ? "ALL" : "WITH_ROOMS")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            categoryFilter === "WITH_ROOMS"
+              ? "border-green-500 ring-2 ring-green-500/20 bg-green-50/40"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">With Rooms Assigned</CardTitle>
+              {categoryFilter === "WITH_ROOMS" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl sm:text-3xl font-semibold text-green-600">{withRoomsCount}</div>
+          </CardContent>
+        </Card>
+
+        <Card
+          onClick={() => setCategoryFilter(categoryFilter === "EMPTY" ? "ALL" : "EMPTY")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            categoryFilter === "EMPTY"
+              ? "border-amber-500 ring-2 ring-amber-500/20 bg-amber-50/40"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">No Rooms Assigned</CardTitle>
+              {categoryFilter === "EMPTY" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl sm:text-3xl font-semibold text-amber-600">{emptyRoomsCount}</div>
           </CardContent>
         </Card>
       </div>
 
       <Card className="shadow-sm">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-lg font-semibold">Categories Directory</CardTitle>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-500">
+              Showing {filteredCategories.length} of {categories.length}
+            </span>
+            {categoryFilter !== "ALL" && (
+              <button
+                onClick={() => setCategoryFilter("ALL")}
+                className="text-xs text-primary underline underline-offset-4 hover:opacity-80"
+              >
+                Clear filter
+              </button>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           <div className="rounded-md border overflow-x-auto">
@@ -167,7 +252,14 @@ export function CategoriesClientView({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {categories.map((c) => (
+                {filteredCategories.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={4} className="py-12 text-center text-gray-400">
+                      No categories match this filter.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredCategories.map((c) => (
                   <TableRow
                     key={c.id}
                     data-has-image="true"
@@ -218,7 +310,7 @@ export function CategoriesClientView({
                       </DropdownMenu>
                     </TableCell>
                   </TableRow>
-                ))}
+                )))}
               </TableBody>
             </Table>
           </div>

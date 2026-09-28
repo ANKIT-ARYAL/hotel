@@ -5,11 +5,16 @@ import { z } from "zod";
 import { auth } from "@/lib/auth";
 import db from "@/lib/db";
 
-const reservationSchema = z.object({
-  scheduledAt: z.string().datetime(),
-  guests: z.number().int().min(1).max(20),
-  notes: z.string().trim().max(500).optional(),
-});
+const reservationSchema = z
+  .object({
+    scheduledAt: z.string().datetime(),
+    guests: z.number().int().min(1).max(20),
+    notes: z.string().trim().max(500).optional(),
+  })
+  .refine((data) => new Date(data.scheduledAt).getTime() >= Date.now() - 5 * 60 * 1000, {
+    message: "Reservation date and time cannot be in the past",
+    path: ["scheduledAt"],
+  });
 
 async function getGuestFromSession() {
   const session = await auth();

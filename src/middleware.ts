@@ -77,9 +77,10 @@ export default auth((req) => {
   // RBAC check
   if (isAdminRoute && isAuthenticated) {
     const userRole = req.auth?.user?.role as any;
-    const permissions = userRole?.permissions || [];
+    const roleName = (typeof userRole === "string" ? userRole : userRole?.name || "").toUpperCase();
+    const permissions = Array.isArray(userRole?.permissions) ? userRole.permissions : [];
     
-    if (!permissions.includes("ALL")) {
+    if (roleName !== "ADMIN" && roleName !== "SUPERADMIN" && !permissions.includes("ALL")) {
       // Find the required permission for the current path
       // Sort keys by length descending to match the most specific path first
       const paths = Object.keys(permissionMap).sort((a, b) => b.length - a.length);
@@ -87,9 +88,12 @@ export default auth((req) => {
       
       if (matchedPath) {
         const requiredPermission = permissionMap[matchedPath];
-        if (!permissions.includes(requiredPermission)) {
+        const isReceptionistAllowed =
+          roleName === "RECEPTIONIST" &&
+          ["Reception", "Dashboard", "Bookings", "Reservations", "Messages", "Rooms", "Guests", "Reviews"].includes(requiredPermission);
+
+        if (!permissions.includes(requiredPermission) && !isReceptionistAllowed) {
           // If they don't have access, redirect them to dashboard (if they have dashboard access)
-          // or just return a 403. Let's redirect to dashboard.
           if (nextUrl.pathname !== "/admin/dashboard") {
              return NextResponse.redirect(new URL("/admin/dashboard", nextUrl));
           }

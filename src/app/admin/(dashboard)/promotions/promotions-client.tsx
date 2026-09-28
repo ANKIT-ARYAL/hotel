@@ -18,8 +18,24 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 export function PromotionsClientView({ initialPromotions }: { initialPromotions: any[] }) {
   const [promotions, setPromotions] = useState(initialPromotions);
+  const [promoFilter, setPromoFilter] = useState<"ALL" | "ACTIVE" | "EXPIRED">("ALL");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingPromo, setEditingPromo] = useState<any>(null);
+
+  const isCodeActive = (p: any) => {
+    const isExpired = p.validUntil && new Date(p.validUntil) < new Date();
+    const isMaxedOut = p.usageLimit && p.usageCount >= p.usageLimit;
+    return !isExpired && !isMaxedOut;
+  };
+
+  const activeCount = promotions.filter(isCodeActive).length;
+  const expiredCount = promotions.filter((p) => !isCodeActive(p)).length;
+
+  const filteredPromotions = promotions.filter((p) => {
+    if (promoFilter === "ACTIVE") return isCodeActive(p);
+    if (promoFilter === "EXPIRED") return !isCodeActive(p);
+    return true;
+  });
 
   const [code, setCode] = useState("");
   const [discountValue, setDiscountValue] = useState("");
@@ -107,20 +123,94 @@ export function PromotionsClientView({ initialPromotions }: { initialPromotions:
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="shadow-sm">
+      {/* Top Filter Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <Card
+          onClick={() => setPromoFilter("ALL")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            promoFilter === "ALL"
+              ? "border-primary ring-2 ring-primary/20 bg-primary/5"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Active Codes</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">All Codes</CardTitle>
+              {promoFilter === "ALL" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                  Active
+                </span>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold text-gray-900">{promotions.length}</div>
+            <div className="text-2xl sm:text-3xl font-semibold text-gray-900">{promotions.length}</div>
+          </CardContent>
+        </Card>
+
+        <Card
+          onClick={() => setPromoFilter(promoFilter === "ACTIVE" ? "ALL" : "ACTIVE")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            promoFilter === "ACTIVE"
+              ? "border-green-500 ring-2 ring-green-500/20 bg-green-50/40"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">Active Now</CardTitle>
+              {promoFilter === "ACTIVE" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl sm:text-3xl font-semibold text-green-600">{activeCount}</div>
+          </CardContent>
+        </Card>
+
+        <Card
+          onClick={() => setPromoFilter(promoFilter === "EXPIRED" ? "ALL" : "EXPIRED")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            promoFilter === "EXPIRED"
+              ? "border-amber-500 ring-2 ring-amber-500/20 bg-amber-50/40"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">Expired / Maxed</CardTitle>
+              {promoFilter === "EXPIRED" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl sm:text-3xl font-semibold text-amber-600">{expiredCount}</div>
           </CardContent>
         </Card>
       </div>
 
       <Card className="shadow-sm">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-lg font-semibold">Discount Codes List</CardTitle>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-500">
+              Showing {filteredPromotions.length} of {promotions.length}
+            </span>
+            {promoFilter !== "ALL" && (
+              <button
+                onClick={() => setPromoFilter("ALL")}
+                className="text-xs text-primary underline underline-offset-4 hover:opacity-80"
+              >
+                Clear filter
+              </button>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           <div className="rounded-md border overflow-x-auto">
@@ -135,7 +225,14 @@ export function PromotionsClientView({ initialPromotions }: { initialPromotions:
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {promotions.map((p) => {
+                {filteredPromotions.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="py-12 text-center text-gray-400">
+                      No promo codes match this filter.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredPromotions.map((p) => {
                   const isExpired = p.validUntil && new Date(p.validUntil) < new Date();
                   const isMaxedOut = p.usageLimit && p.usageCount >= p.usageLimit;
                   return (
@@ -198,7 +295,7 @@ export function PromotionsClientView({ initialPromotions }: { initialPromotions:
                       </TableCell>
                     </TableRow>
                   );
-                })}
+                }))}
               </TableBody>
             </Table>
           </div>

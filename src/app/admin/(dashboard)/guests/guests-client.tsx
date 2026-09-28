@@ -18,6 +18,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 export function GuestsClientView({ initialGuests }: { initialGuests: any[] }) {
   const [guests, setGuests] = useState(initialGuests);
+  const [guestFilter, setGuestFilter] = useState<"ALL" | "THIS_MONTH" | "WITH_BOOKINGS" | "NO_BOOKINGS">("ALL");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedGuest, setSelectedGuest] = useState<any>(null);
 
@@ -41,11 +42,22 @@ export function GuestsClientView({ initialGuests }: { initialGuests: any[] }) {
     }
   };
 
-  const thisMonthGuests = guests.filter((g) => {
+  const isThisMonth = (g: any) => {
     const d = new Date(g.createdAt);
     const now = new Date();
     return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-  }).length;
+  };
+
+  const thisMonthGuests = guests.filter(isThisMonth).length;
+  const withBookingsCount = guests.filter((g) => (g.bookings?.length || 0) > 0).length;
+  const noBookingsCount = guests.filter((g) => (g.bookings?.length || 0) === 0).length;
+
+  const filteredGuests = guests.filter((g) => {
+    if (guestFilter === "THIS_MONTH") return isThisMonth(g);
+    if (guestFilter === "WITH_BOOKINGS") return (g.bookings?.length || 0) > 0;
+    if (guestFilter === "NO_BOOKINGS") return (g.bookings?.length || 0) === 0;
+    return true;
+  });
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 pb-12">
@@ -61,30 +73,118 @@ export function GuestsClientView({ initialGuests }: { initialGuests: any[] }) {
         </div>
       </div>
 
-      {/* Children: Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="shadow-sm">
+      {/* Overview Cards (Clickable Filters) */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card
+          onClick={() => setGuestFilter("ALL")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            guestFilter === "ALL"
+              ? "border-primary ring-2 ring-primary/20 bg-primary/5"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Total Guests</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">Total Guests</CardTitle>
+              {guestFilter === "ALL" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                  Active
+                </span>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold text-gray-900">{guests.length}</div>
+            <div className="text-2xl sm:text-3xl font-semibold text-gray-900">{guests.length}</div>
           </CardContent>
         </Card>
-        <Card className="shadow-sm">
+
+        <Card
+          onClick={() => setGuestFilter(guestFilter === "THIS_MONTH" ? "ALL" : "THIS_MONTH")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            guestFilter === "THIS_MONTH"
+              ? "border-blue-500 ring-2 ring-blue-500/20 bg-blue-50/40"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">New This Month</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">New This Month</CardTitle>
+              {guestFilter === "THIS_MONTH" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold text-blue-600">+{thisMonthGuests}</div>
+            <div className="text-2xl sm:text-3xl font-semibold text-blue-600">+{thisMonthGuests}</div>
+          </CardContent>
+        </Card>
+
+        <Card
+          onClick={() => setGuestFilter(guestFilter === "WITH_BOOKINGS" ? "ALL" : "WITH_BOOKINGS")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            guestFilter === "WITH_BOOKINGS"
+              ? "border-green-500 ring-2 ring-green-500/20 bg-green-50/40"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">With Bookings</CardTitle>
+              {guestFilter === "WITH_BOOKINGS" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl sm:text-3xl font-semibold text-green-600">{withBookingsCount}</div>
+          </CardContent>
+        </Card>
+
+        <Card
+          onClick={() => setGuestFilter(guestFilter === "NO_BOOKINGS" ? "ALL" : "NO_BOOKINGS")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            guestFilter === "NO_BOOKINGS"
+              ? "border-gray-500 ring-2 ring-gray-500/20 bg-gray-50"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">No Bookings Yet</CardTitle>
+              {guestFilter === "NO_BOOKINGS" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-gray-200 text-gray-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl sm:text-3xl font-semibold text-gray-600">{noBookingsCount}</div>
           </CardContent>
         </Card>
       </div>
 
       {/* Sub-children: Data Table */}
       <Card className="shadow-sm">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-lg font-semibold">Registered Guests</CardTitle>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-500">
+              Showing {filteredGuests.length} of {guests.length}
+            </span>
+            {guestFilter !== "ALL" && (
+              <button
+                onClick={() => setGuestFilter("ALL")}
+                className="text-xs text-primary underline underline-offset-4 hover:opacity-80"
+              >
+                Clear filter
+              </button>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           <div className="rounded-md border overflow-x-auto">
@@ -99,7 +199,14 @@ export function GuestsClientView({ initialGuests }: { initialGuests: any[] }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {guests.map((guest) => (
+                {filteredGuests.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="py-12 text-center text-gray-400">
+                      No guests match this filter.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredGuests.map((guest) => (
                   <TableRow
                     key={guest.id}
                     data-hide-actions="true"
@@ -146,14 +253,7 @@ export function GuestsClientView({ initialGuests }: { initialGuests: any[] }) {
                       </DropdownMenu>
                     </TableCell>
                   </TableRow>
-                ))}
-                {guests.length === 0 && (
-                  <TableRow>
-                    <TableCell colSpan={5} className="h-24 text-center text-gray-500">
-                      No guests found.
-                    </TableCell>
-                  </TableRow>
-                )}
+                )))}
               </TableBody>
             </Table>
           </div>

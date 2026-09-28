@@ -6,18 +6,43 @@ import prisma from "@/lib/db";
 import { sendBookingConfirmationEmail } from "@/lib/email";
 import { rateLimit } from "@/lib/rate-limit";
 
-const createBookingSchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  phone: z.string().optional(),
-  checkIn: z.string(),
-  checkOut: z.string(),
-  roomId: z.string(),
-  totalAmount: z.number(),
-  paymentMethod: z.string().optional(),
-  paymentRefId: z.string().optional(),
-  paymentAmount: z.number().optional(),
-});
+const createBookingSchema = z
+  .object({
+    name: z.string(),
+    email: z.string().email(),
+    phone: z.string().optional(),
+    checkIn: z.string(),
+    checkOut: z.string(),
+    roomId: z.string(),
+    totalAmount: z.number(),
+    paymentMethod: z.string().optional(),
+    paymentRefId: z.string().optional(),
+    paymentAmount: z.number().optional(),
+  })
+  .refine(
+    (data) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const [y, m, d] = data.checkIn.split("-").map(Number);
+      const checkInDate = y && m && d ? new Date(y, m - 1, d) : new Date(data.checkIn);
+      return checkInDate >= today;
+    },
+    {
+      message: "Check-in date cannot be in the past",
+      path: ["checkIn"],
+    },
+  )
+  .refine(
+    (data) => {
+      const checkInDate = new Date(data.checkIn);
+      const checkOutDate = new Date(data.checkOut);
+      return checkOutDate > checkInDate;
+    },
+    {
+      message: "Check-out date must be after check-in date",
+      path: ["checkOut"],
+    },
+  );
 
 export async function POST(req: Request) {
   try {

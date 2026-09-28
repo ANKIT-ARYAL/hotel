@@ -18,8 +18,16 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 export function UsersClientView({ initialUsers, roles }: { initialUsers: any[]; roles: any[] }) {
   const [users, setUsers] = useState(initialUsers);
+  const [roleFilter, setRoleFilter] = useState<string>("ALL");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<any>(null);
+
+  const filteredUsers = users.filter((u) => {
+    if (roleFilter !== "ALL") {
+      return u.roleId === roleFilter || u.role?.name === roleFilter;
+    }
+    return true;
+  });
 
   // Form state
   const [name, setName] = useState("");
@@ -102,28 +110,78 @@ export function UsersClientView({ initialUsers, roles }: { initialUsers: any[]; 
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="shadow-sm">
+      {/* Top Filter Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card
+          onClick={() => setRoleFilter("ALL")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            roleFilter === "ALL"
+              ? "border-primary ring-2 ring-primary/20 bg-primary/5"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Total Users</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">All Staff</CardTitle>
+              {roleFilter === "ALL" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                  Active
+                </span>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold text-gray-900">{users.length}</div>
+            <div className="text-2xl sm:text-3xl font-semibold text-gray-900">{users.length}</div>
           </CardContent>
         </Card>
-        <Card className="shadow-sm">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Active Roles</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-semibold text-blue-600">{roles.length}</div>
-          </CardContent>
-        </Card>
+
+        {roles.map((r) => {
+          const count = users.filter((u) => u.roleId === r.id || u.role?.name === r.name).length;
+          const isSelected = roleFilter === r.id || roleFilter === r.name;
+          return (
+            <Card
+              key={r.id}
+              onClick={() => setRoleFilter(isSelected ? "ALL" : r.id)}
+              className={`shadow-sm cursor-pointer select-none transition-all ${
+                isSelected
+                  ? "border-blue-500 ring-2 ring-blue-500/20 bg-blue-50/40"
+                  : "hover:border-gray-300 hover:shadow-md"
+              }`}
+            >
+              <CardHeader className="pb-2">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-sm font-medium text-gray-500 font-normal">{r.name}</CardTitle>
+                  {isSelected && (
+                    <span className="text-[10px] font-semibold uppercase tracking-wider bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                      Filtered
+                    </span>
+                  )}
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl sm:text-3xl font-semibold text-blue-600">{count}</div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       <Card className="shadow-sm">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-lg font-semibold">User Directory</CardTitle>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-500">
+              Showing {filteredUsers.length} of {users.length}
+            </span>
+            {roleFilter !== "ALL" && (
+              <button
+                onClick={() => setRoleFilter("ALL")}
+                className="text-xs text-primary underline underline-offset-4 hover:opacity-80"
+              >
+                Clear filter
+              </button>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           <div className="rounded-md border overflow-x-auto">
@@ -137,7 +195,14 @@ export function UsersClientView({ initialUsers, roles }: { initialUsers: any[]; 
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {users.map((u) => (
+                {filteredUsers.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={4} className="py-12 text-center text-gray-400">
+                      No staff users match this filter.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredUsers.map((u) => (
                   <TableRow
                     key={u.id}
                     data-hide-actions="true"
@@ -187,7 +252,7 @@ export function UsersClientView({ initialUsers, roles }: { initialUsers: any[]; 
                       </DropdownMenu>
                     </TableCell>
                   </TableRow>
-                ))}
+                )))}
               </TableBody>
             </Table>
           </div>

@@ -319,7 +319,7 @@ export function SettingsClientView({
             </CardContent>
           </Card>
 
-          <Card className="shadow-sm md:col-span-2">
+          <Card className="shadow-sm flex flex-col justify-between">
             <CardHeader>
               <CardTitle>Loader Configuration</CardTitle>
               <CardDescription>Configure the startup loading screen icon</CardDescription>

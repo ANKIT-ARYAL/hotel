@@ -27,8 +27,20 @@ export function RoomsClientView({
   allAmenities: any[];
 }) {
   const [rooms, setRooms] = useState(initialRooms);
+  const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingRoom, setEditingRoom] = useState<any>(null);
+
+  const availableCount = rooms.filter((r) => r.status === "AVAILABLE").length;
+  const occupiedCount = rooms.filter((r) => r.status === "OCCUPIED").length;
+  const maintenanceCount = rooms.filter((r) => ["MAINTENANCE", "CLEANING"].includes(r.status)).length;
+
+  const filteredRooms = rooms.filter((r) => {
+    if (statusFilter === "AVAILABLE") return r.status === "AVAILABLE";
+    if (statusFilter === "OCCUPIED") return r.status === "OCCUPIED";
+    if (statusFilter === "MAINTENANCE") return ["MAINTENANCE", "CLEANING"].includes(r.status);
+    return true;
+  });
 
   // Form state
   const [name, setName] = useState("");
@@ -173,52 +185,118 @@ export function RoomsClientView({
         </Button>
       </div>
 
-      {/* Children: Overview Cards */}
-      <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="shadow-sm">
+      {/* Overview Cards (Clickable Filters) */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <Card
+          onClick={() => setStatusFilter(statusFilter === "ALL" ? "ALL" : "ALL")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            statusFilter === "ALL"
+              ? "border-primary ring-2 ring-primary/20 bg-primary/5"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Total Rooms</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">Total Rooms</CardTitle>
+              {statusFilter === "ALL" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                  Active
+                </span>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold text-gray-900">{rooms.length}</div>
+            <div className="text-2xl sm:text-3xl font-semibold text-gray-900">{rooms.length}</div>
           </CardContent>
         </Card>
-        <Card className="shadow-sm">
+
+        <Card
+          onClick={() => setStatusFilter(statusFilter === "AVAILABLE" ? "ALL" : "AVAILABLE")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            statusFilter === "AVAILABLE"
+              ? "border-green-500 ring-2 ring-green-500/20 bg-green-50/40"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Available</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">Available</CardTitle>
+              {statusFilter === "AVAILABLE" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold text-green-600">
-              {rooms.filter((r) => r.status === "AVAILABLE").length}
-            </div>
+            <div className="text-2xl sm:text-3xl font-semibold text-green-600">{availableCount}</div>
           </CardContent>
         </Card>
-        <Card className="shadow-sm">
+
+        <Card
+          onClick={() => setStatusFilter(statusFilter === "OCCUPIED" ? "ALL" : "OCCUPIED")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            statusFilter === "OCCUPIED"
+              ? "border-blue-500 ring-2 ring-blue-500/20 bg-blue-50/40"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Occupied</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">Occupied</CardTitle>
+              {statusFilter === "OCCUPIED" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold text-blue-600">
-              {rooms.filter((r) => r.status === "OCCUPIED").length}
-            </div>
+            <div className="text-2xl sm:text-3xl font-semibold text-blue-600">{occupiedCount}</div>
           </CardContent>
         </Card>
-        <Card className="shadow-sm">
+
+        <Card
+          onClick={() => setStatusFilter(statusFilter === "MAINTENANCE" ? "ALL" : "MAINTENANCE")}
+          className={`shadow-sm cursor-pointer select-none transition-all ${
+            statusFilter === "MAINTENANCE"
+              ? "border-orange-500 ring-2 ring-orange-500/20 bg-orange-50/40"
+              : "hover:border-gray-300 hover:shadow-md"
+          }`}
+        >
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-gray-500 font-normal">Maintenance/Cleaning</CardTitle>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm font-medium text-gray-500 font-normal">Maintenance/Cleaning</CardTitle>
+              {statusFilter === "MAINTENANCE" && (
+                <span className="text-[10px] font-semibold uppercase tracking-wider bg-orange-100 text-orange-800 px-2 py-0.5 rounded-full">
+                  Filtered
+                </span>
+              )}
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-semibold text-orange-500">
-              {rooms.filter((r) => ["MAINTENANCE", "CLEANING"].includes(r.status)).length}
-            </div>
+            <div className="text-2xl sm:text-3xl font-semibold text-orange-500">{maintenanceCount}</div>
           </CardContent>
         </Card>
       </div>
 
       {/* Sub-children: Data Table */}
       <Card className="shadow-sm">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-lg font-semibold">Rooms Directory</CardTitle>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-gray-500">
+              Showing {filteredRooms.length} of {rooms.length}
+            </span>
+            {statusFilter !== "ALL" && (
+              <button
+                onClick={() => setStatusFilter("ALL")}
+                className="text-xs text-primary underline underline-offset-4 hover:opacity-80"
+              >
+                Clear filter
+              </button>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           <div className="rounded-md border">
@@ -233,7 +311,14 @@ export function RoomsClientView({
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {rooms.map((room, idx) => (
+                {filteredRooms.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="py-12 text-center text-gray-400">
+                      No rooms match this filter.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  filteredRooms.map((room, idx) => (
                   <TableRow
                     key={room.id || `room-${idx}`}
                     data-has-image="true"
@@ -296,14 +381,7 @@ export function RoomsClientView({
                       </DropdownMenu>
                     </TableCell>
                   </TableRow>
-                ))}
-                {rooms.length === 0 && (
-                  <TableRow>
-                    <TableCell colSpan={5} className="h-24 text-center text-gray-500">
-                      No rooms found.
-                    </TableCell>
-                  </TableRow>
-                )}
+                )))}
               </TableBody>
             </Table>
           </div>

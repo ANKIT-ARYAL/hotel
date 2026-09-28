@@ -107,16 +107,43 @@ export function SidebarContent({
     return () => clearInterval(interval);
   }, []);
 
-  const userPermissions = session?.user?.role?.permissions || [];
-  
+  const userRole = session?.user?.role;
+  const roleName = (typeof userRole === "string" ? userRole : userRole?.name || "").toUpperCase();
+  const rawPermissions: string[] =
+    typeof userRole === "object" && Array.isArray(userRole?.permissions)
+      ? userRole.permissions
+      : [];
+
   const hasPermission = (itemName: string) => {
-    if (userPermissions.includes("ALL")) return true;
-    return userPermissions.includes(itemName);
+    // If no role, or ADMIN / SUPERADMIN role, or permissions include ALL, grant full access
+    if (!roleName || roleName === "ADMIN" || roleName === "SUPERADMIN" || rawPermissions.includes("ALL")) {
+      return true;
+    }
+
+    if (rawPermissions.includes(itemName)) {
+      return true;
+    }
+
+    if (roleName === "RECEPTIONIST") {
+      const defaultReceptionistItems = [
+        "Reception",
+        "Dashboard",
+        "Bookings",
+        "Reservations",
+        "Messages",
+        "Rooms",
+        "Guests",
+        "Reviews",
+      ];
+      return defaultReceptionistItems.includes(itemName);
+    }
+
+    return false;
   };
 
-  const filteredNavigation = navigation.filter(item => hasPermission(item.name));
-  const filteredPages = pages.filter(item => hasPermission(item.name));
-  const filteredSettings = settings.filter(item => hasPermission(item.name));
+  const filteredNavigation = navigation.filter((item) => hasPermission(item.name));
+  const filteredPages = pages.filter((item) => hasPermission(item.name));
+  const filteredSettings = settings.filter((item) => hasPermission(item.name));
 
   return (
     <div className="flex flex-col h-full">

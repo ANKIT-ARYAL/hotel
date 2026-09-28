@@ -91,13 +91,19 @@ export const {
         const dbUser = await db.user.findUnique({ where: { email: user.email }, include: { role: true } });
         token.id = dbUser?.id || user.id;
         token.role = (dbUser?.role || user.role) as any;
+      } else if (token?.email && (!token.role || typeof token.role === "string" || !(token.role as any)?.permissions)) {
+        const dbUser = await db.user.findUnique({ where: { email: token.email as string }, include: { role: true } });
+        if (dbUser) {
+          token.id = dbUser.id;
+          token.role = dbUser.role as any;
+        }
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
-        session.user.role = token.role as string;
+        session.user.role = token.role as any;
       }
       return session;
     },
