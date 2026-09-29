@@ -7,6 +7,8 @@ import prisma from "@/lib/db";
 
 import { RoomDetails } from "../_components/RoomDetails";
 
+export const revalidate = 60;
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   const room = await prisma.roomCategory.findUnique({

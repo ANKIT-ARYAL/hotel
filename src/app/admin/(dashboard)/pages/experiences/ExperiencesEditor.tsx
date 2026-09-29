@@ -14,6 +14,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { RichTextEditor } from "@/components/ui/RichTextEditor";
 import { handleUpload } from "@/lib/upload";
+import Image from "next/image";
 
 const SECTIONS = [
   { id: "hero", title: "Hero Section", description: "Main banner for the Experiences page" },
@@ -161,7 +162,7 @@ export function ExperiencesEditor({ initialSettings }: { initialSettings: Experi
             <div>
               <label className="text-sm font-medium">Background Image</label>
               {sectionData.image && (
-                <img src={sectionData.image} alt="Hero" className="w-full h-48 object-cover rounded mt-2 mb-2" />
+                <Image src={sectionData.image} alt="Hero" className="w-full h-48 object-cover rounded mt-2 mb-2"  width={1920} height={1080} />
               )}
               <Input type="file" accept="image/*" onChange={handleHeroImageUpload} />
             </div>
@@ -224,6 +225,48 @@ export function ExperiencesEditor({ initialSettings }: { initialSettings: Experi
             </div>
           </div>
         )}
+      
+          {/* SEO Section Injected */}
+          <div className="mt-8 border-t pt-6 border-zinc-200">
+            <h3 className="text-lg font-bold mb-4">Search Engine Optimization</h3>
+            <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <label className="text-sm font-medium">Focus Keyphrase</label>
+                <Input 
+                  value={sectionData?.focusKeyphrase || ""} 
+                  onChange={(e) => updateField(activeSectionId as any, "focusKeyphrase", e.target.value)} 
+                  placeholder="e.g. Luxury Suite" 
+                />
+              </div>
+              <div className="grid gap-2">
+                <label className="text-sm font-medium">SEO Title</label>
+                <Input 
+                  value={sectionData?.seoTitle || ""} 
+                  onChange={(e) => updateField(activeSectionId as any, "seoTitle", e.target.value)} 
+                  placeholder="Custom SEO Title" 
+                />
+              </div>
+              <div className="grid gap-2 md:col-span-2">
+                <label className="text-sm font-medium">Meta Description</label>
+                <textarea 
+                  className="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm" 
+                  rows={3} 
+                  value={sectionData?.metaDescription || ""} 
+                  onChange={(e) => updateField(activeSectionId as any, "metaDescription", e.target.value)} 
+                  placeholder="Write a compelling meta description..." 
+                />
+              </div>
+              <div className="grid gap-2 md:col-span-2">
+                <label className="text-sm font-medium">Keywords (comma separated, max 5)</label>
+                <Input 
+                  value={sectionData?.keywords || ""} 
+                  onChange={(e) => updateField(activeSectionId as any, "keywords", e.target.value)} 
+                  placeholder="hotel, luxury, suite" 
+                />
+              </div>
+            </div>
+          </div>
+
       </div>
     </div>
   );

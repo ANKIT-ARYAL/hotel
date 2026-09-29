@@ -15,6 +15,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { PaymentSettings } from "@/lib/payment-settings-types";
+import Image from "next/image";
 
 const HEADING_FONTS = [
   { value: "font-argine", label: "Cormorant Garamond", preview: "The quick brown fox jumps over the lazy dog" },
@@ -330,11 +331,11 @@ export function SettingsClientView({
                 {hpSettings.loader.iconUrl ? (
                   <div className="relative inline-block border border-zinc-200 rounded-md overflow-hidden bg-zinc-900 p-8">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <Image
                       src={hpSettings.loader.iconUrl}
                       alt="Loader Preview"
                       className="h-20 w-auto object-contain invert"
-                    />
+                     width={1920} height={1080} />
                     <button
                       onClick={() => setHpSettings((prev) => ({ ...prev, loader: { ...prev.loader, iconUrl: "" } }))}
                       className="absolute top-2 right-2 bg-white rounded-full p-1.5 shadow-sm hover:bg-zinc-100 border border-zinc-200 text-zinc-500"
@@ -457,11 +458,11 @@ export function SettingsClientView({
                     {paymentSettings.qrCodeImageUrl ? (
                       <div className="relative inline-block border border-zinc-200 rounded-md overflow-hidden bg-zinc-50 p-2">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                        <Image
                           src={paymentSettings.qrCodeImageUrl}
                           alt="QR Code Preview"
                           className="h-32 w-auto object-contain"
-                        />
+                         width={1920} height={1080} />
                         <button
                           onClick={() => updatePaymentField("qrCodeImageUrl", "")}
                           className="absolute top-1 right-1 bg-white rounded-full p-1 shadow-sm hover:bg-zinc-100 border border-zinc-200 text-zinc-500"

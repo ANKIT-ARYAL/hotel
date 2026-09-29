@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import Image from "next/image";
 
 export function RoomsClientView({
   initialRooms,
@@ -52,6 +53,13 @@ export function RoomsClientView({
   const [image, setImage] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+  
+  // SEO & Slug
+  const [slug, setSlug] = useState("");
+  const [focusKeyphrase, setFocusKeyphrase] = useState("");
+  const [seoTitle, setSeoTitle] = useState("");
+  const [metaDescription, setMetaDescription] = useState("");
+  const [keywords, setKeywords] = useState("");
 
   const openDialog = (room?: any) => {
     if (room) {
@@ -65,6 +73,12 @@ export function RoomsClientView({
       setImage(room.image || "");
       setVideoUrl(room.videoUrl || "");
       setSelectedAmenities(room.amenities ? room.amenities.map((a: any) => a.id) : []);
+      
+      setSlug(room.slug || "");
+      setFocusKeyphrase(room.focusKeyphrase || "");
+      setSeoTitle(room.seoTitle || "");
+      setMetaDescription(room.metaDescription || "");
+      setKeywords(room.keywords || "");
     } else {
       setEditingRoom(null);
       setName("");
@@ -80,6 +94,12 @@ export function RoomsClientView({
       setDescription("");
       setImage("");
       setVideoUrl("");
+      
+      setSlug("");
+      setFocusKeyphrase("");
+      setSeoTitle("");
+      setMetaDescription("");
+      setKeywords("");
     }
     setIsDialogOpen(true);
   };
@@ -328,7 +348,7 @@ export function RoomsClientView({
                     <TableCell data-label="Room" className="font-medium flex items-center">
                       {room.image ? (
                         <div className="w-8 h-8 rounded-full overflow-hidden mr-2">
-                          <img src={room.image} alt={room.number} className="w-full h-full object-cover" />
+                          <Image src={room.image} alt={room.number} className="w-full h-full object-cover"  width={1920} height={1080} />
                         </div>
                       ) : (
                         <Key className="w-4 h-4 mr-2 text-gray-400" />
@@ -398,8 +418,19 @@ export function RoomsClientView({
             <div className="space-y-4">
               <div className="grid gap-2">
                 <label className="text-sm font-medium">Room Name (Optional)</label>
-                <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Ocean View Suite" />
+                <Input value={name} onChange={(e) => {
+                  setName(e.target.value);
+                  if (!editingRoom) {
+                    setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, ""));
+                  }
+                }} placeholder="e.g. Ocean View Suite" />
               </div>
+              {editingRoom && (
+                <div className="grid gap-2">
+                  <label className="text-sm font-medium">Slug</label>
+                  <Input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="e.g. ocean-view-suite" />
+                </div>
+              )}
               <div className="grid gap-2">
                 <label className="text-sm font-medium">Room Number</label>
                 <Input value={number} onChange={(e) => setNumber(e.target.value)} placeholder="e.g. 101" />
@@ -453,7 +484,7 @@ export function RoomsClientView({
                 <div className="flex gap-2 items-center">
                   <Input type="file" onChange={(e) => handleFileUpload(e, "image")} accept="image/*" />
                 </div>
-                {image && <img src={image} alt="Preview" className="w-full h-32 object-cover rounded-md mt-2" />}
+                {image && <Image src={image} alt="Preview" className="w-full h-32 object-cover rounded-md mt-2"  width={1920} height={1080} />}
               </div>
               <div className="grid gap-2">
                 <label className="text-sm font-medium">Room Video</label>
@@ -493,6 +524,29 @@ export function RoomsClientView({
               </div>
             </div>
           </div>
+          
+          <div className="mt-6 border-t pt-4">
+            <h3 className="text-lg font-bold mb-4">Search Engine Optimization</h3>
+            <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <label className="text-sm font-medium">Focus Keyphrase</label>
+                <Input value={focusKeyphrase} onChange={(e) => setFocusKeyphrase(e.target.value)} placeholder="e.g. Luxury Suite" />
+              </div>
+              <div className="grid gap-2">
+                <label className="text-sm font-medium">SEO Title</label>
+                <Input value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} placeholder="Custom SEO Title" />
+              </div>
+              <div className="grid gap-2 md:col-span-2">
+                <label className="text-sm font-medium">Meta Description</label>
+                <textarea className="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm" rows={3} value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} placeholder="Write a compelling meta description..." />
+              </div>
+              <div className="grid gap-2 md:col-span-2">
+                <label className="text-sm font-medium">Keywords (comma separated, max 5)</label>
+                <Input value={keywords} onChange={(e) => setKeywords(e.target.value)} placeholder="hotel, luxury, suite" />
+              </div>
+            </div>
+          </div>
+
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
               Cancel

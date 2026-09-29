@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import Image from "next/image";
 
 export function CategoriesClientView({
   initialCategories,
@@ -44,6 +45,13 @@ export function CategoriesClientView({
   const [basePrice, setBasePrice] = useState("");
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
+  
+  // SEO & Slug
+  const [slug, setSlug] = useState("");
+  const [focusKeyphrase, setFocusKeyphrase] = useState("");
+  const [seoTitle, setSeoTitle] = useState("");
+  const [metaDescription, setMetaDescription] = useState("");
+  const [keywords, setKeywords] = useState("");
 
   const openDialog = (c?: any) => {
     if (c) {
@@ -53,6 +61,11 @@ export function CategoriesClientView({
       setBasePrice(String(c.basePrice));
       setSelectedAmenities(c.amenities.map((a: any) => a.id));
       setImages(c.images?.map((i: any) => i.url) || []);
+      setSlug(c.slug || "");
+      setFocusKeyphrase(c.focusKeyphrase || "");
+      setSeoTitle(c.seoTitle || "");
+      setMetaDescription(c.metaDescription || "");
+      setKeywords(c.keywords || "");
     } else {
       setEditingCategory(null);
       setName("");
@@ -60,6 +73,11 @@ export function CategoriesClientView({
       setBasePrice("");
       setSelectedAmenities([]);
       setImages([]);
+      setSlug("");
+      setFocusKeyphrase("");
+      setSeoTitle("");
+      setMetaDescription("");
+      setKeywords("");
     }
     setIsDialogOpen(true);
   };
@@ -92,6 +110,11 @@ export function CategoriesClientView({
       basePrice: parseFloat(basePrice) || 0,
       amenities: selectedAmenities,
       images,
+      slug: slug || name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, ""),
+      focusKeyphrase,
+      seoTitle,
+      metaDescription,
+      keywords,
     };
 
     try {
@@ -270,7 +293,7 @@ export function CategoriesClientView({
                     <TableCell data-label="Category Name" className="font-medium flex items-center">
                       <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center mr-3 text-gray-500 overflow-hidden">
                         {c.images && c.images.length > 0 ? (
-                          <img src={c.images[0].url} alt={c.name} className="w-full h-full object-cover" />
+                          <Image src={c.images[0].url} alt={c.name} className="w-full h-full object-cover"  width={1920} height={1080} />
                         ) : (
                           <Layers className="h-4 w-4" />
                         )}
@@ -326,8 +349,19 @@ export function CategoriesClientView({
             <div className="space-y-4">
               <div className="grid gap-2">
                 <label className="text-base font-medium">Category Name</label>
-                <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. OYO Townhouse" />
+                <Input value={name} onChange={(e) => {
+                  setName(e.target.value);
+                  if (!editingCategory) {
+                    setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, ""));
+                  }
+                }} placeholder="e.g. OYO Townhouse" />
               </div>
+              {editingCategory && (
+                <div className="grid gap-2">
+                  <label className="text-base font-medium">Slug</label>
+                  <Input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="e.g. oyo-townhouse" />
+                </div>
+              )}
               <div className="grid gap-2">
                 <label className="text-base font-medium">Base Price</label>
                 <Input
@@ -380,7 +414,7 @@ export function CategoriesClientView({
                       key={i}
                       className="relative w-16 h-16 border rounded bg-gray-100 flex items-center justify-center overflow-hidden"
                     >
-                      <img src={url} alt="Room" className="w-full h-full object-cover" />
+                      <Image src={url} alt="Room" className="w-full h-full object-cover"  width={1920} height={1080} />
                       <button
                         onClick={() => setImages(images.filter((_, idx) => idx !== i))}
                         className="absolute top-0 right-0 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center"
@@ -393,6 +427,29 @@ export function CategoriesClientView({
               </div>
             </div>
           </div>
+          
+          <div className="mt-6 border-t pt-4">
+            <h3 className="text-lg font-bold mb-4">Search Engine Optimization</h3>
+            <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <label className="text-base font-medium">Focus Keyphrase</label>
+                <Input value={focusKeyphrase} onChange={(e) => setFocusKeyphrase(e.target.value)} placeholder="e.g. Luxury Suite" />
+              </div>
+              <div className="grid gap-2">
+                <label className="text-base font-medium">SEO Title</label>
+                <Input value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} placeholder="Custom SEO Title" />
+              </div>
+              <div className="grid gap-2 md:col-span-2">
+                <label className="text-base font-medium">Meta Description</label>
+                <textarea className="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm" rows={3} value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} placeholder="Write a compelling meta description..." />
+              </div>
+              <div className="grid gap-2 md:col-span-2">
+                <label className="text-base font-medium">Keywords (comma separated, max 5)</label>
+                <Input value={keywords} onChange={(e) => setKeywords(e.target.value)} placeholder="hotel, luxury, suite" />
+              </div>
+            </div>
+          </div>
+
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
               Cancel

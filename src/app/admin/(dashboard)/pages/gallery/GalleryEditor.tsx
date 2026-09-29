@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { handleUpload } from "@/lib/upload";
+import Image from "next/image";
 
 export function GalleryEditor({ initialSettings }: { initialSettings: GalleryPageSettings }) {
   const [settings, setSettings] = useState<GalleryPageSettings>(initialSettings);
@@ -119,7 +120,7 @@ export function GalleryEditor({ initialSettings }: { initialSettings: GalleryPag
               <label className="text-sm font-medium">Hero Image</label>
               <div className="flex items-center gap-4 mt-1">
                 {settings.hero.image && (
-                  <img src={settings.hero.image} alt="Hero" className="h-16 w-16 object-cover rounded-md" />
+                  <Image src={settings.hero.image} alt="Hero" className="h-16 w-16 object-cover rounded-md"  width={1920} height={1080} />
                 )}
                 <Input type="file" accept="image/*" onChange={handleHeroImageUpload} />
               </div>
@@ -153,7 +154,7 @@ export function GalleryEditor({ initialSettings }: { initialSettings: GalleryPag
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {settings.images.map((img) => (
               <div key={img.id} className="relative aspect-square border rounded bg-zinc-100 overflow-hidden group">
-                <img src={img.url} className="w-full h-full object-cover" alt={img.title} />
+                <Image src={img.url} className="w-full h-full object-cover" alt={img.title}  width={1920} height={1080} />
                 <div className="absolute inset-x-0 bottom-0 bg-black/60 p-2 text-xs text-white truncate flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <span>{img.title}</span>
                   <button onClick={() => handleDeleteImage(img.id)} className="text-red-400 hover:text-red-300">

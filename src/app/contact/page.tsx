@@ -1,15 +1,45 @@
 import React from "react";
+import type { Metadata } from "next";
 
 import { Mail, MapPin, Phone } from "lucide-react";
 
 import { getContactPageSettings } from "@/app/actions/contact-page-settings";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { defaultContactPageSettings } from "@/components/contact/types";
+import Image from "next/image";
 
-export const metadata = {
-  title: "Contact Us | The Hotel",
-  description: "Get in touch with us for any inquiries, reservations, or special requests.",
-};
+
+
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const settings = await getContactPageSettings();
+    let seoTitle = "";
+    let metaDescription = "";
+    let keywords = "";
+    
+    // Search for SEO fields in any section of the settings
+    for (const key of Object.keys(settings)) {
+      const section = (settings as any)[key];
+      if (section && typeof section === 'object') {
+        if (section.seoTitle && !seoTitle) seoTitle = section.seoTitle;
+        if (section.metaDescription && !metaDescription) metaDescription = section.metaDescription;
+        if (section.keywords && !keywords) keywords = section.keywords;
+      }
+    }
+    
+    return {
+      title: seoTitle || "Contact Us | The Hotel",
+      description: metaDescription || "Get in touch with us for any inquiries, reservations, or special requests.",
+      keywords: keywords || undefined,
+    };
+  } catch (error) {
+    return {
+      title: "Contact Us | The Hotel",
+      description: "Get in touch with us for any inquiries, reservations, or special requests.",
+    };
+  }
+}
 
 export default async function ContactPage() {
   const settings = await getContactPageSettings();
@@ -19,11 +49,11 @@ export default async function ContactPage() {
       {/* Hero Section */}
       <div className="relative h-[60vh] md:h-[80vh] w-full flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src={settings.header.image || defaultContactPageSettings.header.image}
             alt=""
             className="w-full h-full object-cover"
-          />
+           width={1920} height={1080} />
           <div className="absolute inset-0 bg-black/40" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center mt-20">

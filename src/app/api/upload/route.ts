@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
@@ -45,6 +46,7 @@ export async function POST(request: Request) {
 
     const fileUrl = publicUrlData.publicUrl;
 
+    revalidatePath("/", "layout");
     return NextResponse.json({ success: true, url: fileUrl });
   } catch (error) {
     console.error("Upload Error:", error);

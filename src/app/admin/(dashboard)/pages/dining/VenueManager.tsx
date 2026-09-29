@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import Image from "next/image";
 
 interface VenueManagerProps {
   venues: DiningVenue[];
@@ -157,7 +158,7 @@ export function VenueManager({ venues, onVenuesChange }: VenueManagerProps) {
               </label>
               {newVenue.image && (
                 <div className="mb-2 relative w-full h-40 rounded bg-zinc-100 overflow-hidden">
-                  <img src={newVenue.image} className="w-full h-full object-cover" />
+                  <Image src={newVenue.image} className="w-full h-full object-cover"  alt="" width={1920} height={1080} />
                 </div>
               )}
               <Input
@@ -222,7 +223,7 @@ export function VenueManager({ venues, onVenuesChange }: VenueManagerProps) {
                     </label>
                     {editForm.image && (
                       <div className="mb-2 relative w-full h-40 rounded bg-zinc-100 overflow-hidden">
-                        <img src={editForm.image} className="w-full h-full object-cover" />
+                        <Image src={editForm.image} className="w-full h-full object-cover"  alt="" width={1920} height={1080} />
                       </div>
                     )}
                     <Input
@@ -247,7 +248,7 @@ export function VenueManager({ venues, onVenuesChange }: VenueManagerProps) {
                 <div className="grid grid-cols-1 md:grid-cols-[120px_1fr_auto] gap-4 items-start">
                   <div className="relative w-24 h-24 md:w-32 md:h-32 rounded bg-zinc-100 overflow-hidden">
                     {venue.image ? (
-                      <img src={venue.image} className="w-full h-full object-cover" />
+                      <Image src={venue.image} className="w-full h-full object-cover"  alt="" width={1920} height={1080} />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                         <ImageIcon className="w-8 h-8" />

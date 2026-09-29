@@ -6,6 +6,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 import type { AboutPageSettings } from "./types";
+import Image from "next/image";
 
 interface OurStoryProps {
   settings: AboutPageSettings["ourStory"];
@@ -44,7 +45,7 @@ export function OurStory({ settings }: OurStoryProps) {
             transition={{ duration: 1 }}
             className="w-1/2 h-[80%] mt-auto rounded-xl overflow-hidden shadow-2xl"
           >
-            <img src={settings.image1} alt="Story 1" className="w-full h-full object-cover" />
+            <Image src={settings.image1} alt="Story 1" className="w-full h-full object-cover"  width={1920} height={1080} />
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: -50 }}
@@ -53,7 +54,7 @@ export function OurStory({ settings }: OurStoryProps) {
             transition={{ duration: 1, delay: 0.2 }}
             className="w-1/2 h-[80%] rounded-xl overflow-hidden shadow-2xl"
           >
-            <img src={settings.image2} alt="Story 2" className="w-full h-full object-cover" />
+            <Image src={settings.image2} alt="Story 2" className="w-full h-full object-cover"  width={1920} height={1080} />
           </motion.div>
         </div>
       </div>

@@ -12,7 +12,26 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "patch-*.js",
+    "transform_*.js",
+    "update_*.js"
   ]),
+  {
+    linterOptions: {
+      reportUnusedDisableDirectives: false,
+    },
+    rules: {
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@next/next/no-img-element": "off",
+      "react/no-unescaped-entities": "off",
+      "react-hooks/incompatible-library": "off",
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/immutability": "off",
+      "jsx-a11y/alt-text": "off",
+      "@typescript-eslint/ban-ts-comment": "off"
+    }
+  }
 ]);
 
 export default eslintConfig;

@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { requireApiAuth } from "@/lib/api-auth";
 import { NextResponse } from "next/server";
 
@@ -9,6 +10,7 @@ export async function GET(request: Request) {
     const authResult = await requireApiAuth();
     if (authResult instanceof Response) return authResult;
     const data = await prisma.transaction.findMany();
+    revalidatePath("/", "layout");
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch data" }, { status: 500 });
@@ -27,6 +29,7 @@ export async function POST(request: Request) {
         description: "Manual Transaction",
       },
     });
+    revalidatePath("/", "layout");
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
     console.error(error);

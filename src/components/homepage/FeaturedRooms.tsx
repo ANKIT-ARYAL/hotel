@@ -17,6 +17,7 @@ import "swiper/css";
 
 import { AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import Image from "next/image";
 
 interface FeaturedRoomsProps {
   settings: HomepageSettings["featuredRooms"];
@@ -123,11 +124,11 @@ export function FeaturedRooms({
               >
                 <div className="flex flex-col h-full">
                   <div className="aspect-[4/3] w-full mb-6 overflow-hidden bg-zinc-100">
-                    <img
+                    <Image
                       src={room.images?.[0]?.url || "/placeholder.jpg"}
                       alt={room.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
+                     width={1920} height={1080} />
                   </div>
 
                   <h3 className="text-lg font-medium tracking-widest text-zinc-900 uppercase mb-3 font-[var(--theme-heading-font)]">
@@ -227,20 +228,20 @@ export function FeaturedRooms({
                   {selectedRoom.images && selectedRoom.images.length > 0 ? (
                     selectedRoom.images.map((img: any, i: number) => (
                       <SwiperSlide key={i} className="w-full h-full">
-                        <img
+                        <Image
                           src={img.url}
                           alt={selectedRoom.name}
                           className="w-full h-full object-cover"
-                        />
+                         width={1920} height={1080} />
                       </SwiperSlide>
                     ))
                   ) : (
                     <SwiperSlide className="w-full h-full">
-                      <img
+                      <Image
                         src="/placeholder.jpg"
                         alt={selectedRoom.name}
                         className="w-full h-full object-cover"
-                      />
+                       width={1920} height={1080} />
                     </SwiperSlide>
                   )}
                 </Swiper>

@@ -12,6 +12,7 @@ import type { PaymentSettings } from "@/lib/payment-settings-types";
 
 import { BookingDatePicker } from "@/components/ui/booking-date-picker";
 import { StripePaymentProvider } from "./StripePaymentForm";
+import Image from "next/image";
 
 const bookingSchema = z
   .object({
@@ -376,7 +377,7 @@ export function BookingForm({ roomId, roomNumber, price, paymentSettings }: Book
                 <p className="text-sm text-zinc-500">Scan the QR code below to transfer the reservation fee.</p>
                 {paymentSettings.qrCodeImageUrl && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={paymentSettings.qrCodeImageUrl} alt="QR Code" className="w-48 h-48 object-contain" />
+                  <Image src={paymentSettings.qrCodeImageUrl} alt="QR Code" className="w-48 h-48 object-contain"  width={1920} height={1080} />
                 )}
 
                 <div className="w-full flex flex-col gap-2 text-left">

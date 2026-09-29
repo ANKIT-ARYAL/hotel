@@ -11,6 +11,7 @@ import type { RoomsPageSettings } from "@/components/rooms/types";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 interface Category {
   id: string;
@@ -312,7 +313,7 @@ export function RoomsEditor({ initialSettings, categories, initialCategorySettin
                   </div>
                   {sectionData.image ? (
                     <div className="relative aspect-video rounded-md overflow-hidden bg-black/10 border border-zinc-200">
-                      <img src={sectionData.image} className="w-full h-full object-cover" alt="Preview" />
+                      <Image src={sectionData.image} className="w-full h-full object-cover" alt="Preview"  width={1920} height={1080} />
                       <div className="absolute top-2 right-2 bg-green-500 text-white rounded-full p-1">
                         <CheckCircle2 className="w-4 h-4" />
                       </div>
@@ -357,6 +358,48 @@ export function RoomsEditor({ initialSettings, categories, initialCategorySettin
             </div>
           </div>
         )}
+      
+          {/* SEO Section Injected */}
+          <div className="mt-8 border-t pt-6 border-zinc-200">
+            <h3 className="text-lg font-bold mb-4">Search Engine Optimization</h3>
+            <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <label className="text-sm font-medium">Focus Keyphrase</label>
+                <Input 
+                  value={sectionData?.focusKeyphrase || ""} 
+                  onChange={(e) => updateField(activeSectionId as any, "focusKeyphrase", e.target.value)} 
+                  placeholder="e.g. Luxury Suite" 
+                />
+              </div>
+              <div className="grid gap-2">
+                <label className="text-sm font-medium">SEO Title</label>
+                <Input 
+                  value={sectionData?.seoTitle || ""} 
+                  onChange={(e) => updateField(activeSectionId as any, "seoTitle", e.target.value)} 
+                  placeholder="Custom SEO Title" 
+                />
+              </div>
+              <div className="grid gap-2 md:col-span-2">
+                <label className="text-sm font-medium">Meta Description</label>
+                <textarea 
+                  className="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm" 
+                  rows={3} 
+                  value={sectionData?.metaDescription || ""} 
+                  onChange={(e) => updateField(activeSectionId as any, "metaDescription", e.target.value)} 
+                  placeholder="Write a compelling meta description..." 
+                />
+              </div>
+              <div className="grid gap-2 md:col-span-2">
+                <label className="text-sm font-medium">Keywords (comma separated, max 5)</label>
+                <Input 
+                  value={sectionData?.keywords || ""} 
+                  onChange={(e) => updateField(activeSectionId as any, "keywords", e.target.value)} 
+                  placeholder="hotel, luxury, suite" 
+                />
+              </div>
+            </div>
+          </div>
+
       </div>
     </div>
   );

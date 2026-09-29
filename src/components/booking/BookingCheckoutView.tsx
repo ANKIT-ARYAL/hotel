@@ -7,6 +7,7 @@ import { CheckCircle2 } from "lucide-react";
 
 import { BookingForm } from "./BookingForm";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 interface RoomCategory {
   name: string;
@@ -142,11 +143,11 @@ export function BookingCheckoutView({
                 <h2 className="font-argine text-xl font-bold text-zinc-900 mb-6 border-b pb-4">Reservation Summary</h2>
 
                 <div className="aspect-[4/3] rounded-xl overflow-hidden mb-6 relative">
-                  <img
+                  <Image
                     src={room.image || room.category.images[0]?.url || "/uploads/room-1.jpg"}
                     alt={room.category.name}
                     className="w-full h-full object-cover"
-                  />
+                   width={1920} height={1080} />
                   <div className="absolute top-3 left-3 bg-white/90 backdrop-blur text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">
                     {room.name || `Room ${room.number}`}
                   </div>

@@ -11,6 +11,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import type { HomepageSettings } from "./types";
+import Image from "next/image";
 
 interface CulinarySectionProps {
   settings: HomepageSettings["culinary"];
@@ -27,7 +28,7 @@ export function CulinarySection({ settings }: CulinarySectionProps) {
         transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
         className="absolute inset-0 w-full h-full z-0"
       >
-        <img src={settings.image} alt="Culinary" className="w-full h-full object-cover" />
+        <Image src={settings.image} alt="Culinary" className="w-full h-full object-cover"  width={1920} height={1080} />
       </motion.div>
 
       {/* Editorial Gradient Scrims */}

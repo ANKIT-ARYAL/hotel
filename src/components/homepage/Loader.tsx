@@ -38,7 +38,7 @@ export function Loader({ settings }: LoaderProps) {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
           >
-            {settings.iconUrl && <img src={settings.iconUrl} alt="Loading" className="h-16 w-auto invert" />}
+            {settings.iconUrl && <Image src={settings.iconUrl} alt="Loading" className="h-16 w-auto invert"  width={1920} height={1080} />}
             {!settings.iconUrl && (
               <div className="font-argine text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-widest animate-pulse">
                 HOTEL LUXURY

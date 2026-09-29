@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 import Stripe from "stripe";
@@ -32,6 +33,7 @@ export async function POST(req: Request) {
       },
     });
 
+    revalidatePath("/", "layout");
     return NextResponse.json({
       clientSecret: paymentIntent.client_secret,
     });

@@ -12,6 +12,8 @@ import { BookingForm } from "@/components/rooms/BookingForm";
 import { RoomGallery } from "@/components/rooms/RoomGallery";
 import prisma from "@/lib/db";
 
+export const revalidate = 60;
+
 export default async function RoomDetailsPage({ params }: { params: Promise<{ slug: string; roomNumber: string }> }) {
   const { slug, roomNumber } = await params;
 

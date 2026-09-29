@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Page Not Found | Hotel Luxury",
@@ -16,11 +17,11 @@ export default function NotFoundPage() {
       <main className="flex flex-col w-full">
         <div className="relative h-[80vh] w-full flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 w-full h-full z-0">
-            <img
+            <Image
               src="https://images.unsplash.com/photo-1542314831-c6a4d27160c9?q=80&w=2825&auto=format&fit=crop"
               alt="404 Not Found"
               className="w-full h-full object-cover"
-            />
+             width={1920} height={1080} />
             <div className="absolute inset-0 bg-black/50 z-10" />
           </div>
 

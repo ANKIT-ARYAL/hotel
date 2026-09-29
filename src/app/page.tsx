@@ -1,4 +1,5 @@
 import React from "react";
+import type { Metadata } from "next";
 
 import { getHomepageSettings } from "@/app/actions/homepage-settings";
 import { AmenitiesSection } from "@/components/homepage/AmenitiesSection";
@@ -12,6 +13,39 @@ import { OurStorySection } from "@/components/homepage/OurStorySection";
 import { SpaWellnessSection } from "@/components/homepage/SpaWellnessSection";
 import { TestimonialsSection } from "@/components/homepage/TestimonialsSection";
 import prisma from "@/lib/db";
+
+export const revalidate = 60;
+
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const settings = await getHomepageSettings();
+    let seoTitle = "";
+    let metaDescription = "";
+    let keywords = "";
+    
+    // Search for SEO fields in any section of the settings
+    for (const key of Object.keys(settings)) {
+      const section = (settings as any)[key];
+      if (section && typeof section === 'object') {
+        if (section.seoTitle && !seoTitle) seoTitle = section.seoTitle;
+        if (section.metaDescription && !metaDescription) metaDescription = section.metaDescription;
+        if (section.keywords && !keywords) keywords = section.keywords;
+      }
+    }
+    
+    return {
+      title: seoTitle || "Hotel Luxury",
+      description: metaDescription || "Welcome to Hotel Luxury.",
+      keywords: keywords || undefined,
+    };
+  } catch (error) {
+    return {
+      title: "Hotel Luxury",
+      description: "Welcome to Hotel Luxury.",
+    };
+  }
+}
 
 export default async function Home() {
   const settings = await getHomepageSettings();

@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import Image from "next/image";
 
 interface MenuManagerProps {
   categories: MenuCategory[];
@@ -273,7 +274,7 @@ export function MenuManager({ categories, onCategoriesChange, typography = {}, o
               </label>
               {newCategory.image && (
                 <div className="mb-2 relative w-full h-40 rounded bg-zinc-100 overflow-hidden">
-                  <img src={newCategory.image} className="w-full h-full object-cover" />
+                  <Image src={newCategory.image} className="w-full h-full object-cover"  alt="" width={1920} height={1080} />
                 </div>
               )}
               <Input
@@ -330,7 +331,7 @@ export function MenuManager({ categories, onCategoriesChange, typography = {}, o
                     </label>
                     {editCategoryForm.image && (
                       <div className="mb-2 relative w-full h-40 rounded bg-zinc-100 overflow-hidden">
-                        <img src={editCategoryForm.image} className="w-full h-full object-cover" />
+                        <Image src={editCategoryForm.image} className="w-full h-full object-cover"  alt="" width={1920} height={1080} />
                       </div>
                     )}
                     <Input
@@ -363,7 +364,7 @@ export function MenuManager({ categories, onCategoriesChange, typography = {}, o
                     <div className="flex items-start gap-4">
                       <div className="relative w-24 h-24 md:w-32 md:h-32 rounded bg-zinc-100 overflow-hidden flex-shrink-0">
                         {category.image ? (
-                          <img src={category.image} className="w-full h-full object-cover" />
+                          <Image src={category.image} className="w-full h-full object-cover"  alt="" width={1920} height={1080} />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                             <ImageIcon className="w-8 h-8" />
@@ -461,7 +462,7 @@ export function MenuManager({ categories, onCategoriesChange, typography = {}, o
                         </label>
                         {editItemForm.image && (
                           <div className="mb-2 relative w-24 h-24 rounded bg-zinc-100 overflow-hidden">
-                            <img src={editItemForm.image} className="w-full h-full object-cover" />
+                            <Image src={editItemForm.image} className="w-full h-full object-cover"  alt="" width={1920} height={1080} />
                           </div>
                         )}
                         <Input
@@ -540,7 +541,7 @@ export function MenuManager({ categories, onCategoriesChange, typography = {}, o
                               </label>
                               {editItemForm.image && (
                                 <div className="mb-2 relative w-24 h-24 rounded bg-zinc-100 overflow-hidden">
-                                  <img src={editItemForm.image} className="w-full h-full object-cover" />
+                                  <Image src={editItemForm.image} className="w-full h-full object-cover"  alt="" width={1920} height={1080} />
                                 </div>
                               )}
                               <Input
@@ -599,7 +600,7 @@ export function MenuManager({ categories, onCategoriesChange, typography = {}, o
                               )}
                               {item.image && (
                                 <div className="mt-2 relative w-16 h-16 rounded bg-zinc-100 overflow-hidden">
-                                  <img src={item.image} className="w-full h-full object-cover" />
+                                  <Image src={item.image} className="w-full h-full object-cover"  alt="" width={1920} height={1080} />
                                 </div>
                               )}
                             </div>

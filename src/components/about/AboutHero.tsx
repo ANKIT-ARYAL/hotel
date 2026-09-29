@@ -5,6 +5,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 import type { AboutPageSettings } from "./types";
+import Image from "next/image";
 
 interface AboutHeroProps {
   settings: AboutPageSettings["hero"];
@@ -19,7 +20,7 @@ export function AboutHero({ settings }: AboutHeroProps) {
         transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
         className="absolute inset-0 w-full h-full z-0"
       >
-        <img src={settings.image} alt={settings.title} className="w-full h-full object-cover" />
+        <Image src={settings.image} alt={settings.title} className="w-full h-full object-cover"  width={1920} height={1080} />
         <div className="absolute inset-0 bg-black/40 z-10" />
       </motion.div>
 

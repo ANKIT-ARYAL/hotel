@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -23,6 +24,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
       },
     });
 
+    revalidatePath("/", "layout");
     return NextResponse.json(updatedBooking);
   } catch (error: unknown) {
     console.error("Failed to update booking:", error);

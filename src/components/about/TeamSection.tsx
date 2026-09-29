@@ -5,6 +5,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 import type { AboutPageSettings } from "./types";
+import Image from "next/image";
 
 interface TeamSectionProps {
   settings: AboutPageSettings["team"];
@@ -40,11 +41,11 @@ export function TeamSection({ settings }: TeamSectionProps) {
               className="flex flex-col group"
             >
               <div className="aspect-[3/4] w-full mb-8 overflow-hidden rounded-xl bg-zinc-100">
-                <img
+                <Image
                   src={member.image}
                   alt={member.name}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+                 width={1920} height={1080} />
               </div>
               <div className="text-center">
                 <h3 className="text-xl font-medium tracking-wide uppercase mb-2 text-zinc-900 font-[var(--theme-heading-font)]">{member.name}</h3>

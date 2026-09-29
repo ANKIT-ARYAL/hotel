@@ -1,5 +1,6 @@
 import { requireApiAuth } from "@/lib/api-auth";
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 
 import prisma from "@/lib/db";
 
@@ -15,6 +16,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
+    revalidatePath("/", "layout");
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch data" }, { status: 500 });
@@ -71,6 +73,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         _count: { select: { rooms: true } },
       },
     });
+    revalidatePath("/", "layout");
+    revalidatePath("/", "layout");
     return NextResponse.json(data);
   } catch (error) {
     console.error("Failed to update room category:", error);
@@ -86,6 +90,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     await prisma.roomCategory.delete({
       where: { id },
     });
+    revalidatePath("/", "layout");
     return new NextResponse(null, { status: 204 });
   } catch (error) {
     return NextResponse.json({ error: "Failed to delete record" }, { status: 500 });

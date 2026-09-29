@@ -46,7 +46,7 @@ export function Topbar({ session }: TopbarProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="md:hidden mr-2 text-gray-500"
+                className="lg:hidden mr-2 text-gray-500"
               />
             }
           >

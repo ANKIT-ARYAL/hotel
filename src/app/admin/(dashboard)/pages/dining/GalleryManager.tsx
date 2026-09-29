@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 interface GalleryManagerProps {
   images: { id: string; url: string }[];
@@ -103,7 +104,7 @@ export function GalleryManager({ images, onChange }: GalleryManagerProps) {
           {images.map((img, idx) => (
             <Card key={img.id} className="overflow-hidden group">
               <div className="aspect-[4/3] relative bg-zinc-100">
-                <img src={img.url} className="w-full h-full object-cover" alt="Gallery image" />
+                <Image src={img.url} className="w-full h-full object-cover" alt="Gallery image"  width={1920} height={1080} />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                   <Button
                     size="icon"

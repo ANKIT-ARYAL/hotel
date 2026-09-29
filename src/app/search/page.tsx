@@ -11,6 +11,7 @@ import prisma from "@/lib/db";
 
 import { AdvancedSearchSidebar } from "./AdvancedSearchSidebar";
 import { SearchResults } from "./SearchResults";
+import Image from "next/image";
 
 export async function generateMetadata({
   searchParams,
@@ -202,11 +203,11 @@ export default async function SearchPage({
                     className="block bg-white group overflow-hidden h-full flex flex-col hover:-translate-y-2 hover:shadow-2xl transition-all duration-500 border border-transparent hover:border-zinc-200"
                   >
                     <div className="aspect-[4/3] relative overflow-hidden bg-zinc-200">
-                      <img
+                      <Image
                         src={category.images[0]?.url || "/uploads/room-1.jpg"}
                         alt={category.name}
                         className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                      />
+                       width={1920} height={1080} />
                     </div>
                     <div className="p-8 flex flex-col items-start border border-t-0 border-zinc-100 flex-1 group-hover:border-zinc-200 transition-colors">
                       <h3 className={`${settings.theme.headingFontFamily} text-2xl tracking-wide mb-2 line-clamp-1`}>

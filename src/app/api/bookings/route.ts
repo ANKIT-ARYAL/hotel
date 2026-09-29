@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 import { z } from "zod";
@@ -101,6 +102,7 @@ export async function POST(req: Request) {
       totalAmount: body.totalAmount,
     }).catch(console.error);
 
+    revalidatePath("/", "layout");
     return NextResponse.json(booking);
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -130,6 +132,7 @@ export async function GET(req: Request) {
       },
     });
 
+    revalidatePath("/", "layout");
     return NextResponse.json(bookings);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });

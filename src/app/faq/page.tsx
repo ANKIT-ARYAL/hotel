@@ -5,11 +5,40 @@ import type { Metadata } from "next";
 import { getFaqPageSettings } from "@/app/actions/faq-page-settings";
 import { getHomepageSettings } from "@/app/actions/homepage-settings";
 import { FaqAccordion } from "@/components/faq/FaqAccordion";
+import Image from "next/image";
 
-export const metadata: Metadata = {
-  title: "FAQs | Hotel Luxury",
-  description: "Frequently Asked Questions at Hotel Luxury.",
-};
+
+
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const settings = await getFaqPageSettings();
+    let seoTitle = "";
+    let metaDescription = "";
+    let keywords = "";
+    
+    // Search for SEO fields in any section of the settings
+    for (const key of Object.keys(settings)) {
+      const section = (settings as any)[key];
+      if (section && typeof section === 'object') {
+        if (section.seoTitle && !seoTitle) seoTitle = section.seoTitle;
+        if (section.metaDescription && !metaDescription) metaDescription = section.metaDescription;
+        if (section.keywords && !keywords) keywords = section.keywords;
+      }
+    }
+    
+    return {
+      title: seoTitle || "FAQs | Hotel Luxury",
+      description: metaDescription || "Frequently Asked Questions at Hotel Luxury.",
+      keywords: keywords || undefined,
+    };
+  } catch (error) {
+    return {
+      title: "FAQs | Hotel Luxury",
+      description: "Frequently Asked Questions at Hotel Luxury.",
+    };
+  }
+}
 
 export default async function FaqPage() {
   const hpSettings = await getHomepageSettings();
@@ -21,14 +50,14 @@ export default async function FaqPage() {
         {settings.hero.isVisible !== false && (
           <div className="relative h-[80vh] w-full flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0 w-full h-full z-0">
-              <img
+              <Image
                 src={
                   settings.hero.image ||
                   "https://images.unsplash.com/photo-1542314831-c6a4d27160c9?q=80&w=2825&auto=format&fit=crop"
                 }
                 alt=""
                 className="w-full h-full object-cover"
-              />
+               width={1920} height={1080} />
               <div className="absolute inset-0 bg-black/40 z-10" />
             </div>
 

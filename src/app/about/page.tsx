@@ -10,10 +10,38 @@ import { OurStory } from "@/components/about/OurStory";
 import { TeamSection } from "@/components/about/TeamSection";
 import { BookingCtaSection } from "@/components/homepage/BookingCtaSection";
 
-export const metadata: Metadata = {
-  title: "About Us | Hotel Luxury",
-  description: "Learn about the heritage, mission, and team behind Hotel Luxury.",
-};
+
+
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const settings = await getAboutPageSettings();
+    let seoTitle = "";
+    let metaDescription = "";
+    let keywords = "";
+    
+    // Search for SEO fields in any section of the settings
+    for (const key of Object.keys(settings)) {
+      const section = (settings as any)[key];
+      if (section && typeof section === 'object') {
+        if (section.seoTitle && !seoTitle) seoTitle = section.seoTitle;
+        if (section.metaDescription && !metaDescription) metaDescription = section.metaDescription;
+        if (section.keywords && !keywords) keywords = section.keywords;
+      }
+    }
+    
+    return {
+      title: seoTitle || "About Us | Hotel Luxury",
+      description: metaDescription || "Learn about the heritage, mission, and team behind Hotel Luxury.",
+      keywords: keywords || undefined,
+    };
+  } catch (error) {
+    return {
+      title: "About Us | Hotel Luxury",
+      description: "Learn about the heritage, mission, and team behind Hotel Luxury.",
+    };
+  }
+}
 
 export default async function AboutPage() {
   const settings = await getAboutPageSettings();

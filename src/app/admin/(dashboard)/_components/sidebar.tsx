@@ -318,7 +318,7 @@ export function Sidebar({
   return (
     <div
       className={cn(
-        "hidden md:flex fixed left-0 top-0 bottom-0 bg-white border-r border-gray-200 min-h-screen h-dvh flex-col flex-shrink-0 z-40 transition-all duration-300",
+        "hidden lg:flex fixed left-0 top-0 bottom-0 bg-white border-r border-gray-200 min-h-screen h-dvh flex-col flex-shrink-0 z-40 transition-all duration-300",
         isCollapsed ? "w-20" : "w-64",
       )}
     >

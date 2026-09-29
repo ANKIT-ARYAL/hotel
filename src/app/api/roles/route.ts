@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { requireAdminApiAuth } from "@/lib/api-auth";
 import { NextResponse } from "next/server";
 
@@ -9,6 +10,7 @@ export async function GET(request: Request) {
     const authResult = await requireAdminApiAuth();
     if (authResult instanceof Response) return authResult;
     const data = await prisma.role.findMany();
+    revalidatePath("/", "layout");
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch data" }, { status: 500 });
@@ -21,6 +23,7 @@ export async function POST(request: Request) {
     if (authResult instanceof Response) return authResult;
     const body = await request.json();
     const data = await prisma.role.create({ data: body });
+    revalidatePath("/", "layout");
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: "Failed to create record" }, { status: 500 });

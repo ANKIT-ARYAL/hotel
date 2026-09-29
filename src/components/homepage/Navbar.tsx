@@ -86,7 +86,7 @@ export function Navbar({ settings, isLoggedIn }: NavbarProps) {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden lg:flex items-center space-x-8">
           {visibleLinks.map((item) => (
             <div
               key={item.id}
@@ -173,7 +173,7 @@ export function Navbar({ settings, isLoggedIn }: NavbarProps) {
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden"
+          className="lg:hidden"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? (
@@ -195,7 +195,7 @@ export function Navbar({ settings, isLoggedIn }: NavbarProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden overflow-hidden bg-background shadow-xl border-t border-gray-100"
+            className="lg:hidden overflow-hidden bg-background shadow-xl border-t border-gray-100"
           >
             <div className="py-4 px-6 flex flex-col space-y-2">
               {visibleLinks.map((item) => (

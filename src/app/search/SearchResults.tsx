@@ -8,6 +8,7 @@ import { Check, Loader2 } from "lucide-react";
 
 import { type RoomSearchResult, searchAvailableRooms } from "@/app/actions/search";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 interface SearchResultsProps {
   initialRooms: RoomSearchResult[];
@@ -64,11 +65,11 @@ export function SearchResults({
               className="block bg-white group overflow-hidden h-full flex flex-col hover:-translate-y-2 hover:shadow-2xl transition-all duration-500 border border-transparent hover:border-zinc-200"
             >
               <div className="aspect-[4/3] relative overflow-hidden bg-zinc-200">
-                <img
+                <Image
                   src={room.image || room.category.images[0]?.url || "/uploads/room-1.jpg"}
                   alt={room.category.name}
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                />
+                 width={1920} height={1080} />
               </div>
 
               <div className="p-8 flex flex-col items-start border border-t-0 border-zinc-100 flex-1 group-hover:border-zinc-200 transition-colors">

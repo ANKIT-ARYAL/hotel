@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { requireAdminApiAuth } from "@/lib/api-auth";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
@@ -18,6 +19,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
+    revalidatePath("/", "layout");
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch data" }, { status: 500 });
@@ -39,6 +41,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       where: { id },
       data: body,
     });
+    revalidatePath("/", "layout");
     return NextResponse.json(data);
   } catch (error) {
     return NextResponse.json({ error: "Failed to update record" }, { status: 500 });
